@@ -1,0 +1,17 @@
+.about-section {
+    background-color: #183C67;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 5rem;
+}
+
+.about-section h1 {
+    color: white;
+    font-weight: bold;
+    margin: 1.5rem;
+}
+
+.about-section p {
+    color: white;
+}
