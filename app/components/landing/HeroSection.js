@@ -3,8 +3,6 @@ import styles from '@/app/styles/landing/HeroSection.module.css';
 import Link from 'next/link';
 
 const HeroSection = () => {
-    console.log(styles);
-
     return (
         <section className={styles.hero} id="offers">
             <div className={styles["hero__messageContainer"]}>
