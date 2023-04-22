@@ -41,3 +41,27 @@ a:hover {
 .flex {
   display: flex;
 }
+
+.tomb-marker-container {
+  width: 10px;
+  height: 20px;
+}
+
+.tomb-marker {
+  height: 20px;
+  width: 10px;
+  background-color: red;
+  border: 1px solid black;
+}
+
+.mausoleum-marker-container {
+  width: 35px;
+  height: 35px;
+}
+
+.mausoleum-marker {
+  height: 35px;
+  width: 35px;
+  background-color: red;
+  border: 1px solid black;
+}
