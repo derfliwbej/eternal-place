@@ -22,7 +22,7 @@ const LoginPage = () => {
     const [password, setPassword] = useState('');
 
     const login = () => {
-        router.push('/dashboard');
+        router.push('/dashboard/admin');
     };
 
     return (
