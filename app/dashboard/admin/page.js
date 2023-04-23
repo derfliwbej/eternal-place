@@ -19,16 +19,9 @@ const zoomOptions = {
 };
 
 const AdminDashboard = () => {
-    const navigations = [
-        { text: 'Home', route: '/dashboard/admin', icon: HomeIcon },
-        { text: 'View all users', route: '/users', icon: ManageAccountsIcon },
-        { text: 'View all transactions', route: '/transactions', icon: ReceiptIcon },
-        { text: 'Tomb search', route: '/search',  icon: SearchIcon }
-    ];
-
     return (
         <>
-            <DashboardLayout navigations={navigations}>
+            <DashboardLayout userType="admin">
                 <Map center={[0, 0]} zoom={2} {...zoomOptions}>
                     {({ TileLayer, Marker, Popup }, Leaflet) => (
                         <>
