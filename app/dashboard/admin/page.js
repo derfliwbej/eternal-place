@@ -4,6 +4,7 @@ import DashboardLayout from '@/app/components/layouts/DashboardLayout';
 import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
 import ReceiptIcon from '@mui/icons-material/Receipt';
 import SearchIcon from '@mui/icons-material/Search';
+import HomeIcon from '@mui/icons-material/Home';
 
 import Map from '@/app/components/map/Map';
 
@@ -19,6 +20,7 @@ const zoomOptions = {
 
 const AdminDashboard = () => {
     const navigations = [
+        { text: 'Home', route: '/dashboard/admin', icon: HomeIcon },
         { text: 'View all users', route: '/users', icon: ManageAccountsIcon },
         { text: 'View all transactions', route: '/transactions', icon: ReceiptIcon },
         { text: 'Tomb search', route: '/search',  icon: SearchIcon }
