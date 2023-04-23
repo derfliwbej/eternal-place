@@ -8,6 +8,13 @@ import MuiAppBar from '@mui/material/AppBar';
 
 import MenuIcon from '@mui/icons-material/Menu';
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
+import ManageAccountsIcon from '@mui/icons-material/ManageAccounts';
+import ReceiptIcon from '@mui/icons-material/Receipt';
+import SearchIcon from '@mui/icons-material/Search';
+import HomeIcon from '@mui/icons-material/Home';
+import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
+import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
+import ModeEditIcon from '@mui/icons-material/ModeEdit';
 
 const drawerWidth = 240;
 
@@ -57,8 +64,25 @@ const DrawerHeader = styled('div')(({ theme }) => ({
     justifyContent: 'flex-end',
 }));
 
-const DashboardLayout = ({ children, navigations }) => {
+const userNavigations = [
+    { text: 'Home', route: '/dashboard/user', icon: HomeIcon },
+    { text: 'Make transaction', route: '/transaction', icon: AttachMoneyIcon },
+    { text: 'View transaction history', route: '/history', icon: ReceiptLongIcon },
+    { text: 'Edit profile', route: '/profile',  icon: ModeEditIcon }
+];
+
+const adminNavigations = [
+    { text: 'Home', route: '/dashboard/admin', icon: HomeIcon },
+    { text: 'Manage all users', route: '/manage/users', icon: ManageAccountsIcon },
+    { text: 'Manage all transactions', route: '/manage/transactions', icon: ReceiptIcon },
+    { text: 'Lot search', route: '/search', icon: SearchIcon },
+    { text: 'Edit profile', route: '/profile',  icon: ModeEditIcon },
+];
+
+const DashboardLayout = ({ children, userType }) => {
     const router = useRouter();
+
+    // Get type of user from cookie, but for now, type of user is passed as props to DashboardLayout
 
     const [open, setOpen] = useState(false);
 
@@ -106,14 +130,21 @@ const DashboardLayout = ({ children, navigations }) => {
                 </DrawerHeader>
                 <Divider sx={{ borderColor: '#677984' }}/>
                 <List>
-                    {navigations.map((nav, index) => (
+                    { userType === "admin" ? adminNavigations.map((nav, index) => (
                         <ListItem key={index} disablePadding>
                             <ListItemButton onClick={() => router.push(nav.route) }>
                                 <nav.icon sx={{ marginRight: 2, color: 'white'  }} />
                                 <ListItemText sx={{ color: 'white' }} primary={nav.text} />
                             </ListItemButton>
                         </ListItem>  
-                    ))}
+                    )) : userNavigations.map((nav, index) => (
+                        <ListItem key={index} disablePadding>
+                            <ListItemButton onClick={() => router.push(nav.route) }>
+                                <nav.icon sx={{ marginRight: 2, color: 'white'  }} />
+                                <ListItemText sx={{ color: 'white' }} primary={nav.text} />
+                            </ListItemButton>
+                        </ListItem>
+                    )) }
                 </List>
             </Drawer>
             <Main open={open}>
