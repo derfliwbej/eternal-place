@@ -1,16 +1,9 @@
-import { useState } from 'react';
 import { Table, TableBody, TableCell, 
          TableContainer, TableHead, TableRow, Paper } from '@mui/material';
 
 import StatusSelect from './StatusSelect';
 
-const initialRows = [
-    { id: 1, createdBy: 'Jeb', dateCreated: '01/01/2001', amount: 1000, referenceNumber: '123456789', status: 'For Payment' },
-    { id: 2, createdBy: 'Ella', dateCreated: '02/02/2002', amount: 600, referenceNumber: '987654321', status: 'Paid' }
-];
-
-const TransactionsTable = () => {
-    const [rows, setRows] = useState(initialRows);
+const TransactionsTable = ({ rows, setRows }) => {
 
     const handleStatusChange = (index) => (event) => {
         // TODO: Backend call
