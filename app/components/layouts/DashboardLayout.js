@@ -75,7 +75,7 @@ const adminNavigations = [
     { text: 'Home', route: '/dashboard/admin', icon: HomeIcon },
     { text: 'Manage all users', route: '/manage/users', icon: ManageAccountsIcon },
     { text: 'Manage all transactions', route: '/manage/transactions', icon: ReceiptIcon },
-    { text: 'Lot search', route: '/search', icon: SearchIcon },
+    { text: 'Tomb search', route: '/search', icon: SearchIcon },
     { text: 'Edit profile', route: '/profile',  icon: ModeEditIcon },
 ];
 
