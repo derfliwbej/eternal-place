@@ -66,8 +66,8 @@ const DrawerHeader = styled('div')(({ theme }) => ({
 
 const userNavigations = [
     { text: 'Home', route: '/dashboard/user', icon: HomeIcon },
-    { text: 'Make transaction', route: '/transaction', icon: AttachMoneyIcon },
-    { text: 'View transaction history', route: '/history', icon: ReceiptLongIcon },
+    { text: 'Make transaction', route: '/transaction/create', icon: AttachMoneyIcon },
+    { text: 'View transaction history', route: '/transaction/history', icon: ReceiptLongIcon },
     { text: 'Edit profile', route: '/profile',  icon: ModeEditIcon }
 ];
 
