@@ -18,7 +18,7 @@ const LoginButton = ({ onClick }) => {
 const LoginPage = () => {
     const router = useRouter();
 
-    const [username, setUsername] = useState('');
+    const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
     const login = () => {
@@ -31,7 +31,7 @@ const LoginPage = () => {
                 <Paper elevation={1} sx={{ padding: 2, minWidth: 400, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 2.5 }}>
                     <Image src='/eternal-logo.png' width={75} height={75} />
                     <h2>Sign In</h2>
-                    <TextField value={username} label="Username" onChange={(event) => setUsername(event.target.value)} fullWidth />
+                    <TextField value={email} label="Email" onChange={(event) => setEmail(event.target.value)} fullWidth />
                     <TextField value={password} label="Password" onChange={(event) => setPassword(event.target.value)} fullWidth type="password" />
                     <LoginButton onClick={login}/>
                 </Paper>
