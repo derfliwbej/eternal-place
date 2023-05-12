@@ -14,42 +14,38 @@ import { GridRowModes, GridToolbarContainer } from '@mui/x-data-grid';
 const initialRows = [
     {
       id: 1,
-      firstName: 'Jeb Wilfred',
-      middleName: 'Deduyo',
-      lastName: 'Panganiban',
-      contactNumber: '09171585277',
-      address: 'Sariaya, Quezon',
-      isAdmin: false,
-      username: 'jwdp'
+      email: ' ',
+      first_name: ' ',
+      middle_name: ' ',
+      last_name: ' ',
+      contact_num: ' ',
+      address: ' ',
+      admin_role: false,
+      username: ' '
     },
     {
-        id: 2,
-        firstName: 'Welfredo',
-        middleName: 'Macalalad',
-        lastName: 'Panganiban',
-        contactNumber: '09123456789',
-        address: 'Sariaya, Quezon',
-        isAdmin: true,
-        username: 'wmpanganiban'
-    }
+      id: 2,
+      email: ' ',
+      first_name: ' ',
+      middle_name: ' ',
+      last_name: ' ',
+      contact_num: ' ',
+      address: ' ',
+      admin_role: false,
+      username: ' '
+    },
 ];
 
 function EditToolbar(props) {
-  const { setOpen } = props;
+  const { setOpen, loading } = props;
 
   const handleClick = () => {
-      // setRows((oldRows) => [...oldRows, { id, name: '', age: '', isNew: true }]);
-      // setRowModesModel((oldModel) => ({
-      // ...oldModel,
-      // [id]: { mode: GridRowModes.Edit, fieldToFocus: 'name' },
-      // }));
-      // setRows((oldRows) => [...oldRows, { id: 0, firstName: 'Jeb' }])
       setOpen(true);  // Show modal
   };
 
   return (
       <GridToolbarContainer>
-      <Button variant="contained" color="primary" startIcon={<AddIcon />} onClick={handleClick}>
+      <Button disabled={loading} variant="contained" color="primary" startIcon={<AddIcon />} onClick={handleClick}>
           Add user
       </Button>
       </GridToolbarContainer>
@@ -65,6 +61,7 @@ const ManageUsersPage = () => {
     const [rowModesModel, setRowModesModel] = React.useState({});
 
     const [open, setOpen] = React.useState(false);
+    const [loading, setLoading] = React.useState(false);
 
     const handleModalClose = () => {
       setOpen(false);
@@ -79,6 +76,19 @@ const ManageUsersPage = () => {
       setOpen(false);
     };
 
+    React.useEffect(() => {
+      setLoading(true);
+      const fetchUsers = async () => {
+        const res = await fetch('http://localhost:3000/api/users');
+        const data = await res.json();
+
+        setRows(data);
+        setLoading(false);
+      };
+
+      fetchUsers();
+    }, []);
+
     return (
         <>
             <DashboardLayout userType="admin">
@@ -91,8 +101,9 @@ const ManageUsersPage = () => {
                               toolbar: EditToolbar,
                            }}
                            slotProps={{ 
-                              toolbar: { setOpen },
+                              toolbar: { setOpen, loading },
                            }}
+                           loading={loading}
                            />
             </DashboardLayout>
             <AddUserDialog open={open} 
