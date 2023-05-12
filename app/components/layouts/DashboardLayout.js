@@ -3,7 +3,7 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { styled } from '@mui/material/styles';
 import { Toolbar, IconButton, Typography, Drawer, Divider, 
-         List, ListItem, ListItemButton, ListItemText } from '@mui/material';
+         List, ListItem, ListItemButton, ListItemText, Button } from '@mui/material';
 import MuiAppBar from '@mui/material/AppBar';
 
 import MenuIcon from '@mui/icons-material/Menu';
@@ -15,6 +15,8 @@ import HomeIcon from '@mui/icons-material/Home';
 import AttachMoneyIcon from '@mui/icons-material/AttachMoney';
 import ReceiptLongIcon from '@mui/icons-material/ReceiptLong';
 import ModeEditIcon from '@mui/icons-material/ModeEdit';
+
+import { useAuth } from '../providers/supabase-auth-provider';
 
 const drawerWidth = 240;
 
@@ -79,10 +81,9 @@ const adminNavigations = [
     { text: 'Edit profile', route: '/profile',  icon: ModeEditIcon },
 ];
 
-const DashboardLayout = ({ children, userType }) => {
+const DashboardLayout = ({ children }) => {
+    const { user, signOut } = useAuth();
     const router = useRouter();
-
-    // Get type of user from cookie, but for now, type of user is passed as props to DashboardLayout
 
     const [open, setOpen] = useState(false);
 
@@ -106,8 +107,9 @@ const DashboardLayout = ({ children, userType }) => {
                         <MenuIcon />
                     </IconButton>
                     <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-                        Welcome, User
+                        Welcome {user ? user.first_name : 'User'}
                     </Typography>
+                    <Button color="inherit" onClick={signOut}>Logout</Button>
                 </Toolbar>
             </AppBar>
             <Drawer sx={{
@@ -130,7 +132,7 @@ const DashboardLayout = ({ children, userType }) => {
                 </DrawerHeader>
                 <Divider sx={{ borderColor: '#677984' }}/>
                 <List>
-                    { userType === "admin" ? adminNavigations.map((nav, index) => (
+                    { user && user?.admin_role ? adminNavigations.map((nav, index) => (
                         <ListItem key={index} disablePadding>
                             <ListItemButton onClick={() => router.push(nav.route) }>
                                 <nav.icon sx={{ marginRight: 2, color: 'white'  }} />
