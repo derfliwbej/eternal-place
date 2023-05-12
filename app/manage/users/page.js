@@ -1,6 +1,8 @@
 'use client';
 import DashboardLayout from '@/app/components/layouts/DashboardLayout';
 
+import fetchUtil from '@/utils/fetchUtil';
+
 import * as React from 'react';
 import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
@@ -79,11 +81,17 @@ const ManageUsersPage = () => {
     React.useEffect(() => {
       setLoading(true);
       const fetchUsers = async () => {
-        const res = await fetch('http://localhost:3000/api/users');
-        const data = await res.json();
+        try {
+          const res = await fetchUtil('/users');
+          const data = await res.json();
 
-        setRows(data);
-        setLoading(false);
+          setRows(data);
+        } catch(error) {
+          console.log(error);
+        } finally {
+          setLoading(false);
+        }
+        
       };
 
       fetchUsers();
