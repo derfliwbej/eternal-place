@@ -1,7 +1,4 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
-import Button from '@mui/material/Button';
-import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import SaveIcon from '@mui/icons-material/Save';
@@ -13,7 +10,7 @@ import {
     GridActionsCellItem,
 } from '@mui/x-data-grid-pro';
 
-const UserTable = ({ rows, setRows, rowModesModel, setRowModesModel, slots, slotProps }) => {
+const UserTable = ({ rows, setRows, rowModesModel, setRowModesModel, slots, slotProps, loading }) => {
 
     const handleRowEditStart = (params, event) => {
         event.defaultMuiPrevented = true;
@@ -58,14 +55,13 @@ const UserTable = ({ rows, setRows, rowModesModel, setRowModesModel, slots, slot
     };
 
     const columns = [
-        { field: 'id', headerName: 'ID', type: 'number', flex: 1, editable: false },
-        { field: 'firstName', headerName: 'First Name', flex: 1, editable: true },
-        { field: 'middleName', headerName: 'Middle Name', flex: 1, editable: true },
-        { field: 'lastName', headerName: 'Last Name', flex: 1, editable: true },
-        { field: 'contactNumber', headerName: 'Contact Number', flex: 1, editable: true },
+        { field: 'email', headerName: 'Email', flex: 1, editable: false, },
+        { field: 'first_name', headerName: 'First Name', flex: 1, editable: true },
+        { field: 'middle_name', headerName: 'Middle Name', flex: 1, editable: true },
+        { field: 'last_name', headerName: 'Last Name', flex: 1, editable: true },
+        { field: 'contact_num', headerName: 'Contact Number', flex: 1, editable: true },
         { field: 'address', headerName: 'Address', flex: 1, editable: true },
-        { field: 'isAdmin', headerName: 'Is Admin', type: 'boolean', flex: 1, editable: true },
-        { field: 'username', headerName: 'Username', flex: 1, editable: true },
+        { field: 'admin_role', headerName: 'Is Admin', type: 'boolean', flex: 1, editable: true },
         {
             field: 'actions',
             type: 'actions',
@@ -123,6 +119,7 @@ const UserTable = ({ rows, setRows, rowModesModel, setRowModesModel, slots, slot
             processRowUpdate={processRowUpdate}
             slots={slots}
             slotProps={slotProps}
+            loading={loading}
         />
     );
 };
