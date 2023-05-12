@@ -2,13 +2,15 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import { styled } from '@mui/material/styles';
+import fetchUtil from '@/utils/fetchUtil';
 
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 
-import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
-import { TextField, Checkbox, FormControlLabel } from '@mui/material';
+import { Dialog, DialogTitle, DialogContent, DialogActions, Typography } from '@mui/material';
+import { TextField, Checkbox, FormControlLabel, CircularProgress } from '@mui/material';
+import ErrorText from '@/app/components/error/ErrorText';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -55,15 +57,34 @@ export default function AddUserDialog({ open, handleClose, handleSave }) {
     const [contactNumber, setContactNumber] = React.useState('');
     const [address, setAddress] = React.useState('');
     const [isAdmin, setIsAdmin] = React.useState(false);
-    const [username, setUsername] = React.useState('');
+    const [email, setEmail] = React.useState('');
     const [password, setPassword] = React.useState('');
+    const [error, setError] = React.useState('');
+    const [loading, setLoading] = React.useState(false);
 
-    const saveUser = () => {
-        // TODO: Make API call and id should come from backend
-        const newUser = {
-            id: 0, firstName, middleName, lastName, contactNumber, address, isAdmin,
-            username, password
-        };
+    const saveUser = async () => {
+      setError('');
+      setLoading(true);
+
+      const newUser = {
+        first_name: firstName,
+        middle_name: middleName,
+        last_name: lastName,
+        contact_num: contactNumber,
+        admin_role: isAdmin,
+        email, password, address
+      };
+  
+      try {
+        const res = await fetchUtil('/user', {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(newUser)
+        });
+
+        const data = await res.json();
 
         setFirstName('');
         setMiddleName('');
@@ -71,10 +92,15 @@ export default function AddUserDialog({ open, handleClose, handleSave }) {
         setContactNumber('');
         setAddress('');
         setIsAdmin(false);
-        setUsername('');
+        setEmail('');
         setPassword('');
 
-        handleSave(newUser);
+        handleSave(data);
+      } catch(error) {
+        setError(error.message);
+      } finally {
+        setLoading(false);
+      }
     };
 
     return (
@@ -84,37 +110,42 @@ export default function AddUserDialog({ open, handleClose, handleSave }) {
             open={open}
         >
             <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-                Add New User
+              <Typography variant="h6" component="span">
+                  Add New User
+              </Typography>
+              {loading && <CircularProgress size="1rem" sx={{ marginLeft: 3 }}/>}
             </BootstrapDialogTitle>
             <DialogContent dividers sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, minWidth: 600 }}>
-                <TextField label="Username" value={username} onChange={ (event) => {
-                    setUsername(event.target.value);
+                <ErrorText>{error}</ErrorText>
+                <TextField disabled={loading} label="Email" value={email} onChange={ (event) => {
+                    setEmail(event.target.value);
                 }} />
-                <TextField type="password" label="Password" value={password} onChange={ (event) => {
+                <TextField disabled={loading} type="password" label="Password" value={password} onChange={ (event) => {
                     setPassword(event.target.value);
                 }} />
-                <TextField label="First Name" value={firstName} onChange={ (event) => {
+                <TextField disabled={loading} label="First Name" value={firstName} onChange={ (event) => {
                     setFirstName(event.target.value);
                 }} />
-                <TextField label="Middle Name" value={middleName} onChange={ (event) => {
+                <TextField disabled={loading} label="Middle Name" value={middleName} onChange={ (event) => {
                     setMiddleName(event.target.value);
                 }} />
-                <TextField label="Last Name" value={lastName} onChange={ (event) => {
+                <TextField disabled={loading} label="Last Name" value={lastName} onChange={ (event) => {
                     setLastName(event.target.value);
                 }} />
-                <TextField label="Contact Number" value={contactNumber} onChange={ (event) => {
+                <TextField disabled={loading} label="Contact Number" value={contactNumber} onChange={ (event) => {
                     setContactNumber(event.target.value);
                 }} />
-                <TextField label="Address" value={address} onChange={ (event) => {
+                <TextField disabled={loading} label="Address" value={address} onChange={ (event) => {
                     setAddress(event.target.value);
                 }} />
                 <FormControlLabel control={<Checkbox checked={isAdmin}
                                                      onChange={() => setIsAdmin(event.target.checked)}/>} 
-                                                     label="Give user admin privileges" />
+                                                     label="Give user admin privileges"
+                                                     disabled={loading} />
                 
             </DialogContent>
             <DialogActions>
-                <Button autoFocus onClick={saveUser}>
+                <Button disabled={loading} autoFocus onClick={saveUser}>
                     Save changes
                 </Button>
             </DialogActions>
