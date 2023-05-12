@@ -26,6 +26,19 @@
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
 }
 
+.login-button--disabled {
+    padding: 1rem;
+    border-radius: 30px;
+    font-weight: bold;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
+    background-color: grey;
+    color: white;
+    cursor: auto;
+}
+
 .login-button:hover {
     filter: brightness(120%);
 }
