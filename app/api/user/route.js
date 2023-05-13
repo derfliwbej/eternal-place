@@ -65,3 +65,36 @@ export async function DELETE(request) {
 
     return new Response("Successfully deleted user", { status: 200 });
 }
+
+export async function PUT(request) {
+    const supabaseServer = createClient();
+    const supabaseAdmin = createAdminClient();
+    
+    const { data: { session }, } = await supabaseServer.auth.getSession();
+
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+
+    if(!session) {
+        return new Response("Unauthorized", { status: 401 });
+    }
+
+    const {
+        first_name,
+        middle_name,
+        last_name,
+        address,
+        contact_num,
+        admin_role
+    } = await request.json();
+
+    const { data, error } = await supabaseServer.from('users').update(
+        { first_name, middle_name, last_name, address, contact_num, admin_role }
+    ).match({ id });
+
+    if (error) {
+        return new Response(error.message, { status: 500 });
+    }
+
+    return new Response("Successfully updated user", { status: 200 });
+}
