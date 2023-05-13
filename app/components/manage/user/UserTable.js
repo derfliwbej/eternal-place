@@ -3,6 +3,9 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
+import ErrorDialog from '@/app/components/error/ErrorDialog';
+
+import fetchUtil from '@/utils/fetchUtil';
 
 import {
     GridRowModes,
@@ -10,7 +13,9 @@ import {
     GridActionsCellItem,
 } from '@mui/x-data-grid-pro';
 
-const UserTable = ({ rows, setRows, rowModesModel, setRowModesModel, slots, slotProps, loading }) => {
+const UserTable = ({ rows, setRows, rowModesModel, setRowModesModel, slots, slotProps, setLoading, loading }) => {
+    const [errorDialog, setErrorDialog] = React.useState({ title: '', message: '' });
+    const [open, setOpen] = React.useState(false);
 
     const handleRowEditStart = (params, event) => {
         event.defaultMuiPrevented = true;
@@ -28,8 +33,18 @@ const UserTable = ({ rows, setRows, rowModesModel, setRowModesModel, slots, slot
         setRowModesModel({ ...rowModesModel, [id]: { mode: GridRowModes.View } });
     };
 
-    const handleDeleteClick = (id) => () => {
-        setRows(rows.filter((row) => row.id !== id));
+    const handleDeleteClick = (id) => async () => {
+        try {
+            setLoading(true);
+            const res = await fetchUtil(`/user?id=${id}`, { method: 'DELETE' });
+            
+            setRows(rows.filter((row) => row.id !== id));
+        } catch(error) {
+            setErrorDialog({ title: 'Error', message: error.message })
+            setOpen(true);
+        } finally {
+            setLoading(false);
+        }
     };
 
     const handleCancelClick = (id) => () => {
@@ -108,7 +123,8 @@ const UserTable = ({ rows, setRows, rowModesModel, setRowModesModel, slots, slot
     ];
 
     return (
-        <DataGridPro
+        <>
+            <DataGridPro
             rows={rows}
             columns={columns}
             editMode="row"
@@ -120,7 +136,9 @@ const UserTable = ({ rows, setRows, rowModesModel, setRowModesModel, slots, slot
             slots={slots}
             slotProps={slotProps}
             loading={loading}
-        />
+            />
+            <ErrorDialog title={errorDialog.title} message={errorDialog.message} open={open} setOpen={setOpen} />
+        </>
     );
 };
 
