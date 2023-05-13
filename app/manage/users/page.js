@@ -111,6 +111,7 @@ const ManageUsersPage = () => {
                            slotProps={{ 
                               toolbar: { setOpen, loading },
                            }}
+                           setLoading={setLoading}
                            loading={loading}
                            />
             </DashboardLayout>
