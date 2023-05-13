@@ -54,6 +54,13 @@ a:hover {
   border: 1px solid black;
 }
 
+.tomb-marker--hasLight {
+  height: 20px;
+  width: 10px;
+  background-color: yellow;
+  border: 1px solid black;
+}
+
 .mausoleum-marker-container {
   width: 35px;
   height: 35px;
@@ -63,5 +70,12 @@ a:hover {
   height: 35px;
   width: 35px;
   background-color: red;
+  border: 1px solid black;
+}
+
+.mausoleum-marker--hasLight {
+  height: 35px;
+  width: 35px;
+  background-color: yellow;
   border: 1px solid black;
 }
