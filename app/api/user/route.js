@@ -43,3 +43,25 @@ export async function POST(request) {
         admin_role: data.user.user_metadata.admin_role
     });
 }
+
+export async function DELETE(request) {
+    const supabaseServer = createClient();
+    const supabaseAdmin = createAdminClient();
+
+    const { data: { session }, } = await supabaseServer.auth.getSession();
+
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+
+    if (!session) {
+        return new Response("Unauthorized", { status: 401 });
+    }
+
+    const { data, error } = await supabaseAdmin.auth.admin.deleteUser(id);
+
+    if (error) {
+        return new Response(error.message, { status: 500 });
+    }
+
+    return new Response("Successfully deleted user", { status: 200 });
+}
