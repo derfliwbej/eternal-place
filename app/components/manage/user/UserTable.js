@@ -59,10 +59,33 @@ const UserTable = ({ rows, setRows, rowModesModel, setRowModesModel, slots, slot
         }
     };
 
-    const processRowUpdate = (newRow) => {
-        const updatedRow = { ...newRow, isNew: false };
-        setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
-        return updatedRow;
+    const processRowUpdate = async (newRow) => {
+        try {
+            setLoading(true);
+            const res = await fetchUtil(`/user?id=${newRow.id}`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(newRow)
+            });
+
+            const updatedRow = { ...newRow, isNew: false };
+            setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
+
+            return updatedRow;
+        } catch(error) {
+            setErrorDialog({ title: 'Error', message: error.message });
+            setOpen(true);
+        } finally {
+            setLoading(false);
+        }
+    };
+
+    const onProcessRowUpdateError = (error) => {
+        setErrorDialog({ title: 'Error', message: error.message });
+        setOpen(true);
+        setLoading(false);
     };
 
     const handleRowModesModelChange = (newRowModesModel) => {
@@ -133,6 +156,7 @@ const UserTable = ({ rows, setRows, rowModesModel, setRowModesModel, slots, slot
             onRowEditStart={handleRowEditStart}
             onRowEditStop={handleRowEditStop}
             processRowUpdate={processRowUpdate}
+            onProcessRowUpdateError={onProcessRowUpdateError}
             slots={slots}
             slotProps={slotProps}
             loading={loading}
