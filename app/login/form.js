@@ -3,7 +3,7 @@ import styles from '../styles/login/LoginPage.module.css';
 
 import Image from 'next/image';
 import { Paper, TextField, CircularProgress } from '@mui/material';
-import ErrorText from '@/app/components/error/ErrorText';
+import ErrorText from '@/app/components/prompt/ErrorText';
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
