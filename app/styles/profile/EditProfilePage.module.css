@@ -1,6 +1,24 @@
-.form-container {
+.main-container {
+    display: flex;
+    gap: 100px;
+    padding: 1rem 1rem 0 1rem;
+}
+
+.profile-form-container {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    max-width: 500px;
+    flex-grow: 1;
+}
+
+.password-form-container {
+    display: flex;
+    flex-direction: column;
+    flex-grow: 1;
+    gap: 10px;
+}
+
+.header-container {
+    display: flex;
+    align-items: center;
 }
