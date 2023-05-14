@@ -79,3 +79,17 @@ a:hover {
   background-color: yellow;
   border: 1px solid black;
 }
+
+.tomb-marker--vacant {
+  height: 20px;
+  width: 10px;
+  background-color: gray;
+  border: 1px solid black;
+}
+
+.mausoleum-marker--vacant {
+  height: 35px;
+  width: 35px;
+  background-color: gray;
+  border: 1px solid black;
+}
