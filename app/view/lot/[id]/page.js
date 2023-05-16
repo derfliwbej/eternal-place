@@ -1,7 +1,6 @@
 'use client';
 import DashboardLayout from '@/app/components/layouts/DashboardLayout';
 import Image from 'next/image';
-import styles from '@/app/styles/view/ViewLotPage.module.css';
 
 import LotTomb from '@/app/components/edit/lot/LotTomb';
 import LotOwners from '@/app/components/edit/lot/LotOwners';
