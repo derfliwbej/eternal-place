@@ -47,10 +47,11 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default function ConfirmTombDeleteDialog({ open, id, handleClose }) {
+export default function ConfirmTombDeleteDialog({ open, id, handleClose, deleteTomb }) {
 
     const handleDelete = () => {
-        handleClose();
+      deleteTomb(id);
+      handleClose();
     };
 
     return (

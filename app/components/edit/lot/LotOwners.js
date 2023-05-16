@@ -8,16 +8,6 @@ import AddOwnerDialog from './AddOwnerDialog';
 
 import { GridRowModes, GridToolbarContainer } from '@mui/x-data-grid';
 
-const initialRows = [
-    {
-        id: 1,
-        firstName: 'Jeb Wilfred',
-        middleName: 'Deduyo',
-        lastName: 'Panganiban',
-        username: 'jwdp'
-      },
-];
-
 function EditToolbar(props) {
     const { setAddModalOpen } = props;
   
@@ -38,8 +28,8 @@ EditToolbar.propTypes = {
     setAddModalOpen: PropTypes.func.isRequired,
 };
 
-const LotOwners = ({ rowsProp }) => {
-    const [rows, setRows] = React.useState(rowsProp || initialRows);
+const LotOwners = ({ owners }) => {
+    const [rows, setRows] = React.useState(owners);
     const [rowModesModel, setRowModesModel] = React.useState({});
 
     const [addModalOpen, setAddModalOpen] = React.useState(false);

@@ -31,11 +31,10 @@ const LotOwnerTable = ({ rows, setRows, rowModesModel, setRowModesModel, slots, 
     };
 
     const columns = [
-        { field: 'id', headerName: 'ID', type: 'number', flex: 0.3, editable: false },
-        { field: 'firstName', headerName: 'First Name', flex: 1, editable: false },
-        { field: 'middleName', headerName: 'Middle Name', flex: 1, editable: false },
-        { field: 'lastName', headerName: 'Last Name', flex: 1, editable: false },
-        { field: 'username', headerName: 'Username', flex: 1, editable: false },
+        { field: 'first_name', headerName: 'First Name', flex: 1, editable: false },
+        { field: 'middle_name', headerName: 'Middle Name', flex: 1, editable: false },
+        { field: 'last_name', headerName: 'Last Name', flex: 1, editable: false },
+        { field: 'email', headerName: 'Email', flex: 1, editable: false },
         {
             field: 'actions',
             type: 'actions',
@@ -67,6 +66,15 @@ const LotOwnerTable = ({ rows, setRows, rowModesModel, setRowModesModel, slots, 
             processRowUpdate={processRowUpdate}
             slots={slots}
             slotProps={slotProps}
+            pagination={true}
+            initialState={{
+                pagination: {
+                    paginationModel: {
+                        pageSize: 5,
+                    },
+                },
+            }}
+            pageSizeOptions={[5, 10, 15, 20]}
         />
     );
 };

@@ -11,15 +11,6 @@ import { GridRowModes, GridToolbarContainer } from '@mui/x-data-grid';
 
 import ConfirmTombDeleteDialog from './ConfirmTombDeleteDialog';
 
-const initialRows = [
-    {
-        id: 1,
-        firstName: 'Jeb Wilfred',
-        middleName: 'Deduyo',
-        lastName: 'Panganiban',
-      },
-];
-
 function EditToolbar(props) {
     const { setAddModalOpen, setDeleteModalOpen } = props;
   
@@ -47,8 +38,8 @@ EditToolbar.propTypes = {
     setAddModalOpen: PropTypes.func.isRequired,
 };
 
-const LotTomb = ({ id, rowsProp }) => {
-    const [rows, setRows] = React.useState(rowsProp || initialRows);
+const LotTomb = ({ id, deceasedList, deleteTomb }) => {
+    const [rows, setRows] = React.useState(deceasedList);
     const [rowModesModel, setRowModesModel] = React.useState({});
 
     const [addModalOpen, setAddModalOpen] = React.useState(false);
@@ -86,7 +77,7 @@ const LotTomb = ({ id, rowsProp }) => {
                        }}
             />
             <AddDeceasedDialog open={addModalOpen} handleClose={handleAddModalClose} handleSave={handleSave} />
-            <ConfirmTombDeleteDialog id={id} open={deleteModalOpen} handleClose={handleDeleteModalClose} />
+            <ConfirmTombDeleteDialog id={id} open={deleteModalOpen} handleClose={handleDeleteModalClose} deleteTomb={deleteTomb} />
         </div>
     );
 };

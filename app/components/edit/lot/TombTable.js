@@ -61,11 +61,11 @@ const TombTable = ({ rows, setRows, rowModesModel, setRowModesModel, slots, slot
 
     const columns = [
         { field: 'id', headerName: 'ID', type: 'number', flex: 1, editable: false },
-        { field: 'firstName', headerName: 'First Name', flex: 1, editable: true },
-        { field: 'middleName', headerName: 'Middle Name', flex: 1, editable: true },
-        { field: 'lastName', headerName: 'Last Name', flex: 1, editable: true },
+        { field: 'first_name', headerName: 'First Name', flex: 1, editable: true },
+        { field: 'middle_name', headerName: 'Middle Name', flex: 1, editable: true },
+        { field: 'last_name', headerName: 'Last Name', flex: 1, editable: true },
         { 
-            field: 'birthDate', 
+            field: 'born_date', 
             headerName: 'Birth Date', 
             flex: 1, 
             type: 'date', 
@@ -73,7 +73,7 @@ const TombTable = ({ rows, setRows, rowModesModel, setRowModesModel, slots, slot
             valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY')
         },
         { 
-            field: 'deathDate', 
+            field: 'death_date', 
             headerName: 'Death Date', 
             flex: 1, 
             type: 'date', 
