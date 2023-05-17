@@ -49,7 +49,7 @@ const ViewLotPage = ({ params }) => {
         addTomb();
     };
 
-    const deleteTomb = (id) => {
+    const handleDeleteTomb = (id) => {
         const newTombs = tombs.filter( (tomb) => tomb.id !== id);
         setTombs(newTombs);
     };
@@ -104,7 +104,7 @@ const ViewLotPage = ({ params }) => {
                             {tombs.map( (tomb, i) => {
                                 return (
                                     <div key={i}>
-                                        <LotTomb id={tomb.id} deceasedList={tomb.deceased_list} deleteTomb={deleteTomb} />
+                                        <LotTomb id={tomb.id} deceasedList={tomb.deceased_list} deleteTomb={handleDeleteTomb} />
                                         <Divider sx={{ marginTop: 2, marginBottom: 2 }} />
                                     </div>
                                 );

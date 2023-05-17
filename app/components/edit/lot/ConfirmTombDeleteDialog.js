@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 import { styled } from '@mui/material/styles';
 
-import Button from '@mui/material/Button';
+import { Button, CircularProgress, Typography } from '@mui/material';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 
@@ -47,13 +47,7 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default function ConfirmTombDeleteDialog({ open, id, handleClose, deleteTomb }) {
-
-    const handleDelete = () => {
-      deleteTomb(id);
-      handleClose();
-    };
-
+export default function ConfirmTombDeleteDialog({ open, id, handleClose, handleTombDelete, loading }) {
     return (
         <BootstrapDialog
             onClose={handleClose}
@@ -61,13 +55,16 @@ export default function ConfirmTombDeleteDialog({ open, id, handleClose, deleteT
             open={open}
         >
             <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-                Confirm Deletion
+              <Typography variant="h6" component="span">
+                  Confirm Deletion
+              </Typography>
+              {loading && <CircularProgress size="1rem" sx={{ marginLeft: 3 }}/>}
             </BootstrapDialogTitle>
             <DialogContent dividers sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, minWidth: 600 }}>
                 Are you sure you want to delete Tomb with ID {id}?
             </DialogContent>
             <DialogActions>
-                <Button autoFocus color="warning" type="contained" onClick={handleDelete}>
+                <Button disabled={loading} autoFocus color="warning" type="contained" onClick={handleTombDelete}>
                     Delete
                 </Button>
             </DialogActions>

@@ -3,9 +3,10 @@ import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 import DeleteIcon from '@mui/icons-material/Delete';
-
+import fetchUtil from '@/utils/fetchUtil';
 import TombTable from './TombTable';
 import AddDeceasedDialog from './AddDeceasedDialog';
+import ErrorDialog from '@/app/components/prompt/ErrorDialog';
 
 import { GridRowModes, GridToolbarContainer } from '@mui/x-data-grid';
 
@@ -45,12 +46,35 @@ const LotTomb = ({ id, deceasedList, deleteTomb }) => {
     const [addModalOpen, setAddModalOpen] = React.useState(false);
     const [deleteModalOpen, setDeleteModalOpen] = React.useState(false);
 
+    const [errorDialog, setErrorDialog] = React.useState({ title: '', message: '' });
+    const [showError, setShowError] = React.useState(false);
+    const [loading, setLoading] = React.useState(false);
+
     const handleAddModalClose = () => {
         setAddModalOpen(false);
     };
 
     const handleDeleteModalClose = () => {
         setDeleteModalOpen(false);
+    };
+
+    const handleTombDelete = () => {
+        const tombDelete = async () => {
+            try {
+                setLoading(true);
+    
+                const res = await fetchUtil(`/lot/tomb?id=${id}`, { method: 'DELETE' });
+                deleteTomb(id);
+    
+            } catch(error) {
+                setErrorDialog({ title: 'Error', message: error.message });
+                setShowError(true);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        tombDelete();
     };
 
     const handleSave = (deceased) => {
@@ -75,9 +99,11 @@ const LotTomb = ({ id, deceasedList, deleteTomb }) => {
                        slotProps={{
                         toolbar: { setAddModalOpen, setDeleteModalOpen }
                        }}
+                       loading={loading}
             />
             <AddDeceasedDialog open={addModalOpen} handleClose={handleAddModalClose} handleSave={handleSave} />
-            <ConfirmTombDeleteDialog id={id} open={deleteModalOpen} handleClose={handleDeleteModalClose} deleteTomb={deleteTomb} />
+            <ConfirmTombDeleteDialog id={id} loading={loading} open={deleteModalOpen} handleClose={handleDeleteModalClose} handleTombDelete={handleTombDelete} />
+            <ErrorDialog title={errorDialog.title} message={errorDialog.message} open={showError} setOpen={setShowError} /> 
         </div>
     );
 };

@@ -15,7 +15,7 @@ import {
     GridActionsCellItem,
 } from '@mui/x-data-grid-pro';
 
-const TombTable = ({ rows, setRows, rowModesModel, setRowModesModel, slots, slotProps }) => {
+const TombTable = ({ rows, setRows, rowModesModel, setRowModesModel, slots, slotProps, loading }) => {
 
     const handleRowEditStart = (params, event) => {
         event.defaultMuiPrevented = true;
@@ -137,6 +137,7 @@ const TombTable = ({ rows, setRows, rowModesModel, setRowModesModel, slots, slot
             processRowUpdate={processRowUpdate}
             slots={slots}
             slotProps={slotProps}
+            loading={loading}
         />
     );
 };
