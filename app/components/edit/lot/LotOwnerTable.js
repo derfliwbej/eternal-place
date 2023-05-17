@@ -1,12 +1,18 @@
 import * as React from 'react';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
+import ErrorDialog from '@/app/components/prompt/ErrorDialog';
+
+import fetchUtil from '@/utils/fetchUtil';
 
 import {
     DataGridPro,
     GridActionsCellItem,
 } from '@mui/x-data-grid-pro';
 
-const LotOwnerTable = ({ rows, setRows, rowModesModel, setRowModesModel, slots, slotProps }) => {
+const LotOwnerTable = ({ rows, setRows, rowModesModel, setRowModesModel, slots, slotProps, lotID }) => {
+    const [loading, setLoading] = React.useState(false);
+    const [errorDialog, setErrorDialog] = React.useState({ title: '', message: '' });
+    const [open, setOpen] = React.useState(false);
 
     const handleRowEditStart = (params, event) => {
         event.defaultMuiPrevented = true;
@@ -16,8 +22,19 @@ const LotOwnerTable = ({ rows, setRows, rowModesModel, setRowModesModel, slots, 
         event.defaultMuiPrevented = true;
     };
 
-    const handleDeleteClick = (id) => () => {
-        setRows(rows.filter((row) => row.id !== id));
+    const handleDeleteClick = (id) => async () => {
+        try {
+            setLoading(true);
+            const res = await fetchUtil(`/lot/owner?userID=${id}&lotID=${lotID}`, { method: 'DELETE' });
+            
+            setRows(rows.filter((row) => row.id !== id));
+        } catch(error) {
+            setErrorDialog({ title: 'Error', message: error.message })
+            setOpen(true);
+        } finally {
+            setLoading(false);
+        }
+        
     };
 
     const processRowUpdate = (newRow) => {
@@ -55,7 +72,8 @@ const LotOwnerTable = ({ rows, setRows, rowModesModel, setRowModesModel, slots, 
     ];
 
     return (
-        <DataGridPro
+        <>
+            <DataGridPro
             rows={rows}
             columns={columns}
             editMode="row"
@@ -75,7 +93,10 @@ const LotOwnerTable = ({ rows, setRows, rowModesModel, setRowModesModel, slots, 
                 },
             }}
             pageSizeOptions={[5, 10, 15, 20]}
-        />
+            loading={loading}
+            />
+            <ErrorDialog title={errorDialog.title} message={errorDialog.message} open={open} setOpen={setOpen} />
+        </>
     );
 };
 
