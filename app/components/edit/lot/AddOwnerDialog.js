@@ -2,13 +2,15 @@ import * as React from 'react';
 import PropTypes from 'prop-types';
 
 import { styled } from '@mui/material/styles';
+import fetchUtil from '@/utils/fetchUtil';
 
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
-import { TextField } from '@mui/material';
+import { TextField, Typography, CircularProgress } from '@mui/material';
+import ErrorText from '@/app/components/prompt/ErrorText';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {
@@ -48,18 +50,33 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default function AddOwnerDialog({ open, handleClose, handleSave }) {
-    const [username, setUsername] = React.useState('');
+export default function AddOwnerDialog({ lotID, open, handleClose, handleSave }) {
+    const [email, setEmail] = React.useState('');
+    const [error, setError] = React.useState('');
+    const [loading, setLoading] = React.useState(false);
 
-    const saveOwner = () => {
-        // TODO: Make API call for adding owner
-        const newOwner = {
-            id: 0, username
-        };
+    const saveOwner = async () => {
+        setError('');
+        setLoading(true);
 
-        setUsername('');
+        try {
+          const res = await fetchUtil('/lot/owner', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ email, lot_id: lotID })
+          });
 
-        handleSave(newOwner);
+          const data = await res.json();
+
+          setEmail('');
+          handleSave(data);
+        } catch (error) {
+          setError(error.message);
+        } finally {
+          setLoading(false);
+        }
     };
 
     return (
@@ -69,16 +86,20 @@ export default function AddOwnerDialog({ open, handleClose, handleSave }) {
             open={open}
         >
             <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-                Add new owner
+              <Typography variant="h6" component="span">
+                  Add New Owner
+              </Typography>
+              {loading && <CircularProgress size="1rem" sx={{ marginLeft: 3 }}/>}
             </BootstrapDialogTitle>
-            <DialogContent dividers sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, minWidth: 300 }}>
-                <TextField label="Enter owner's username" value={username} onChange={ event => setUsername(event.target.value) }/>
+            <DialogContent dividers sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1.5, minWidth: 300 }}>
+                <ErrorText>{error}</ErrorText>
+                <TextField sx={{ width: '100%' }}disabled={loading} label="Enter owner's email" value={email} onChange={ event => setEmail(event.target.value) }/>
             </DialogContent>
             <DialogActions>
-                <Button autoFocus onClick={saveOwner}>
+                <Button disabled={loading} autoFocus onClick={saveOwner}>
                     Add
                 </Button>
-                <Button type="warning" onClick={handleClose}>
+                <Button disabled={loading} type="warning" onClick={handleClose}>
                     Cancel
                 </Button>
             </DialogActions>
