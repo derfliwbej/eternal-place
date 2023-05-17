@@ -53,7 +53,7 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default function AddDeceasedDialog({ id, open, handleClose, handleSave }) {
+export default function AddDeceasedDialog({ id, open, handleClose, handleSave, setErrorDialog, setShowError }) {
     const [firstName, setFirstName] = React.useState('');
     const [middleName, setMiddleName] = React.useState('');
     const [lastName, setLastName] = React.useState('');

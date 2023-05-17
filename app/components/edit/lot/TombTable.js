@@ -6,6 +6,7 @@ import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import SaveIcon from '@mui/icons-material/Save';
 import CancelIcon from '@mui/icons-material/Close';
+import fetchUtil from '@/utils/fetchUtil';
 
 import dayjs from 'dayjs';
 
@@ -15,7 +16,7 @@ import {
     GridActionsCellItem,
 } from '@mui/x-data-grid-pro';
 
-const TombTable = ({ rows, setRows, rowModesModel, setRowModesModel, slots, slotProps, loading }) => {
+const TombTable = ({ rows, setRows, rowModesModel, setRowModesModel, slots, slotProps, loading, setLoading, setErrorDialog, setShowError }) => {
 
     const handleRowEditStart = (params, event) => {
         event.defaultMuiPrevented = true;
@@ -34,7 +35,22 @@ const TombTable = ({ rows, setRows, rowModesModel, setRowModesModel, slots, slot
     };
 
     const handleDeleteClick = (id) => () => {
-        setRows(rows.filter((row) => row.id !== id));
+        const makeRequest = async () => {
+            try {
+                setLoading(true);
+    
+                const res = await fetchUtil(`/lot/tomb/deceased?id=${id}`, { method: 'DELETE' });
+    
+                setRows(rows.filter((row) => row.id !== id));   
+            } catch(error) {
+                setErrorDialog({ title: 'Error', message: error.message });
+                setShowError(true);
+            } finally {
+                setLoading(false);
+            }
+        };
+        
+        makeRequest();
     };
 
     const handleCancelClick = (id) => () => {
