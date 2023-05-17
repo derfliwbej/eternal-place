@@ -4,13 +4,15 @@ import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import fetchUtil from '@/utils/fetchUtil';
 
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
+import ErrorText from '@/app/components/prompt/ErrorText';
 
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
-import { TextField, Checkbox, FormControlLabel } from '@mui/material';
+import { TextField, Typography, CircularProgress } from '@mui/material';
 import { DatePicker } from '@mui/x-date-pickers';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -51,26 +53,51 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default function AddDeceasedDialog({ open, handleClose, handleSave }) {
+export default function AddDeceasedDialog({ id, open, handleClose, handleSave }) {
     const [firstName, setFirstName] = React.useState('');
     const [middleName, setMiddleName] = React.useState('');
     const [lastName, setLastName] = React.useState('');
     const [birthDate, setBirthDate] = React.useState('');
     const [deathDate, setDeathDate] = React.useState('');
 
+    const [loading, setLoading] = React.useState(false);
+    const [error, setError] = React.useState('');
+
     const saveDeceased = () => {
-        // TODO: Make API call and id should come from backend
-        const newDeceased = {
-            id: 0, firstName, middleName, lastName, birthDate, deathDate
+        const makePostRequest = async () => {
+          try {
+            setError('');
+            setLoading(true);
+            const res = await fetchUtil(`/lot/tomb/deceased?id=${id}`, {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json',
+              },
+              body: JSON.stringify({
+                first_name: firstName,
+                middle_name: middleName,
+                last_name: lastName,
+                born_date: birthDate,
+                death_date: deathDate
+              })
+            });
+
+            const deceased = await res.json();
+
+            handleSave(deceased);
+          } catch(error) {
+            setError(error.message);
+          } finally {
+            setFirstName('');
+            setMiddleName('');
+            setLastName('');
+            setBirthDate('');
+            setDeathDate('');
+            setLoading(false);
+          }
         };
 
-        setFirstName('');
-        setMiddleName('');
-        setLastName('');
-        setBirthDate('');
-        setDeathDate('');
-
-        handleSave(newDeceased);
+        makePostRequest();
     };
 
     return (
@@ -80,29 +107,36 @@ export default function AddDeceasedDialog({ open, handleClose, handleSave }) {
             aria-labelledby="customized-dialog-title"
             open={open}
         >
-            <BootstrapDialogTitle id="customized-dialog-title" onClose={handleClose}>
-                Add New Deceased
+            <BootstrapDialogTitle id="customized-dialog-title" onClose={() => {
+              setError('');
+              handleClose();
+            }}>
+              <Typography variant="h6" component="span">
+                  Add New Deceased
+              </Typography>
+              {loading && <CircularProgress size="1rem" sx={{ marginLeft: 3 }}/>}
             </BootstrapDialogTitle>
             <DialogContent dividers sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, minWidth: 600 }}>
-                <TextField label="First Name" value={firstName} onChange={ (event) => {
+                {error && <ErrorText>{error}</ErrorText>}
+                <TextField disabled={loading} label="First Name" value={firstName} onChange={ (event) => {
                     setFirstName(event.target.value);
                 }} />
-                <TextField label="Middle Name" value={middleName} onChange={ (event) => {
+                <TextField disabled={loading} label="Middle Name" value={middleName} onChange={ (event) => {
                     setMiddleName(event.target.value);
                 }} />
-                <TextField label="Last Name" value={lastName} onChange={ (event) => {
+                <TextField disabled={loading} label="Last Name" value={lastName} onChange={ (event) => {
                     setLastName(event.target.value);
                 }} />
-                <DatePicker label="Birth Date" value={birthDate} type="date" onChange={ (value) => {
+                <DatePicker disabled={loading} label="Birth Date" value={birthDate} type="date" onChange={ (value) => {
                     setBirthDate(value);
                 }} />
-                <DatePicker label="Death Date" value={deathDate} type="date" onChange={ (value) => {
+                <DatePicker disabled={loading} label="Death Date" value={deathDate} type="date" onChange={ (value) => {
                     setDeathDate(value);
                 }} />
                 
             </DialogContent>
             <DialogActions>
-                <Button autoFocus onClick={saveDeceased}>
+                <Button disabled={loading} autoFocus onClick={saveDeceased}>
                     Save
                 </Button>
             </DialogActions>

@@ -101,7 +101,7 @@ const LotTomb = ({ id, deceasedList, deleteTomb }) => {
                        }}
                        loading={loading}
             />
-            <AddDeceasedDialog open={addModalOpen} handleClose={handleAddModalClose} handleSave={handleSave} />
+            <AddDeceasedDialog id={id} open={addModalOpen} handleClose={handleAddModalClose} handleSave={handleSave} setErrorDialog={setErrorDialog} setShowError={setShowError} />
             <ConfirmTombDeleteDialog id={id} loading={loading} open={deleteModalOpen} handleClose={handleDeleteModalClose} handleTombDelete={handleTombDelete} />
             <ErrorDialog title={errorDialog.title} message={errorDialog.message} open={showError} setOpen={setShowError} /> 
         </div>
