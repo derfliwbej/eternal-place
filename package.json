@@ -30,7 +30,8 @@
     "react-dom": "18.2.0",
     "react-leaflet": "^4.2.1",
     "server-only": "^0.0.1",
-    "swr": "^2.1.5"
+    "swr": "^2.1.5",
+    "uuid": "^9.0.0"
   },
   "devDependencies": {
     "encoding": "^0.1.13"
