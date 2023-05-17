@@ -62,7 +62,7 @@ const ViewLotPage = ({ params }) => {
 
                             <Divider sx={{ marginTop: 2, marginBottom: 2 }}/>
 
-                            <LotOwners owners={owners} />
+                            <LotOwners lotID={id} owners={owners} />
 
                             <Divider sx={{ marginTop: 2, marginBottom: 2 }}/>
 
@@ -87,7 +87,7 @@ const ViewLotPage = ({ params }) => {
                             <Divider sx={{ marginTop: 2, marginBottom: 2 }}/>
                         </>
                     ) : (
-                        <div style={{ display: 'flex', justifyContent: 'center' }}>
+                        <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
                             <CircularProgress />
                         </div>
                     )
