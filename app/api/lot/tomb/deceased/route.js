@@ -1,0 +1,27 @@
+import { createClient } from "@/utils/supabase-server";
+import { NextResponse } from "next/server";
+
+export async function POST(request) {
+    const supabase = createClient();
+
+    const { data: { session }, } = await supabase.auth.getSession();
+
+    if(!session) {
+        return new Response("Unauthorized", { status: 401 });
+    }
+
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+
+    const { first_name, middle_name, last_name, born_date, death_date } = await request.json();
+
+    const { data: deceased, error } = await supabase
+        .from('deceased')
+        .insert({ tomb_id: id, first_name, middle_name, last_name, born_date, death_date })
+        .select()
+        .single();
+
+    if (error) return new Response("Internal Server Error", { status: 500 });
+
+    return NextResponse.json(deceased);
+}
