@@ -1,8 +1,8 @@
 'use client';
 import DashboardLayout from '@/app/components/layouts/DashboardLayout';
-import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import fetchUtil from '@/utils/fetchUtil';
+import ErrorDialog from '@/app/components/prompt/ErrorDialog';
 
 import LotTomb from '@/app/components/edit/lot/LotTomb';
 import LotOwners from '@/app/components/edit/lot/LotOwners';
@@ -18,9 +18,35 @@ const ViewLotPage = ({ params }) => {
     const [owners, setOwners] = useState([]);
     const [tombs, setTombs] = useState([]);
     const [initialLoad, setInitialLoad] = useState(false);
+    const [addingTomb, setAddingTomb] = useState(false);
+    const [errorDialog, setErrorDialog] = useState({ title : '', message: '' });
+    const [showError, setShowError] = useState(false);
 
     const handleAddTomb = () => {
-        setTombs(current => [...current, { id: 0, deceased_list: [] }]);
+        const addTomb = async () => {
+            try {
+                setAddingTomb(true);
+    
+                const res = await fetchUtil(`/lot/tomb`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ lotID: id })
+                });
+    
+                const tomb = await res.json();
+
+                setTombs(current => [...current, tomb]);
+            } catch(error) {
+                setErrorDialog({ title: 'Error', message: error.message });
+                setShowError(true);
+            } finally {
+                setAddingTomb(false);
+            }
+        };
+        
+        addTomb();
     };
 
     const deleteTomb = (id) => {
@@ -68,7 +94,7 @@ const ViewLotPage = ({ params }) => {
 
                             <div style={{ display: 'flex '}}>
                                 <h2>Lot Tombs</h2>
-                                <Button sx={{ marginLeft: 3 }} variant="contained" startIcon={<AddIcon />} onClick={handleAddTomb}>
+                                <Button disabled={addingTomb} sx={{ marginLeft: 3 }} variant="contained" startIcon={<AddIcon />} onClick={handleAddTomb}>
                                     Create New Tomb
                                 </Button>
                             </div>
@@ -85,6 +111,8 @@ const ViewLotPage = ({ params }) => {
                             })}
 
                             <Divider sx={{ marginTop: 2, marginBottom: 2 }}/>
+
+                            <ErrorDialog title={errorDialog.title} message={errorDialog.message} open={showError} setOpen={setShowError} />
                         </>
                     ) : (
                         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
