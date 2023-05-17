@@ -66,9 +66,29 @@ const TombTable = ({ rows, setRows, rowModesModel, setRowModesModel, slots, slot
     };
 
     const processRowUpdate = (newRow) => {
-        const updatedRow = { ...newRow, isNew: false };
-        setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
-        return updatedRow;
+        const makeRequest = async () => {
+            try {
+                setLoading(true);
+                const res = await fetchUtil(`/lot/tomb/deceased?id=${newRow.id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify(newRow)
+                });
+
+                const updatedRow = { ...newRow, isNew: false };
+                setRows(rows.map((row) => (row.id === newRow.id ? updatedRow : row)));
+                return updatedRow;
+            } catch(error) {
+                setErrorDialog({ title: 'Error', message: error.message });
+                setShowError(true);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        return makeRequest();
     };
 
     const handleRowModesModelChange = (newRowModesModel) => {
