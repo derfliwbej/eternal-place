@@ -47,3 +47,29 @@ export async function DELETE(request) {
 
     return new Response("Successfully deleted", { status: 200 });
 }
+
+export async function PUT(request) {
+    const supabase = createClient();
+
+    const { data: { session }, } = await supabase.auth.getSession();
+
+    if(!session) {
+        return new Response("Unauthorized", { status: 401 });
+    }
+
+    const { searchParams } = new URL(request.url);
+    const id = searchParams.get('id');
+
+    const { first_name, middle_name, last_name, born_date, death_date } = await request.json();
+
+    const { error } = await supabase
+        .from('deceased')
+        .update({ first_name, middle_name, last_name, born_date, death_date })
+        .eq('id', id)
+        .select()
+        .single();
+
+    if (error) return new Response("Internal Server Error", { status: 500 });
+
+    return new Response("Successfully updated", { status: 200 });
+}
