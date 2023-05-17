@@ -38,3 +38,31 @@ export async function POST(request) {
 
     return NextResponse.json(user);
 }
+
+export async function DELETE(request) {
+    const supabase = createClient();
+
+    const { data: { session }, } = await supabase.auth.getSession();
+
+    if(!session) {
+        return new Response("Unauthorized", { status: 401 });
+    }
+
+    const { searchParams } = new URL(request.url);
+    const userID = searchParams.get('userID');
+    const lotID = searchParams.get('lotID');
+
+    console.log({ userID, lotID });
+
+    const { error } = await supabase
+        .from('lot_owners')
+        .delete()
+        .match({ user_id: userID, lot_id: lotID });
+
+    if (error) {
+        console.log(error);
+        return new Response("Internal Server Error", { status: 500 });
+    }
+
+    return new Response("Successfully deleted", { status: 200 });
+}
