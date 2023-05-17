@@ -65,6 +65,7 @@ const LotOwners = ({ lotID, owners }) => {
                             slotProps={{
                                 toolbar: { setAddModalOpen }
                             }}
+                            lotID={lotID}
             />
             <AddOwnerDialog lotID={lotID} open={addModalOpen} handleClose={handleAddModalClose} handleSave={handleSave} />
         </div>
