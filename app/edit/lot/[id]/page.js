@@ -10,6 +10,10 @@ import LotImage from '@/app/components/LotImage';
 
 import { Divider, Button, CircularProgress } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
+import CameraAltIcon from '@mui/icons-material/CameraAlt';
+
+import { createClient } from '@/utils/supabase-browser';
+import { v4 as uuidv4 } from 'uuid';
 
 const ViewLotPage = ({ params }) => {
     const { id } = params;
@@ -19,6 +23,7 @@ const ViewLotPage = ({ params }) => {
     const [tombs, setTombs] = useState([]);
     const [initialLoad, setInitialLoad] = useState(false);
     const [addingTomb, setAddingTomb] = useState(false);
+    const [uploading, setUploading] = useState(false);
     const [errorDialog, setErrorDialog] = useState({ title : '', message: '' });
     const [showError, setShowError] = useState(false);
 
@@ -54,6 +59,46 @@ const ViewLotPage = ({ params }) => {
         setTombs(newTombs);
     };
 
+    const handleFileUpload = (event) => {
+        const uploadFile = async () => {
+            try {
+                setUploading(true);
+                const file = event.target.files[0];
+                const fileName = uuidv4();
+
+                const supabase = createClient();
+
+                const { data: { path }, error } = await supabase
+                    .storage
+                    .from('lot_images')
+                    .upload(fileName, file, {
+                        cacheControl: '3600',
+                        upsert: false
+                    });
+
+                const res = await fetchUtil(`/lot?id=${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ image_path: path })
+                });
+
+                const lot = await res.json();
+
+                setLot(lot);
+                if (error) throw new Error(error.message);
+            } catch (error) {
+                setErrorDialog({ title: 'Error', message: error.message });
+                setShowError(true);
+            } finally {
+                setUploading(false);
+            }
+        };
+        
+        uploadFile();
+    };
+
     useEffect( () => {
         const fetchLot = async () => {
             setInitialLoad(true);
@@ -80,9 +125,13 @@ const ViewLotPage = ({ params }) => {
                             <h2>Block {lot.block}, Section {lot.section}, Lot {lot.lot_num}</h2>
                             <Divider sx={{ marginTop: 2, marginBottom: 2 }}/>
                             <div>
-                                <div style={{ display: 'flex', justifyContent: 'center' }}>
-                                    {/* TODO: Image view and upload */}
-                                    <LotImage src="/pantheon.jpg" alt="Lot Image" size={500} />
+                                <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 7 }}>
+                                    {uploading ? <CircularProgress /> : <LotImage src={lot.image_path ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/lot_images/${lot.image_path}` : '/pantheon.jpg' } alt="Lot Image" size={500} />}
+                            
+                                    <Button disabled={uploading} variant="contained" component="label" startIcon={<CameraAltIcon />}>
+                                        Upload File
+                                        <input hidden type="file" onChange={handleFileUpload} accept=".jpg,.jpeg,.png"/>
+                                    </Button>
                                 </div>
                             </div>
 
