@@ -5,6 +5,8 @@ import fetchUtil from '@/utils/fetchUtil';
 
 import Map from '@/app/components/map/Map';
 import { CircularProgress, Button } from '@mui/material';
+import ErrorDialog from '@/app/components/prompt/ErrorDialog';
+import ConfirmRequestDialog from '@/app/components/prompt/ConfirmRequestDialog';
 
 const zoomOptions = {
     doubleClickZoom: false,
@@ -43,6 +45,31 @@ const AdminDashboard = () => {
     let lotID = 1;
     const [lots, setLots] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [errorDialog, setErrorDialog] = useState({ title: '', message: '' });
+    const [showError, setShowError] = useState(false);
+
+    const [confirmOpen, setConfirmOpen] = useState(false);
+
+    const handleLightingReset = () => {
+        const makeRequest = async () => {
+            try {
+                setLoading(true);
+
+                const res = await fetchUtil('/lots', { method: 'PUT' });
+                const updatedLots = await res.json();
+
+                setLots(updatedLots);
+            } catch(error) {
+                setErrorDialog({ title: 'Error', message: error.message });
+                setShowError(true);
+            } finally {
+                setLoading(false);
+                setConfirmOpen(false);
+            }
+        };
+
+        makeRequest();
+    };
 
     useEffect(() => {
         setLoading(true);
@@ -52,12 +79,11 @@ const AdminDashboard = () => {
                 const res = await fetchUtil('/lots');
                 const data = await res.json();
 
-                console.log(data);
-
                 setLots(data);
                 setLoading(false);
             } catch(error) {
-                console.log(error);
+                setErrorDialog({ title: 'Error', message: error.message });
+                setShowError(true);
             }
         };
 
@@ -77,7 +103,7 @@ const AdminDashboard = () => {
                             <Legend color="yellow" text="Lot with lighting" />
                         </div>
                         <div>
-                            <Button variant="contained">Reset All Lot's Lighting</Button>
+                            <Button onClick={() => setConfirmOpen(true)} variant="contained">Reset All Lot's Lighting</Button>
                         </div>
                     </div>
                     <Map center={[0, 0]} zoom={2} {...zoomOptions}>
@@ -519,6 +545,13 @@ const AdminDashboard = () => {
                         )}
                     </Map>
                 </>)}
+                <ErrorDialog title={errorDialog.title} message={errorDialog.message} open={showError} setOpen={setShowError} />
+                <ConfirmRequestDialog title="Confirm Reset" 
+                                      body="Reset all lot lightings? This action cannot be undone."
+                                      open={confirmOpen}
+                                      loading={loading}
+                                      onConfirm={handleLightingReset}
+                                      onClose={() => setConfirmOpen(false)}/>
             </DashboardLayout>
         </>
     );
