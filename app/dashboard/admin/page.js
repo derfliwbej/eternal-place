@@ -59,7 +59,7 @@ const AdminDashboard = () => {
                             {
                                 ...Array(20).fill(0).map( (_, i) => (
                                     <LotMarker position={[68, -62 + (i * 4)]} 
-                                               hasLight={lots[lotID - 1]?.hasLight}
+                                               hasLight={lots[lotID - 1]?.has_light}
                                                ownerCount={lots[lotID - 1]?.num_owners}
                                                lotID={lotID++}>
                                     </LotMarker>
@@ -70,7 +70,7 @@ const AdminDashboard = () => {
                             {
                                 ...Array(20).fill(0).map( (_, i) => (
                                     <LotMarker position={[65, -62 + (i * 4)]} 
-                                               hasLight={lots[lotID - 1]?.hasLight}
+                                               hasLight={lots[lotID - 1]?.has_light}
                                                ownerCount={lots[lotID - 1]?.num_owners}
                                                lotID={lotID++}>
                                     </LotMarker>
@@ -81,7 +81,7 @@ const AdminDashboard = () => {
                             {
                                 ...Array(20).fill(0).map( (_, i) => (
                                     <LotMarker position={[61, -62 + (i * 4)]} 
-                                               hasLight={lots[lotID - 1]?.hasLight}
+                                               hasLight={lots[lotID - 1]?.has_light}
                                                ownerCount={lots[lotID - 1]?.num_owners}
                                                lotID={lotID++}>
                                     </LotMarker>
@@ -92,7 +92,7 @@ const AdminDashboard = () => {
                             {
                                 ...Array(20).fill(0).map( (_, i) => (
                                     <LotMarker position={[57, -62 + (i * 4)]} 
-                                               hasLight={lots[lotID - 1]?.hasLight}
+                                               hasLight={lots[lotID - 1]?.has_light}
                                                ownerCount={lots[lotID - 1]?.num_owners}
                                                lotID={lotID++}>
                                     </LotMarker>
@@ -103,7 +103,7 @@ const AdminDashboard = () => {
                             {
                                 ...Array(21).fill(0).map( (_, i) => (
                                     <LotMarker position={[51, -62 + (i * 4)]}
-                                               hasLight={lots[lotID - 1]?.hasLight}
+                                               hasLight={lots[lotID - 1]?.has_light}
                                                ownerCount={lots[lotID - 1]?.num_owners}
                                                lotID={lotID++}>
                                     </LotMarker>
@@ -114,7 +114,7 @@ const AdminDashboard = () => {
                             {
                                 ...Array(21).fill(0).map( (_, i) => (
                                     <LotMarker position={[46, -62 + (i * 4)]}
-                                               hasLight={lots[lotID - 1]?.hasLight}
+                                               hasLight={lots[lotID - 1]?.has_light}
                                                ownerCount={lots[lotID - 1]?.num_owners}
                                                lotID={lotID++}>
                                     </LotMarker>
@@ -125,7 +125,7 @@ const AdminDashboard = () => {
                             {
                                 ...Array(22).fill(0).map( (_, i) => (
                                     <LotMarker position={[39, -62 + (i * 4)]}
-                                               hasLight={lots[lotID - 1]?.hasLight}
+                                               hasLight={lots[lotID - 1]?.has_light}
                                                ownerCount={lots[lotID - 1]?.num_owners}
                                                lotID={lotID++}>
                                     </LotMarker>
@@ -136,7 +136,7 @@ const AdminDashboard = () => {
                             {
                                 ...Array(22).fill(0).map( (_, i) => (
                                     <LotMarker position={[33, -62 + (i * 4)]}
-                                               hasLight={lots[lotID - 1]?.hasLight}
+                                               hasLight={lots[lotID - 1]?.has_light}
                                                ownerCount={lots[lotID - 1]?.num_owners}
                                                lotID={lotID++}>
                                     </LotMarker>
@@ -147,7 +147,7 @@ const AdminDashboard = () => {
                             {
                                 ...Array(22).fill(0).map( (_, i) => (
                                     <LotMarker position={[25, -62 + (i * 4)]}
-                                               hasLight={lots[lotID - 1]?.hasLight}
+                                               hasLight={lots[lotID - 1]?.has_light}
                                                ownerCount={lots[lotID - 1]?.num_owners}
                                                lotID={lotID++}>
                                     </LotMarker>
@@ -158,7 +158,7 @@ const AdminDashboard = () => {
                             {
                                 ...Array(22).fill(0).map( (_, i) => (
                                     <LotMarker position={[18, -62 + (i * 4)]}
-                                               hasLight={lots[lotID - 1]?.hasLight}
+                                               hasLight={lots[lotID - 1]?.has_light}
                                                ownerCount={lots[lotID - 1]?.num_owners}
                                                lotID={lotID++}>
                                     </LotMarker>
@@ -169,7 +169,7 @@ const AdminDashboard = () => {
                             {
                                 ...Array(22).fill(0).map( (_, i) => (
                                     <LotMarker position={[9, -62 + (i * 4)]}
-                                               hasLight={lots[lotID - 1]?.hasLight}
+                                               hasLight={lots[lotID - 1]?.has_light}
                                                ownerCount={lots[lotID - 1]?.num_owners}
                                                lotID={lotID++}>
                                     </LotMarker>
@@ -180,7 +180,7 @@ const AdminDashboard = () => {
                             {
                                 ...Array(22).fill(0).map( (_, i) => (
                                     <LotMarker position={[1, -62 + (i * 4)]}
-                                               hasLight={lots[lotID - 1]?.hasLight}
+                                               hasLight={lots[lotID - 1]?.has_light}
                                                ownerCount={lots[lotID - 1]?.num_owners}
                                                lotID={lotID++}>
                                     </LotMarker>
@@ -191,7 +191,7 @@ const AdminDashboard = () => {
                             {
                                 ...Array(23).fill(0).map( (_, i) => (
                                     <LotMarker position={[-8, -62 + (i * 4)]}
-                                               hasLight={lots[lotID - 1]?.hasLight}
+                                               hasLight={lots[lotID - 1]?.has_light}
                                                ownerCount={lots[lotID - 1]?.num_owners}
                                                lotID={lotID++}>
                                     </LotMarker>
@@ -202,7 +202,7 @@ const AdminDashboard = () => {
                             {
                                 ...Array(23).fill(0).map( (_, i) => (
                                     <LotMarker position={[-16, -62 + (i * 4)]}
-                                               hasLight={lots[lotID - 1]?.hasLight}
+                                               hasLight={lots[lotID - 1]?.has_light}
                                                ownerCount={lots[lotID - 1]?.num_owners}
                                                lotID={lotID++}>
                                     </LotMarker>
@@ -213,7 +213,7 @@ const AdminDashboard = () => {
                             {
                                 ...Array(23).fill(0).map( (_, i) => (
                                     <LotMarker position={[-25, -62 + (i * 4)]}
-                                               hasLight={lots[lotID - 1]?.hasLight}
+                                               hasLight={lots[lotID - 1]?.has_light}
                                                ownerCount={lots[lotID - 1]?.num_owners}
                                                lotID={lotID++}>
                                     </LotMarker>
@@ -224,7 +224,7 @@ const AdminDashboard = () => {
                             {
                                 ...Array(23).fill(0).map( (_, i) => (
                                     <LotMarker position={[-32, -62 + (i * 4)]}
-                                               hasLight={lots[lotID - 1]?.hasLight}
+                                               hasLight={lots[lotID - 1]?.has_light}
                                                ownerCount={lots[lotID - 1]?.num_owners}
                                                lotID={lotID++}>
                                     </LotMarker>
@@ -235,7 +235,7 @@ const AdminDashboard = () => {
                             {
                                 ...Array(23).fill(0).map( (_, i) => (
                                     <LotMarker position={[-40, -62 + (i * 4)]}
-                                               hasLight={lots[lotID - 1]?.hasLight}
+                                               hasLight={lots[lotID - 1]?.has_light}
                                                ownerCount={lots[lotID - 1]?.num_owners}
                                                lotID={lotID++}>
                                     </LotMarker>
@@ -246,7 +246,7 @@ const AdminDashboard = () => {
                             {
                                 ...Array(23).fill(0).map( (_, i) => (
                                     <LotMarker position={[-46, -62 + (i * 4)]}
-                                               hasLight={lots[lotID - 1]?.hasLight}
+                                               hasLight={lots[lotID - 1]?.has_light}
                                                ownerCount={lots[lotID - 1]?.num_owners}
                                                lotID={lotID++}>
                                     </LotMarker>
@@ -257,7 +257,7 @@ const AdminDashboard = () => {
                             {
                                 ...Array(23).fill(0).map( (_, i) => (
                                     <LotMarker position={[-52, -62 + (i * 4)]}
-                                               hasLight={lots[lotID - 1]?.hasLight}
+                                               hasLight={lots[lotID - 1]?.has_light}
                                                ownerCount={lots[lotID - 1]?.num_owners}
                                                lotID={lotID++}>
                                     </LotMarker>
@@ -268,7 +268,7 @@ const AdminDashboard = () => {
                             {
                                 ...Array(23).fill(0).map( (_, i) => (
                                     <LotMarker position={[-57, -62 + (i * 4)]}
-                                               hasLight={lots[lotID - 1]?.hasLight}
+                                               hasLight={lots[lotID - 1]?.has_light}
                                                ownerCount={lots[lotID - 1]?.num_owners}
                                                lotID={lotID++}>
                                     </LotMarker>
@@ -279,7 +279,7 @@ const AdminDashboard = () => {
                             {
                                 ...Array(23).fill(0).map( (_, i) => (
                                     <LotMarker position={[-62, -62 + (i * 4)]}
-                                               hasLight={lots[lotID - 1]?.hasLight}
+                                               hasLight={lots[lotID - 1]?.has_light}
                                                ownerCount={lots[lotID - 1]?.num_owners}
                                                lotID={lotID++}>
                                     </LotMarker>
@@ -290,7 +290,7 @@ const AdminDashboard = () => {
                             {
                                 ...Array(23).fill(0).map( (_, i) => (
                                     <LotMarker position={[-65, -62 + (i * 4)]}
-                                               hasLight={lots[lotID - 1]?.hasLight}
+                                               hasLight={lots[lotID - 1]?.has_light}
                                                ownerCount={lots[lotID - 1]?.num_owners}
                                                lotID={lotID++}>
                                     </LotMarker>
@@ -300,98 +300,98 @@ const AdminDashboard = () => {
                             {/* Mausoleums - Left Wing */}
                             <LotMarker position={[68, -83]} 
                                        type="mausoleum"
-                                       hasLight={lots[lotID - 1]?.hasLight}
+                                       hasLight={lots[lotID - 1]?.has_light}
                                        ownerCount={lots[lotID - 1]?.num_owners}
                                        lotID={lotID++}>
                             </LotMarker>
 
                             <LotMarker position={[62, -83]} 
                                        type="mausoleum"
-                                       hasLight={lots[lotID - 1]?.hasLight}
+                                       hasLight={lots[lotID - 1]?.has_light}
                                        ownerCount={lots[lotID - 1]?.num_owners}
                                        lotID={lotID++}>
                             </LotMarker>
 
                             <LotMarker position={[55, -83]} 
                                        type="mausoleum"
-                                       hasLight={lots[lotID - 1]?.hasLight}
+                                       hasLight={lots[lotID - 1]?.has_light}
                                        ownerCount={lots[lotID - 1]?.num_owners}
                                        lotID={lotID++}>
                             </LotMarker>
 
                             <LotMarker position={[47, -83]} 
                                        type="mausoleum"
-                                       hasLight={lots[lotID - 1]?.hasLight}
+                                       hasLight={lots[lotID - 1]?.has_light}
                                        ownerCount={lots[lotID - 1]?.num_owners}
                                        lotID={lotID++}>
                             </LotMarker>
 
                             <LotMarker position={[37, -83]} 
                                        type="mausoleum"
-                                       hasLight={lots[lotID - 1]?.hasLight}
+                                       hasLight={lots[lotID - 1]?.has_light}
                                        ownerCount={lots[lotID - 1]?.num_owners}
                                        lotID={lotID++}>
                             </LotMarker>
 
                             <LotMarker position={[26, -83]} 
                                        type="mausoleum"
-                                       hasLight={lots[lotID - 1]?.hasLight}
+                                       hasLight={lots[lotID - 1]?.has_light}
                                        ownerCount={lots[lotID - 1]?.num_owners}
                                        lotID={lotID++}>
                             </LotMarker>
 
                             <LotMarker position={[14, -83]} 
                                        type="mausoleum"
-                                       hasLight={lots[lotID - 1]?.hasLight}
+                                       hasLight={lots[lotID - 1]?.has_light}
                                        ownerCount={lots[lotID - 1]?.num_owners}
                                        lotID={lotID++}>
                             </LotMarker>
 
                             <LotMarker position={[1, -83]} 
                                        type="mausoleum"
-                                       hasLight={lots[lotID - 1]?.hasLight}
+                                       hasLight={lots[lotID - 1]?.has_light}
                                        ownerCount={lots[lotID - 1]?.num_owners}
                                        lotID={lotID++}>
                             </LotMarker>
 
                             <LotMarker position={[-12, -83]} 
                                        type="mausoleum"
-                                       hasLight={lots[lotID - 1]?.hasLight}
+                                       hasLight={lots[lotID - 1]?.has_light}
                                        ownerCount={lots[lotID - 1]?.num_owners}
                                        lotID={lotID++}>
                             </LotMarker>
 
                             <LotMarker position={[-24, -83]} 
                                        type="mausoleum"
-                                       hasLight={lots[lotID - 1]?.hasLight}
+                                       hasLight={lots[lotID - 1]?.has_light}
                                        ownerCount={lots[lotID - 1]?.num_owners}
                                        lotID={lotID++}>
                             </LotMarker>
 
                             <LotMarker position={[-35, -83]} 
                                        type="mausoleum"
-                                       hasLight={lots[lotID - 1]?.hasLight}
+                                       hasLight={lots[lotID - 1]?.has_light}
                                        ownerCount={lots[lotID - 1]?.num_owners}
                                        lotID={lotID++}>
                             </LotMarker>
 
                             <LotMarker position={[-45, -83]} 
                                        type="mausoleum"
-                                       hasLight={lots[lotID - 1]?.hasLight}
+                                       hasLight={lots[lotID - 1]?.has_light}
                                        ownerCount={lots[lotID - 1]?.num_owners}
                                        lotID={lotID++}>
                             </LotMarker>
                             
                             <LotMarker position={[-54, -83]} 
                                        type="mausoleum"
-                                       hasLight={lots[lotID - 1]?.hasLight}
+                                       hasLight={lots[lotID - 1]?.has_light}
                                        ownerCount={lots[lotID - 1]?.num_owners}
                                        lotID={lotID++}>
                             </LotMarker>
 
                             <LotMarker position={[-61, -83]} 
                                        type="mausoleum"
-                                       hasLight={lots[lotID - 1]?.hasLight}
+                                       hasLight={lots[lotID - 1]?.has_light}
                                        ownerCount={lots[lotID - 1]?.num_owners}
                                        lotID={lotID++}>
                             </LotMarker>
@@ -399,84 +399,84 @@ const AdminDashboard = () => {
                             {/* Mausoleums - Right Wing */}
                             <LotMarker position={[68, 25]} 
                                        type="mausoleum"
-                                       hasLight={lots[lotID - 1]?.hasLight}
+                                       hasLight={lots[lotID - 1]?.has_light}
                                        ownerCount={lots[lotID - 1]?.num_owners}
                                        lotID={lotID++}>
                             </LotMarker>
 
                             <LotMarker position={[62, 31]} 
                                        type="mausoleum"
-                                       hasLight={lots[lotID - 1]?.hasLight}
+                                       hasLight={lots[lotID - 1]?.has_light}
                                        ownerCount={lots[lotID - 1]?.num_owners}
                                        lotID={lotID++}>
                             </LotMarker>
 
                             <LotMarker position={[55, 34]} 
                                        type="mausoleum"
-                                       hasLight={lots[lotID - 1]?.hasLight}
+                                       hasLight={lots[lotID - 1]?.has_light}
                                        ownerCount={lots[lotID - 1]?.num_owners}
                                        lotID={lotID++}>
                             </LotMarker>
 
                             <LotMarker position={[46, 39]} 
                                        type="mausoleum"
-                                       hasLight={lots[lotID - 1]?.hasLight}
+                                       hasLight={lots[lotID - 1]?.has_light}
                                        ownerCount={lots[lotID - 1]?.num_owners}
                                        lotID={lotID++}>
                             </LotMarker>
 
                             <LotMarker position={[36, 43]} 
                                        type="mausoleum"
-                                       hasLight={lots[lotID - 1]?.hasLight}
+                                       hasLight={lots[lotID - 1]?.has_light}
                                        ownerCount={lots[lotID - 1]?.num_owners}
                                        lotID={lotID++}>
                             </LotMarker>
 
                             <LotMarker position={[24, 46]} 
                                        type="mausoleum"
-                                       hasLight={lots[lotID - 1]?.hasLight}
+                                       hasLight={lots[lotID - 1]?.has_light}
                                        ownerCount={lots[lotID - 1]?.num_owners}
                                        lotID={lotID++}>
                             </LotMarker>
 
                             <LotMarker position={[11, 50]} 
                                        type="mausoleum"
-                                       hasLight={lots[lotID - 1]?.hasLight}
+                                       hasLight={lots[lotID - 1]?.has_light}
                                        ownerCount={lots[lotID - 1]?.num_owners}
                                        lotID={lotID++}>
                             </LotMarker>
 
                             <LotMarker position={[-2, 50]} 
                                        type="mausoleum"
-                                       hasLight={lots[lotID - 1]?.hasLight}
+                                       hasLight={lots[lotID - 1]?.has_light}
                                        ownerCount={lots[lotID - 1]?.num_owners}
                                        lotID={lotID++}>
                             </LotMarker>
 
                             <LotMarker position={[-15, 50]} 
                                        type="mausoleum"
-                                       hasLight={lots[lotID - 1]?.hasLight}
+                                       hasLight={lots[lotID - 1]?.has_light}
                                        ownerCount={lots[lotID - 1]?.num_owners}
                                        lotID={lotID++}>
                             </LotMarker>
 
                             <LotMarker position={[-27, 50]} 
                                        type="mausoleum"
-                                       hasLight={lots[lotID - 1]?.hasLight}
+                                       hasLight={lots[lotID - 1]?.has_light}
                                        ownerCount={lots[lotID - 1]?.num_owners}
                                        lotID={lotID++}>
                             </LotMarker>
 
                             <LotMarker position={[-38, 50]} 
                                        type="mausoleum"
-                                       hasLight={lots[lotID - 1]?.hasLight}
+                                       hasLight={lots[lotID - 1]?.has_light}
                                        ownerCount={lots[lotID - 1]?.num_owners}
                                        lotID={lotID++}>
                             </LotMarker>
 
                             <LotMarker position={[-48, 50]} 
                                        type="mausoleum"
-                                       hasLight={lots[lotID - 1]?.hasLight}
+                                       hasLight={lots[lotID - 1]?.has_light}
                                        ownerCount={lots[lotID - 1]?.num_owners}
                                        lotID={lotID++}>
                             </LotMarker>
