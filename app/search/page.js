@@ -35,7 +35,7 @@ const LotSearchPage = () => {
 
     return (
         <DashboardLayout userType="admin">
-            {loading ? <CircularProgress /> : (
+            {loading ? (<div style={{ display: 'flex', height: '80vh', justifyContent: 'center', alignItems: 'center' }}><CircularProgress /></div>) : (
                 <>
                     <h2 style={{ marginBottom: 20 }}>Viewing All Lots</h2>
                     <LotTable rows={rows} loading={loading} />
