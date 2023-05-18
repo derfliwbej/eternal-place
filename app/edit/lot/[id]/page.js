@@ -8,7 +8,7 @@ import LotTomb from '@/app/components/edit/lot/LotTomb';
 import LotOwners from '@/app/components/edit/lot/LotOwners';
 import LotImage from '@/app/components/LotImage';
 
-import { Divider, Button, CircularProgress } from '@mui/material';
+import { Divider, Button, CircularProgress, Switch, FormControlLabel } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
 
@@ -24,6 +24,7 @@ const ViewLotPage = ({ params }) => {
     const [initialLoad, setInitialLoad] = useState(false);
     const [addingTomb, setAddingTomb] = useState(false);
     const [uploading, setUploading] = useState(false);
+    const [updatingLight, setUpdatingLight] = useState(false);
     const [errorDialog, setErrorDialog] = useState({ title : '', message: '' });
     const [showError, setShowError] = useState(false);
 
@@ -99,6 +100,31 @@ const ViewLotPage = ({ params }) => {
         uploadFile();
     };
 
+    const handleSwitchChange = (event) => {
+        const has_light = event.target.checked;
+        const makeRequest = async () => {
+            try {
+                setUpdatingLight(true);
+                const res = await fetchUtil(`/lot/light?id=${id}`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({ has_light })
+                });
+
+                setLot({ ...lot, has_light });
+            } catch(error) {
+                setErrorDialog({ title: 'Error', message: error.message });
+                setShowError(true);
+            } finally {
+                setUpdatingLight(false);
+            }
+        };
+        
+        makeRequest();
+    };
+
     useEffect( () => {
         const fetchLot = async () => {
             setInitialLoad(true);
@@ -122,11 +148,24 @@ const ViewLotPage = ({ params }) => {
                 {
                     !initialLoad ? (
                         <>
-                            <h2>Block {lot.block}, Section {lot.section}, Lot {lot.lot_num}</h2>
+                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                                <div>
+                                    {lot.is_mausoleum ? (
+                                        <h2>Mausoleum {lot.lot_num}</h2>
+                                    ) : (
+                                        <h2>Block {lot.block}, Section {lot.section}, Lot {lot.lot_num}</h2>
+                                    )}
+                                </div>
+                                <div>
+                                    <FormControlLabel control={<Switch disabled={updatingLight} checked={lot.has_light} onChange={handleSwitchChange} />} label="Has Light" />
+                                </div>
+                            </div>
+                            
                             <Divider sx={{ marginTop: 2, marginBottom: 2 }}/>
+
                             <div>
                                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 7 }}>
-                                    {uploading ? <CircularProgress /> : <LotImage src={lot.image_path ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/lot_images/${lot.image_path}` : '/pantheon.jpg' } alt="Lot Image" size={500} />}
+                                    {uploading ? <CircularProgress /> : <LotImage src={lot.image_path ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/lot_images/${lot.image_path}` : '/placeholder.png' } alt="Lot Image" size={500} />}
                             
                                     <Button disabled={uploading} variant="contained" component="label" startIcon={<CameraAltIcon />}>
                                         Upload File
