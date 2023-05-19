@@ -1,19 +1,32 @@
 import { Card, CardMedia, CardContent, CardActions, Button, Typography } from '@mui/material';
+import { useRouter } from 'next/navigation';
 
-const LotCard = ({ name, block, section, lot }) => {
+const LotCard = ({ lot }) => {
+    const router = useRouter();
+
+    const handleButtonClick = () => {
+        router.push(`/view/lot/${lot.id}`)
+    };
+
     return (
-        <Card sx={{ width: 345 }}>
+        <Card sx={{ width: 345, display: 'flex', flexDirection: 'column' }}>
             <CardMedia sx={{ height: 140 }}
-                       image="/pantheon.jpg"
+                       image={lot.image_path ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/lot_images/${lot.image_path}` : '/placeholder.png'}
             />
             <CardContent>
-                <Typography gutterBottom variant="h5" component="div">{name}</Typography>
-                <Typography variant="body2">Block: {block}</Typography>
-                <Typography variant="body2">Section: {section}</Typography>
-                <Typography variant="body2">Lot: {lot}</Typography>
+                <Typography gutterBottom variant="h5" component="div">Lot #{lot.id}</Typography>
+                {lot.is_mausoleum ? (
+                    <Typography variant="body2">Mausoleum {lot.lot_num}</Typography>
+                ) : (
+                    <>
+                    <Typography variant="body2">Block {lot.block}</Typography>
+                    <Typography variant="body2">Section {lot.section}</Typography>
+                    <Typography variant="body2">Lot {lot.lot_num}</Typography>
+                    </>
+                )}
             </CardContent>
-            <CardActions>
-                <Button size="small">View More Details</Button>
+            <CardActions sx={{ marginTop: 'auto' }}>
+                <Button size="small" onClick={handleButtonClick}>View More Details</Button>
             </CardActions>
         </Card>
     );
