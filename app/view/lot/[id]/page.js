@@ -1,33 +1,79 @@
 'use client';
+import { useState, useEffect } from 'react';
 import DashboardLayout from '@/app/components/layouts/DashboardLayout';
-import Image from 'next/image';
+import LotImage from '@/app/components/LotImage';
+import ErrorDialog from '@/app/components/prompt/ErrorDialog';
+import { CircularProgress, Divider } from '@mui/material';
+import DeceasedTable from './DeceasedTable';
 
-import LotTomb from '@/app/components/edit/lot/LotTomb';
-import LotOwners from '@/app/components/edit/lot/LotOwners';
+import fetchUtil from '@/utils/fetchUtil';
+
+const LotHeader = ({ lot }) => {
+    if (lot.is_mausoleum) return (
+        <h2>{`Mausoleum ${lot.lot_num}`}</h2>
+    );
+    else return (
+        <h2>{`Block ${lot.block}, Section ${lot.section}, Lot ${lot.lot_num}`}</h2>
+    );
+};
 
 const ViewLotPage = ({ params }) => {
     const { id } = params;
 
+    const [lot, setLot] = useState({ id: null, block: null, section: null, lot_num: null, has_light: null, deceased_list: [] });
+    const [loading, setLoading] = useState(false);
+    const [errorDialog, setErrorDialog] = useState({ title: '', message: '' });
+    const [showError, setShowError] = useState(false);
+    const [hasError, setHasError] = useState(false);
+
+    useEffect( () => {
+        const makeRequest = async () => {
+            try {
+                setLoading(true);
+                const res = await fetchUtil(`/user/lot?id=${id}`);
+                const lot = await res.json();
+
+                setLot(lot);
+            } catch (error) {
+                setHasError(true);
+                setErrorDialog({ title: 'Error', message: error.message });
+                setShowError(true);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        makeRequest();
+    }, []);
+
     return (
         <DashboardLayout userType="admin">
-            <h2>Lot {id}</h2>
-            <div className={styles['details-container']}>
-                <div className={styles['image-container']}>
-                    <Image src="/mausoleum.jpg" fill style={{ objectFit: 'contain' }} />
+            {loading ? (
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '80vh' }}>
+                    <CircularProgress />
                 </div>
-                <div className={styles['identifier-container']}>
-                    <ul>
-                        <li>Block: 1</li>
-                        <li>Section: A</li>
-                        <li>Lot Number: 1</li>
-                    </ul>
-                </div>
-            </div>
+            ) : (hasError || (
+                <>
+                    <div style={{ display: 'flex', justifyContent: 'center' }}>
+                        <LotHeader lot={lot} />
+                    </div>
 
-            <LotOwners />
+                    <Divider sx={{ marginTop: 2, marginBottom: 2 }}/>
 
-            <h2 className={styles['header-message']}>Lot Tombs</h2>
-            <LotTomb id={1} />
+                    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center'}}>
+                        <LotImage path={lot.image_path} alt="Lot Image" size={500} />
+                    </div>
+
+                    <Divider sx={{ marginTop: 2, marginBottom: 2 }}/>
+
+                    <h2>List of Deceased Persons</h2>
+
+                    <Divider sx={{ marginTop: 2, marginBottom: 2 }}/>
+
+                    <DeceasedTable rows={lot.deceased_list} />
+                </>
+            ))}
+            <ErrorDialog title={errorDialog.title} message={errorDialog.message} open={showError} setOpen={setShowError} />
         </DashboardLayout>
     );
 };
