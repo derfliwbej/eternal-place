@@ -165,7 +165,7 @@ const ViewLotPage = ({ params }) => {
 
                             <div>
                                 <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 7 }}>
-                                    {uploading ? <CircularProgress /> : <LotImage src={lot.image_path ? `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/lot_images/${lot.image_path}` : '/placeholder.png' } alt="Lot Image" size={500} />}
+                                    {uploading ? <CircularProgress /> : <LotImage path={lot.image_path} alt="Lot Image" size={500} />}
                             
                                     <Button disabled={uploading} variant="contained" component="label" startIcon={<CameraAltIcon />}>
                                         Upload File
