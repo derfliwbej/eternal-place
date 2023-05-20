@@ -24,6 +24,7 @@ const LotCard = ({ lot }) => {
                     <Typography variant="body2">Lot {lot.lot_num}</Typography>
                     </>
                 )}
+                <Typography variant="body2">{lot.has_light ? 'This lot currently has a light.' : 'This lot currently has no light.' }</Typography>
             </CardContent>
             <CardActions sx={{ marginTop: 'auto' }}>
                 <Button size="small" onClick={handleButtonClick}>View More Details</Button>
