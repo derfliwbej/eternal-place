@@ -50,7 +50,7 @@ const UserDashboard = () => {
                         <div className={styles['cards-container']}>
                             {lots.map( lot => {
                                 return (
-                                    <LotCard id={lot.id} lot={lot} />
+                                    <LotCard key={lot.id} id={lot.id} lot={lot} />
                                 );
                             })}
                         </div>  
