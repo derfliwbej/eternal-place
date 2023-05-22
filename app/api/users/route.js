@@ -10,12 +10,16 @@ export async function GET(request) {
         return new Response("Unauthorized", { status: 401 });
     }
 
+    const userID = session.user.id;
+
     const { data: users, error } = await supabase
         .from('users')
-        .select('*');
+        .select('*')
+        .neq('id', userID);
 
     if (error) {
-        return new Response(error.message, { status: 500 });
+        console.log(error);
+        return new Response("Internal Server Error", { status: 500 });
     }
 
     return NextResponse.json(users);
