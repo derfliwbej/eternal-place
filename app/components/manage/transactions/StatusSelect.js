@@ -13,9 +13,8 @@ const StatusSelect = ({ id, status, onChange }) => {
             label="status"
             onChange={onChange}
             >
-            <MenuItem value={0}>For Payment</MenuItem>
-            <MenuItem value={1}>Paid</MenuItem>
-            <MenuItem value={2}>Completed</MenuItem>
+            <MenuItem value={'Paid'}>Paid</MenuItem>
+            <MenuItem value={'Completed'}>Completed</MenuItem>
             </Select>
         </FormControl>
     );
