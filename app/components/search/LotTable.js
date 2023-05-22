@@ -57,7 +57,7 @@ const LotTable = ({ rows, loading }) => {
                       sx={{
                         "& .MuiDataGrid-cell": {
                             whiteSpace: "normal !important",
-                            worwdWrap: "break-word !important"
+                            wordWrap: "break-word !important"
                         }
                       }}
             />
