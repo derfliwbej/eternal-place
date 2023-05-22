@@ -98,7 +98,7 @@ const AdminDashboard = () => {
                     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 10 }}>
                         <div>
                             <h2>Legend</h2>
-                            <Legend color="gray" text="Vacant lot" />
+                            <Legend color="gray" text="Unowned lot" />
                             <Legend color="red" text="Owned lot" />
                             <Legend color="yellow" text="Lot with lighting" />
                         </div>
