@@ -72,18 +72,18 @@ const AdminDashboard = () => {
     };
 
     useEffect(() => {
-        setLoading(true);
-
         const fetchLots = async () => {
             try {
+                setLoading(true);
                 const res = await fetchUtil('/lots');
                 const data = await res.json();
 
                 setLots(data);
-                setLoading(false);
             } catch(error) {
                 setErrorDialog({ title: 'Error', message: error.message });
                 setShowError(true);
+            } finally {
+                setLoading(false);
             }
         };
 
