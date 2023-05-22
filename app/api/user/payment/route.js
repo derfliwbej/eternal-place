@@ -71,7 +71,7 @@ export async function POST(request) {
             date_created: dayjs(Date()).format('YYYY-MM-DD'),
             amount: lotForPayment.tomb_count * 500,
             status: 'Paid',
-            reference_num: Math.random().toString().substring(2, 13)
+            reference_num: Math.random().toString().substring(2, 15)
         })
         .select()
         .single();
