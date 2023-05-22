@@ -2,6 +2,7 @@
 import { useState, useEffect } from 'react';
 import DashboardLayout from '@/app/components/layouts/DashboardLayout';
 import fetchUtil from '@/utils/fetchUtil';
+import { useRouter } from 'next/navigation';
 
 import { Button, Typography, CircularProgress } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
@@ -23,8 +24,10 @@ const Toolbar = ({ amount }) => {
 };
 
 const MakeTransactionPage = () => {
+    const router = useRouter();
 
     const [rows, setRows] = useState([]);
+    const [selectedRowID, setSelectedRowID] = useState(0);
     const [amount, setAmount] = useState(0);
     const [loading, setLoading] = useState(false);
     const [errorDialog, setErrorDialog] = useState({ title: '', message: '' });
@@ -41,12 +44,18 @@ const MakeTransactionPage = () => {
             const selectedRow = rows.find( currentRow => currentRow.id == rowID);
 
             setAmount(amountPerTomb * selectedRow?.tomb_count);
+            setSelectedRowID(selectedRow.id);
 
             setSelectionModel(result);
         } else {
             setAmount(0);
             setSelectionModel(selection);
         }
+    };
+
+    const onPaymentProceed = () => {
+        setLoading(true);
+        router.push(`/payment/${selectedRowID}`);
     };
 
     useEffect( () => {
@@ -104,7 +113,7 @@ const MakeTransactionPage = () => {
                                 }
                             }}
                     />
-                    <Button disabled={!selectionModel.length} sx={{ marginTop: 3 }} variant="contained">Proceed to Payment</Button>
+                    <Button disabled={!selectionModel.length} sx={{ marginTop: 3 }} variant="contained" onClick={onPaymentProceed}>Proceed to Payment</Button>
                 </>
             )}
             <ErrorDialog title={errorDialog.title} message={errorDialog.message} open={showError} setOpen={setShowError} />

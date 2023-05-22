@@ -2,7 +2,7 @@ import { createMiddlewareSupabaseClient } from "@supabase/auth-helpers-nextjs";
 import { NextResponse } from "next/server";
 
 const adminPages = /^((\/edit\/lot\/[0-9]+)||(\/dashboard\/admin)||(\/manage\/users)||(\/manage\/transactions)||(\/search)||(\/edit\/lot\/[0-9]+))$/;
-const userPages = /^((\/dashboard\/user)||(\/transaction\/create)||(\/transaction\/history)||(\/view\/lot\/[0-9]+))$/;
+const userPages = /^((\/dashboard\/user)||(\/transaction\/create)||(\/transaction\/history)||(\/view\/lot\/[0-9]+)||(\/payment\/[0-9]+))$/;
 
 export async function middleware(req) {
     const res = NextResponse.next();
