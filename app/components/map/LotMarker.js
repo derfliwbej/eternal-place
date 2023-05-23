@@ -1,5 +1,5 @@
 import Leaflet from 'leaflet';
-import { Marker } from 'react-leaflet';
+import { Marker, Popup } from 'react-leaflet';
 
 import { useRouter } from 'next/navigation';
 
@@ -17,7 +17,7 @@ const getHTML = (type, hasLight, ownerCount) => {
     else if (type === 'mausoleum' && !hasLight) return '<div class="mausoleum-marker"></div>';
 };
 
-const LotMarker = ({ lotID, position, type, hasLight, ownerCount, children }) => {
+const LotMarker = ({ lotID, position, type, block, section, lot_num, hasLight, ownerCount, children }) => {
     const router = useRouter();
 
     return (
@@ -29,9 +29,12 @@ const LotMarker = ({ lotID, position, type, hasLight, ownerCount, children }) =>
                 eventHandlers={{
                     click: (e) => {
                         router.push(`/edit/lot/${lotID}`);
-                    }
+                    },
+                    mouseover: (e) => e.target.openPopup(),
+                    mouseout: (e) => e.target.closePopup()
                 }}>
             {children}
+            <Popup>{ type === 'mausoleum' ? `Mausoleum ${lot_num}` : `Block ${block}, Section ${section}, Lot ${lot_num}`}</Popup>
         </Marker>
     );
 };
