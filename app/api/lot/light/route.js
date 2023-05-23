@@ -20,7 +20,10 @@ export async function PUT(request) {
         .update({ has_light })
         .eq('id', id);
 
-    if (error) return new Response("Internal Server Error", { status: 500 });
+    if (error) {
+        console.log(error);
+        return new Response("Internal Server Error", { status: 500 });
+    }
 
     return new Response("Successfully updated", { status: 200 });
 }

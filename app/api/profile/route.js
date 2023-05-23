@@ -19,7 +19,8 @@ export async function GET(request) {
         .single();
 
     if (error) {
-        return new Response(error.message, { status: 500 });
+        console.log(error);
+        return new Response("Internal Server Error", { status: 500 });
     }
 
     return NextResponse.json({ first_name, middle_name, last_name, contact_num, address });
@@ -50,7 +51,8 @@ export async function PUT(request) {
     ).eq('id', id);
 
     if (error) {
-        return new Response(error.message, { status: 500 });
+        console.log(error);
+        return new Response("Internal Server Error", { status: 500 });
     }
 
     return new Response("Successfully updated user", { status: 200 });

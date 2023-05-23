@@ -17,8 +17,6 @@ export async function POST(request) {
         .insert({ lot_id: lotID })
         .select()
         .single();
-    
-    console.log(tomb);
 
     if (error) return new Response("Internal Server Error", { status: 500 });
 

@@ -61,7 +61,10 @@ export async function PUT(request) {
         .eq('id', id)
         .single();
 
-    if (errorPrevious) return new Response(error.message, { status: 500 });
+    if (errorPrevious) {
+        console.log(errorPrevious);
+        return new Response("Internal Server Error", { status: 500 });
+    }
 
     const { data: lot, errorNew } = await supabase
         .from('lots')
@@ -70,7 +73,10 @@ export async function PUT(request) {
         .select()
         .single();
 
-    if (errorNew) return new Response(error.message, { status: 500 });
+    if (errorNew) {
+        console.log(errorNew);
+        return new Response("Internal Server Error", { status: 500 });
+    }
 
     if (previous_path) {
         const { _, errorRemove } = await supabase
@@ -78,7 +84,10 @@ export async function PUT(request) {
             .from('lot_images')
             .remove([previous_path]);
 
-        if (errorRemove) return new Response(error.message, { status: 500 });
+        if (errorRemove) {
+            console.log(errorRemove);
+            return new Response("Internal Server Error", { status: 500 });
+        }
     }
 
     return NextResponse.json(lot);

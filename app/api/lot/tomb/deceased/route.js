@@ -21,7 +21,10 @@ export async function POST(request) {
         .select()
         .single();
 
-    if (error) return new Response("Internal Server Error", { status: 500 });
+    if (error) {
+        console.log(error);
+        return new Response("Internal Server Error", { status: 500 });
+    }
 
     return NextResponse.json(deceased);
 }
@@ -43,7 +46,10 @@ export async function DELETE(request) {
         .delete()
         .eq('id', id);
 
-    if (error) return new Response("Internal Server Error", { status: 500 });
+    if (error) {
+        console.log(error);
+        return new Response("Internal Server Error", { status: 500 });
+    }
 
     return new Response("Successfully deleted", { status: 200 });
 }
@@ -69,7 +75,10 @@ export async function PUT(request) {
         .select()
         .single();
 
-    if (error) return new Response("Internal Server Error", { status: 500 });
+    if (error) {
+        console.log(error);
+        return new Response("Internal Server Error", { status: 500 });
+    }
 
     return new Response("Successfully updated", { status: 200 });
 }

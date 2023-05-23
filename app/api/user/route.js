@@ -29,7 +29,8 @@ export async function POST(request) {
     });
 
     if (error) {
-        return new Response(error.message, { status: 500 });
+        console.log(error);
+        return new Response("Internal Server Error", { status: 500 });
     }
 
     return NextResponse.json({
@@ -60,7 +61,8 @@ export async function DELETE(request) {
     const { data, error } = await supabaseAdmin.auth.admin.deleteUser(id);
 
     if (error) {
-        return new Response(error.message, { status: 500 });
+        console.log(error);
+        return new Response("Internal Server Error", { status: 500 });
     }
 
     return new Response("Successfully deleted user", { status: 200 });
@@ -93,7 +95,8 @@ export async function PUT(request) {
     ).match({ id });
 
     if (error) {
-        return new Response(error.message, { status: 500 });
+        console.log(error);
+        return new Response("Internal Server Error", { status: 500 });
     }
 
     return new Response("Successfully updated user", { status: 200 });

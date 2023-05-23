@@ -18,7 +18,10 @@ export async function POST(request) {
         .eq('email', body.email)
         .single();
 
-    if (errorUser) return new Response("Internal Server Error", { status: 500 });
+    if (errorUser) {
+        console.log(errorUser);
+        return new Response("Internal Server Error", { status: 500 });
+    }
     if(!user) return new Response("User not found", { status: 404 });
 
     const { data: owner, errorOwner } = await supabase
@@ -27,14 +30,21 @@ export async function POST(request) {
         .match({ user_id: user.id, lot_id: body.lot_id })
         .single();
 
-    if(errorOwner) return new Response("Internal Server Error", { status: 500 });
+    if(errorOwner) {
+        console.log(errorOwner);
+        return new Response("Internal Server Error", { status: 500 });
+    }
+
     if(owner) return new Response("User already owns the lot", { status: 400 });
 
     const { errorLotOwner } = await supabase
         .from('lot_owners')
         .insert({ lot_id: body.lot_id, user_id: user.id });
 
-    if (errorLotOwner) return new Response("Internal Server Error", { status: 500 });
+    if (errorLotOwner) {
+        console.log(errorLotOwner);
+        return new Response("Internal Server Error", { status: 500 });
+    }
 
     return NextResponse.json(user);
 }
@@ -51,8 +61,6 @@ export async function DELETE(request) {
     const { searchParams } = new URL(request.url);
     const userID = searchParams.get('userID');
     const lotID = searchParams.get('lotID');
-
-    console.log({ userID, lotID });
 
     const { error } = await supabase
         .from('lot_owners')

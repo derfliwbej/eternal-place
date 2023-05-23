@@ -13,7 +13,8 @@ export async function GET(request) {
     const { data: lots, error } = await supabase.rpc('get_lots_map');
 
     if (error) {
-        return new Response(error.message, { status: 500 });
+        console.log(error);
+        return new Response("Error retrieving lots. Please refresh the page and try again.", { status: 500 });
     }
 
     return NextResponse.json(lots);
