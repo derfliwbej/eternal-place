@@ -93,12 +93,25 @@ const UserTable = ({ rows, setRows, rowModesModel, setRowModesModel, slots, slot
     };
 
     const columns = [
-        { field: 'email', headerName: 'Email', flex: 1, editable: false, },
-        { field: 'first_name', headerName: 'First Name', flex: 1, editable: true },
-        { field: 'middle_name', headerName: 'Middle Name', flex: 1, editable: true },
-        { field: 'last_name', headerName: 'Last Name', flex: 1, editable: true },
-        { field: 'contact_num', headerName: 'Contact Number', flex: 1, editable: true },
-        { field: 'address', headerName: 'Address', flex: 1, editable: true },
+        { field: 'email', headerName: 'Email', flex: 1, editable: false },
+        { field: 'first_name', headerName: 'First Name', flex: 1, editable: true, preProcessEditCellProps: params => {
+            return { ...params.props, error: !params.props.value }
+        }},
+        { field: 'middle_name', headerName: 'Middle Name', flex: 1, editable: true, preProcessEditCellProps: params => {
+            return { ...params.props, error: !params.props.value }
+        }},
+        { field: 'last_name', headerName: 'Last Name', flex: 1, editable: true, preProcessEditCellProps: params => {
+            return { ...params.props, error: !params.props.value }
+        }},
+        { field: 'contact_num', headerName: 'Contact Number', flex: 1, editable: true, preProcessEditCellProps: params => {
+            const contactNumber = params.props.value;
+            const hasError = !/[0-9]+/.test(contactNumber) || !contactNumber;
+
+            return { ...params.props, error: hasError }
+        }},
+        { field: 'address', headerName: 'Address', flex: 1, editable: true, preProcessEditCellProps: params => {
+            return { ...params.props, error: !params.props.value }
+        }},
         { field: 'admin_role', headerName: 'Is Admin', type: 'boolean', flex: 1, editable: true },
         {
             field: 'actions',

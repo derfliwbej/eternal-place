@@ -51,56 +51,115 @@ BootstrapDialogTitle.propTypes = {
 };
 
 export default function AddUserDialog({ open, handleClose, handleSave }) {
-    const [firstName, setFirstName] = React.useState('');
-    const [middleName, setMiddleName] = React.useState('');
-    const [lastName, setLastName] = React.useState('');
-    const [contactNumber, setContactNumber] = React.useState('');
-    const [address, setAddress] = React.useState('');
+    const [firstName, setFirstName] = React.useState({ value: '', error: false, helperText: '' });
+    const [middleName, setMiddleName] = React.useState({ value: '', error: false, helperText: '' });
+    const [lastName, setLastName] = React.useState({ value: '', error: false, helperText: '' });
+    const [contactNumber, setContactNumber] = React.useState({ value: '', error: false, helperText: '' });
+    const [address, setAddress] = React.useState({ value: '', error: false, helperText: '' });
     const [isAdmin, setIsAdmin] = React.useState(false);
-    const [email, setEmail] = React.useState('');
-    const [password, setPassword] = React.useState('');
+    const [email, setEmail] = React.useState({ value: '', error: false, helperText: '' });
+    const [password, setPassword] = React.useState({ value: '', error: false, helperText: '' });
     const [error, setError] = React.useState('');
     const [loading, setLoading] = React.useState(false);
 
-    const saveUser = async () => {
-      setError('');
-      setLoading(true);
-
-      const newUser = {
-        first_name: firstName,
-        middle_name: middleName,
-        last_name: lastName,
-        contact_num: contactNumber,
-        admin_role: isAdmin,
-        email, password, address
-      };
-  
-      try {
-        const res = await fetchUtil('/user', {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(newUser)
-        });
-
-        const data = await res.json();
-
-        setFirstName('');
-        setMiddleName('');
-        setLastName('');
-        setContactNumber('');
-        setAddress('');
-        setIsAdmin(false);
-        setEmail('');
-        setPassword('');
-
-        handleSave(data);
-      } catch(error) {
-        setError(error.message);
-      } finally {
-        setLoading(false);
+    const validateForm = () => {
+      let hasError = false;
+      if (!firstName.value) {
+        hasError = true;
+        setFirstName({ ...firstName, error: true, helperText: 'Cannot be empty.' });
       }
+
+      if (!middleName.value) {
+        hasError = true;
+        setMiddleName({ ...middleName, error: true, helperText: 'Cannot be empty.' });
+      }
+
+      if (!lastName.value) {
+        hasError = true;
+        setLastName({ ...lastName, error: true, helperText: 'Cannot be empty.' });
+      }
+
+      if (!/[0-9]+/.test(contactNumber.value) || !contactNumber.value) {
+        hasError = true;
+        setContactNumber({ ...contactNumber, error: true, helperText: 'Invalid contact number.' });
+      }
+
+      if (!email.value) {
+        hasError = true;
+        setEmail({ ...email, error: true, helperText: 'Cannot be empty.' });
+      }
+
+      if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email.value)) {
+        hasError = true;
+        setEmail({ ...email, error: true, helperText: 'Invalid email.' });
+      }
+
+      if (!password.value) {
+        hasError = true;
+        setPassword({ ...password, error: true, helperText: 'Cannot be empty.' });
+      }
+
+      if (!address.value) {
+        hasError = true;
+        setAddress({ ...address, error: true, helperText: 'Cannot be empty.' });
+      }
+
+      if (hasError) return true;
+      return false;
+    };
+
+    const saveUser = () => {
+      setFirstName({ ...firstName, error: false, helperText: '' });
+      setMiddleName({ ...middleName, error: false, helperText: '' });
+      setLastName({ ...lastName, error: false, helperText: '' });
+      setContactNumber({ ...contactNumber, error: false, helperText: '' });
+      setAddress({ ...address, error: false, helperText: '' });
+      setIsAdmin(false);
+      setEmail({ ...email, error: false, helperText: '' });
+      setPassword({ ...password, error: false, helperText: '' });
+
+      const makeRequest = async () => {
+        const newUser = {
+          first_name: firstName,
+          middle_name: middleName,
+          last_name: lastName,
+          contact_num: contactNumber,
+          admin_role: isAdmin,
+          email, password, address
+        };
+    
+        try {
+          setError('');
+          setLoading(true);
+          const res = await fetchUtil('/user', {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify(newUser)
+          });
+  
+          const data = await res.json();
+  
+          setFirstName({ value: '', error: false, helperText: '' });
+          setMiddleName({ value: '', error: false, helperText: '' });
+          setLastName({ value: '', error: false, helperText: '' });
+          setContactNumber({ value: '', error: false, helperText: '' });
+          setAddress({ value: '', error: false, helperText: '' });
+          setIsAdmin(false);
+          setEmail({ value: '', error: false, helperText: '' });
+          setPassword({ value: '', error: false, helperText: '' });
+  
+          handleSave(data);
+        } catch(error) {
+          setError(error.message);
+        } finally {
+          setLoading(false);
+        }
+      };
+
+      if (validateForm()) return;
+      else makeRequest();
     };
 
     return (
@@ -117,26 +176,26 @@ export default function AddUserDialog({ open, handleClose, handleSave }) {
             </BootstrapDialogTitle>
             <DialogContent dividers sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, minWidth: 600 }}>
                 <ErrorText>{error}</ErrorText>
-                <TextField disabled={loading} label="Email" value={email} onChange={ (event) => {
-                    setEmail(event.target.value);
+                <TextField disabled={loading} error={email.error} helperText={email.helperText} label="Email" value={email.value} onChange={ (event) => {
+                    setEmail({ ...email, value: event.target.value });
                 }} />
-                <TextField disabled={loading} type="password" label="Password" value={password} onChange={ (event) => {
-                    setPassword(event.target.value);
+                <TextField disabled={loading} error={password.error} helperText={password.helperText} type="password" label="Password" value={password.value} onChange={ (event) => {
+                    setPassword({ ...password, value: event.target.value });
                 }} />
-                <TextField disabled={loading} label="First Name" value={firstName} onChange={ (event) => {
-                    setFirstName(event.target.value);
+                <TextField disabled={loading} error={firstName.error} helperText={firstName.helperText} label="First Name" value={firstName.value} onChange={ (event) => {
+                    setFirstName({ ...firstName, value: event.target.value });
                 }} />
-                <TextField disabled={loading} label="Middle Name" value={middleName} onChange={ (event) => {
-                    setMiddleName(event.target.value);
+                <TextField disabled={loading} error={middleName.error} helperText={middleName.helperText} label="Middle Name" value={middleName.value} onChange={ (event) => {
+                    setMiddleName({ ...middleName, value: event.target.value });
                 }} />
-                <TextField disabled={loading} label="Last Name" value={lastName} onChange={ (event) => {
-                    setLastName(event.target.value);
+                <TextField disabled={loading} error={lastName.error} helperText={lastName.helperText} label="Last Name" value={lastName.value} onChange={ (event) => {
+                    setLastName({ ...lastName, value: event.target.value });
                 }} />
-                <TextField disabled={loading} label="Contact Number" value={contactNumber} onChange={ (event) => {
-                    setContactNumber(event.target.value);
+                <TextField disabled={loading} error={contactNumber.error} helperText={contactNumber.helperText} label="Contact Number" value={contactNumber.value} onChange={ (event) => {
+                    setContactNumber({ ...contactNumber, value: event.target.value });
                 }} />
-                <TextField disabled={loading} label="Address" value={address} onChange={ (event) => {
-                    setAddress(event.target.value);
+                <TextField disabled={loading} error={address.error} helperText={address.helperText} label="Address" value={address.value} onChange={ (event) => {
+                    setAddress({ ...address, value: event.target.value });
                 }} />
                 <FormControlLabel control={<Checkbox checked={isAdmin}
                                                      onChange={() => setIsAdmin(event.target.checked)}/>} 
