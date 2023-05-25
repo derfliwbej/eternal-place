@@ -1,11 +1,11 @@
 'use client';
-import DashboardLayout from "@/app/components/layouts/DashboardLayout";
+import DashboardLayout from "@/components/layouts/DashboardLayout";
 import { useState, useEffect } from 'react';
 
 import { DataGrid, GridToolbar } from '@mui/x-data-grid';
 import { CircularProgress } from "@mui/material";
 import fetchUtil from "@/utils/fetchUtil";
-import ErrorDialog from "@/app/components/prompt/ErrorDialog";
+import ErrorDialog from "@/components/prompt/ErrorDialog";
 import dayjs from "dayjs";
 
 const LoadingPage = () => {

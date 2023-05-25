@@ -1,11 +1,11 @@
 'use client';
 import { useState, useEffect } from 'react';
-import DashboardLayout from "../components/layouts/DashboardLayout";
+import DashboardLayout from "../../components/layouts/DashboardLayout";
 import fetchUtil from '@/utils/fetchUtil';
 
-import LotTable from "../components/search/LotTable";
+import LotTable from "../../components/search/LotTable";
 import { CircularProgress } from '@mui/material';
-import ErrorDialog from '@/app/components/prompt/ErrorDialog';
+import ErrorDialog from '@/components/prompt/ErrorDialog';
 
 const LotSearchPage = () => {
     const [loading, setLoading] = useState(false);

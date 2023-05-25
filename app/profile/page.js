@@ -1,11 +1,11 @@
 'use client';
 import { useState, useEffect } from 'react';
-import DashboardLayout from "../components/layouts/DashboardLayout";
+import DashboardLayout from "../../components/layouts/DashboardLayout";
 import fetchUtil from '@/utils/fetchUtil';
 
 import { TextField, Button, CircularProgress } from '@mui/material';
-import ErrorText from '@/app/components/prompt/ErrorText';
-import SuccessText from '@/app/components/prompt/SuccessText';
+import ErrorText from '@/components/prompt/ErrorText';
+import SuccessText from '@/components/prompt/SuccessText';
 
 import styles from '@/app/styles/profile/EditProfilePage.module.css';
 

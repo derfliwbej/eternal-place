@@ -9,7 +9,7 @@ import fetchUtil from '@/utils/fetchUtil';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
-import ErrorText from '@/app/components/prompt/ErrorText';
+import ErrorText from '@/components/prompt/ErrorText';
 
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import { TextField, Typography, CircularProgress } from '@mui/material';

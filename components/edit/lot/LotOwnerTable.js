@@ -1,6 +1,6 @@
 import * as React from 'react';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
-import ErrorDialog from '@/app/components/prompt/ErrorDialog';
+import ErrorDialog from '@/components/prompt/ErrorDialog';
 
 import fetchUtil from '@/utils/fetchUtil';
 

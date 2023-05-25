@@ -1,5 +1,5 @@
 'use client';
-import DashboardLayout from '@/app/components/layouts/DashboardLayout';
+import DashboardLayout from '@/components/layouts/DashboardLayout';
 
 import fetchUtil from '@/utils/fetchUtil';
 
@@ -8,8 +8,8 @@ import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
 import AddIcon from '@mui/icons-material/Add';
 
-import UserTable from '@/app/components/manage/user/UserTable';
-import AddUserDialog from '@/app/components/manage/user/AddUserDialog';
+import UserTable from '@/components/manage/user/UserTable';
+import AddUserDialog from '@/components/manage/user/AddUserDialog';
 
 import { GridRowModes, GridToolbarContainer } from '@mui/x-data-grid';
 

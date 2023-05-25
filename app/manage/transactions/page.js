@@ -1,10 +1,10 @@
 'use client';
 import { useEffect, useState } from 'react';
 import { CircularProgress } from '@mui/material';
-import DashboardLayout from '@/app/components/layouts/DashboardLayout';
+import DashboardLayout from '@/components/layouts/DashboardLayout';
 
-import TransactionsTable from '@/app/components/manage/transactions/TransactionsTable';
-import ErrorDialog from '@/app/components/prompt/ErrorDialog';
+import TransactionsTable from '@/components/manage/transactions/TransactionsTable';
+import ErrorDialog from '@/components/prompt/ErrorDialog';
 import fetchUtil from '@/utils/fetchUtil';
 
 const initialRows = [

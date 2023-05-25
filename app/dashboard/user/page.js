@@ -1,11 +1,11 @@
 'use client';
 import { useState, useEffect } from 'react';
-import DashboardLayout from '@/app/components/layouts/DashboardLayout';
+import DashboardLayout from '@/components/layouts/DashboardLayout';
 import fetchUtil from '@/utils/fetchUtil';
 
-import LotCard from '@/app/components/dashboard/user/LotCard';
+import LotCard from '@/components/dashboard/user/LotCard';
 import { CircularProgress } from '@mui/material';
-import ErrorDialog from '@/app/components/prompt/ErrorDialog';
+import ErrorDialog from '@/components/prompt/ErrorDialog';
 
 import styles from '@/app/styles/dashboard/user/UserDashboard.module.css';
 

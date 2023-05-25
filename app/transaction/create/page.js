@@ -1,12 +1,12 @@
 'use client';
 import { useState, useEffect } from 'react';
-import DashboardLayout from '@/app/components/layouts/DashboardLayout';
+import DashboardLayout from '@/components/layouts/DashboardLayout';
 import fetchUtil from '@/utils/fetchUtil';
 import { useRouter } from 'next/navigation';
 
 import { Button, Typography, CircularProgress } from '@mui/material';
 import { DataGrid } from '@mui/x-data-grid';
-import ErrorDialog from '@/app/components/prompt/ErrorDialog';
+import ErrorDialog from '@/components/prompt/ErrorDialog';
 
 const columns = [
     { field: 'id', headerName: 'ID', type: 'number', align: 'center', headerAlign: 'center', flex: 0.3 },

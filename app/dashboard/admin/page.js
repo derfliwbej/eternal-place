@@ -1,12 +1,12 @@
 'use client';
-import DashboardLayout from '@/app/components/layouts/DashboardLayout';
+import DashboardLayout from '@/components/layouts/DashboardLayout';
 import { useState, useEffect } from 'react';
 import fetchUtil from '@/utils/fetchUtil';
 
-import Map from '@/app/components/map/Map';
+import Map from '@/components/map/Map';
 import { CircularProgress, Button } from '@mui/material';
-import ErrorDialog from '@/app/components/prompt/ErrorDialog';
-import ConfirmRequestDialog from '@/app/components/prompt/ConfirmRequestDialog';
+import ErrorDialog from '@/components/prompt/ErrorDialog';
+import ConfirmRequestDialog from '@/components/prompt/ConfirmRequestDialog';
 
 const zoomOptions = {
     doubleClickZoom: false,

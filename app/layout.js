@@ -1,10 +1,10 @@
 import "server-only";
 import './globals.css'
 
-import ThemeWrapper from './components/ThemeWrapper';
+import ThemeWrapper from '../components/ThemeWrapper';
 
-import SupabaseAuthProvider from "@/app/components/providers/supabase-auth-provider";
-import SupabaseProvider from "@/app/components/providers/supabase-provider";
+import SupabaseAuthProvider from "@/components/providers/supabase-auth-provider";
+import SupabaseProvider from "@/components/providers/supabase-provider";
 import { createClient } from "@/utils/supabase-server";
 
 export const metadata = {

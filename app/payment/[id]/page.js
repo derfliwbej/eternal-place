@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import fetchUtil from "@/utils/fetchUtil";
 
 import { CircularProgress } from "@mui/material";
-import ErrorText from "@/app/components/prompt/ErrorText";
+import ErrorText from "@/components/prompt/ErrorText";
 
 import styles from "@/app/styles/PaymentPage.module.css";
 

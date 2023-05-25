@@ -3,11 +3,11 @@ import styles from '../styles/login/LoginPage.module.css';
 
 import Image from 'next/image';
 import { Paper, TextField, CircularProgress } from '@mui/material';
-import ErrorText from '@/app/components/prompt/ErrorText';
+import ErrorText from '@/components/prompt/ErrorText';
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { useAuth } from '@/app/components/providers/supabase-auth-provider';
+import { useAuth } from '@/components/providers/supabase-auth-provider';
 
 const LoginButton = ({ disabled, onClick }) => {
 

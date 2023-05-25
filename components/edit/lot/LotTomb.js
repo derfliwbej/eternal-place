@@ -6,7 +6,7 @@ import DeleteIcon from '@mui/icons-material/Delete';
 import fetchUtil from '@/utils/fetchUtil';
 import TombTable from './TombTable';
 import AddDeceasedDialog from './AddDeceasedDialog';
-import ErrorDialog from '@/app/components/prompt/ErrorDialog';
+import ErrorDialog from '@/components/prompt/ErrorDialog';
 
 import { GridRowModes, GridToolbarContainer } from '@mui/x-data-grid';
 

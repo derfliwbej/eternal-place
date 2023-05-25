@@ -1,8 +1,8 @@
 'use client';
 import { useState, useEffect } from 'react';
-import DashboardLayout from '@/app/components/layouts/DashboardLayout';
-import LotImage from '@/app/components/LotImage';
-import ErrorDialog from '@/app/components/prompt/ErrorDialog';
+import DashboardLayout from '@/components/layouts/DashboardLayout';
+import LotImage from '@/components/LotImage';
+import ErrorDialog from '@/components/prompt/ErrorDialog';
 import { CircularProgress, Divider } from '@mui/material';
 import DeceasedTable from './DeceasedTable';
 

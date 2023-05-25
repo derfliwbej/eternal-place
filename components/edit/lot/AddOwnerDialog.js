@@ -10,7 +10,7 @@ import CloseIcon from '@mui/icons-material/Close';
 
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
 import { TextField, Typography, CircularProgress } from '@mui/material';
-import ErrorText from '@/app/components/prompt/ErrorText';
+import ErrorText from '@/components/prompt/ErrorText';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
   '& .MuiDialogContent-root': {

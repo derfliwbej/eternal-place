@@ -1,12 +1,12 @@
 'use client';
-import DashboardLayout from '@/app/components/layouts/DashboardLayout';
+import DashboardLayout from '@/components/layouts/DashboardLayout';
 import { useState, useEffect } from 'react';
 import fetchUtil from '@/utils/fetchUtil';
-import ErrorDialog from '@/app/components/prompt/ErrorDialog';
+import ErrorDialog from '@/components/prompt/ErrorDialog';
 
-import LotTomb from '@/app/components/edit/lot/LotTomb';
-import LotOwners from '@/app/components/edit/lot/LotOwners';
-import LotImage from '@/app/components/LotImage';
+import LotTomb from '@/components/edit/lot/LotTomb';
+import LotOwners from '@/components/edit/lot/LotOwners';
+import LotImage from '@/components/LotImage';
 
 import { Divider, Button, CircularProgress, Switch, FormControlLabel } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
