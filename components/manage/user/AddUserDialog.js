@@ -120,12 +120,14 @@ export default function AddUserDialog({ open, handleClose, handleSave }) {
 
       const makeRequest = async () => {
         const newUser = {
-          first_name: firstName,
-          middle_name: middleName,
-          last_name: lastName,
-          contact_num: contactNumber,
+          first_name: firstName.value,
+          middle_name: middleName.value,
+          last_name: lastName.value,
+          contact_num: contactNumber.value,
           admin_role: isAdmin,
-          email, password, address
+          email: email.value, 
+          password: password.value, 
+          address: address.value
         };
     
         try {
