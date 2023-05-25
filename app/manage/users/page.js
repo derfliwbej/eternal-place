@@ -100,7 +100,7 @@ const ManageUsersPage = () => {
     return (
         <>
             <DashboardLayout userType="admin">
-                <h3 style={{ marginBottom: 20 }}>Manage Users</h3>
+                <h2 style={{ marginBottom: 20 }}>Manage Users</h2>
                 <UserTable rows={rows}
                            setRows={setRows}
                            rowModesModel={rowModesModel}
