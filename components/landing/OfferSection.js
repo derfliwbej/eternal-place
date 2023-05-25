@@ -7,11 +7,11 @@ const OfferSection = () => {
     return (
         <section className={styles['offer-section']}>
             <div className={`center ${styles['header-container']}`}>
-                <h1>WHAT WE OFFER</h1>
+                <h1>What We Offer</h1>
             </div>
-            <p className="center">Eu fugiat nostrud proident aliqua occaecat ut velit. Do laboris deserunt culpa fugiat voluptate deserunt cillum in id commodo duis nostrud voluptate. Non culpa nulla velit ipsum aliquip reprehenderit ut fugiat magna commodo incididunt sit. Fugiat aliquip veniam consequat proident cupidatat mollit sint exercitation nulla.</p>
+            <p className="center">We understand the importance of preserving the legacies that shape our lives. Our meticulously landscaped park serves as a timeless canvas for personalized memorials, where families can find solace in the beauty of nature while paying tribute to their loved ones. With a variety of lot sizes and locations available, we offer a customizable experience to suit your individual preferences and needs.</p>
             <div className={styles['carousel-container']}>
-                <Carousel interval={3000}>
+                <Carousel interval={3000} style={{ minWidth: '500px' }}>
                     <Carousel.Item>
                         <img className='d-block w-100' src='/mausoleum.jpg' />
                     </Carousel.Item>

@@ -1,14 +1,17 @@
 'use client';
 import styles from '@/app/styles/landing/HeroSection.module.css';
+import { Card, CardContent } from '@mui/material';
 import Link from 'next/link';
 
 const HeroSection = () => {
     return (
         <section className={styles.hero} id="offers">
             <div className={styles["hero__messageContainer"]}>
-                <h1>LOREM IPSUM DOLOR</h1>
-                <p>In officia do velit exercitation eu commodo eiusmod irure et nisi est deserunt labore. Eiusmod aute minim minim do exercitation proident Lorem Lorem sunt minim do proident labore. Non incididunt officia tempor ad dolor. Labore quis quis tempor eiusmod laborum.</p>
-                <Link href='/#about' className={styles["view-button"]} >View Our Contact Details</Link>
+                <h1>Create Lasting Tributes</h1>
+                <p>Our Memorial Park offers a range of thoughtfully designed lots for memorial purposes, providing a tranquil setting for reflection, remembrance, and celebration of cherished memories.</p>
+                <div style={{ display: 'flex', justifyContent: 'left' }}>
+                    <Link href="/login" className={styles['view-button']}>Sign In With Your Account</Link>
+                </div>
             </div>
         </section>
     );
