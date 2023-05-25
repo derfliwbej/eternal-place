@@ -24,6 +24,8 @@ export async function POST(request) {
     }
     if(!user) return new Response("User not found", { status: 404 });
 
+    if(user.admin_role) return new Response("Cannot add administrator as lot owner", { status: 400 });
+
     const { data: owner, errorOwner } = await supabase
         .from('lot_owners')
         .select('*')
