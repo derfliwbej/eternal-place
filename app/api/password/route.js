@@ -14,7 +14,8 @@ export async function PUT(request) {
     const { user, error } = await supabase.auth.updateUser({ password });
 
     if (error) {
-        return new Response(error.message, { status: 500 });
+        console.log(error);
+        return new Response("Internal Server Error", { status: 500 });
     }
 
     return new Response("Successfully updated password", { status: 200 });
