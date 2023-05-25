@@ -10,17 +10,61 @@ import SuccessText from '@/components/prompt/SuccessText';
 import styles from '@/app/styles/profile/EditProfilePage.module.css';
 
 const EditProfilePage = () => {
-    const [firstName, setFirstName] = useState('');
-    const [middleName, setMiddleName] = useState('');
-    const [lastName, setLastName] = useState('');
-    const [contactNumber, setContactNumber] = useState('');
-    const [address, setAddress] = useState('');
-    const [password, setPassword] = useState('');
+    const [firstName, setFirstName] = useState({ value: '', error: false, helperText: '' });
+    const [middleName, setMiddleName] = useState({ value: '', error: false, helperText: '' });
+    const [lastName, setLastName] = useState({ value: '', error: false, helperText: '' });
+    const [contactNumber, setContactNumber] = useState({ value: '', error: false, helperText: '' });
+    const [address, setAddress] = useState({ value: '', error: false, helperText: '' });
+    const [password, setPassword] = useState({ value: '', error: false, helperText: '' });
     const [loading, setLoading] = useState(false);
     const [success, setSuccess] = useState('');
     const [error, setError] = useState('');
 
+    const validateForm = () => {
+        let hasError = false;
+        if (!firstName.value) {
+          hasError = true;
+          setFirstName({ ...firstName, error: true, helperText: 'Cannot be empty.' });
+        }
+  
+        if (!middleName.value) {
+          hasError = true;
+          setMiddleName({ ...middleName, error: true, helperText: 'Cannot be empty.' });
+        }
+  
+        if (!lastName.value) {
+          hasError = true;
+          setLastName({ ...lastName, error: true, helperText: 'Cannot be empty.' });
+        }
+  
+        if (!/^[0-9]+$/.test(contactNumber.value)) {
+          hasError = true;
+          setContactNumber({ ...contactNumber, error: true, helperText: 'Invalid contact number.' });
+        }
+  
+        if (!address.value) {
+          hasError = true;
+          setAddress({ ...address, error: true, helperText: 'Cannot be empty.' });
+        }
+  
+        return hasError;
+    };
+
+    const validatePassword = () => {
+        if (!password.value) {
+            setPassword({ ...password, error: true, helperText: 'Cannot be empty.' });
+            return true;
+        }
+        return false;
+    };
+
     const onSaveProfile = () => {
+        setFirstName({ ...firstName, error: false, helperText: '' });
+        setMiddleName({ ...middleName, error: false, helperText: '' });
+        setLastName({ ...lastName, error: false, helperText: '' });
+        setContactNumber({ ...contactNumber, error: false, helperText: '' });
+        setAddress({ ...address, error: false, helperText: '' });
+
         const saveProfile = async () => {
             setLoading(true);
             setError('');
@@ -32,11 +76,11 @@ const EditProfilePage = () => {
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        first_name: firstName,
-                        middle_name: middleName,
-                        last_name: lastName,
-                        contact_num: contactNumber,
-                        address
+                        first_name: firstName.value,
+                        middle_name: middleName.value,
+                        last_name: lastName.value,
+                        contact_num: contactNumber.value,
+                        address: address.value
                     })
                 });
 
@@ -48,34 +92,35 @@ const EditProfilePage = () => {
             }
         };
 
-        saveProfile();
+        if (validateForm()) return;
+        else saveProfile();
     };
 
     const onSavePassword = () => {
-        setLoading(true);
-        setError('');
-        setSuccess('');
+        setPassword({ ...password, error: false, helperText: '' });
         const savePassword = async () => {
             setLoading(true);
             setError('');
+            setSuccess('');
             try {
                 const res = await fetchUtil('/password', {
                     method: 'PUT',
                     headers: {
                         'Content-Type': 'application/json'
                     },
-                    body: JSON.stringify({ password })
+                    body: JSON.stringify({ password: password.value })
                 });
 
                 setSuccess('Successfully updated password');
             } catch(error) {
-                setError('Internal Server Error. Please try again.');
+                setError(error.message);
             } finally {
                 setLoading(false);
             }
         };
 
-        savePassword();
+        if (validatePassword()) return;
+        else savePassword();
     }
 
     useEffect(() => {
@@ -84,13 +129,13 @@ const EditProfilePage = () => {
             setError('');
             try {
                 const res = await fetchUtil('/profile');
-                const { first_name, middle_name, last_name, contact_num, address } = await res.json();
+                const { first_name, middle_name, last_name, contact_num, address: addr } = await res.json();
 
-                setFirstName(first_name);
-                setMiddleName(middle_name);
-                setLastName(last_name);
-                setContactNumber(contact_num);
-                setAddress(address);
+                setFirstName({ ...firstName, value: first_name });
+                setMiddleName({ ...middleName, value: middle_name });
+                setLastName({ ...lastName, value: last_name });
+                setContactNumber({ ...contactNumber, value: contact_num });
+                setAddress({ ...address, value: addr });
             } catch(error) {
                 setError('Internal Server Error. Please try again.');
             } finally {
@@ -112,27 +157,27 @@ const EditProfilePage = () => {
             <div className={styles['main-container']}>
                 <div className={styles['profile-form-container']}>
                     <h4>Profile Details</h4>
-                    <TextField disabled={loading} label="First Name" value={firstName} onChange={ (event) => {
-                        setFirstName(event.target.value);
+                    <TextField disabled={loading} label="First Name" value={firstName.value} error={firstName.error} helperText={firstName.helperText} onChange={ (event) => {
+                        setFirstName({ ...firstName, value: event.target.value });
                     }} />
-                    <TextField disabled={loading} label="Middle Name" value={middleName} onChange={ (event) => {
-                        setMiddleName(event.target.value);
+                    <TextField disabled={loading} label="Middle Name" value={middleName.value} error={middleName.error} helperText={middleName.helperText} onChange={ (event) => {
+                        setMiddleName({ ...middleName, value: event.target.value });
                     }} />
-                    <TextField disabled={loading} label="Last Name" value={lastName} onChange={ (event) => {
-                        setLastName(event.target.value);
+                    <TextField disabled={loading} label="Last Name" value={lastName.value} error={lastName.error} helperText={lastName.helperText} onChange={ (event) => {
+                        setLastName({ ...lastName, value: event.target.value });
                     }} />
-                    <TextField disabled={loading} label="Contact Number" value={contactNumber} onChange={ (event) => {
-                        setContactNumber(event.target.value);
+                    <TextField disabled={loading} label="Contact Number" value={contactNumber.value} error={contactNumber.error} helperText={contactNumber.helperText} onChange={ (event) => {
+                        setContactNumber({ ...contactNumber, value: event.target.value });
                     }} />
-                    <TextField disabled={loading} label="Address" value={address} onChange={ (event) => {
-                        setAddress(event.target.value);
+                    <TextField disabled={loading} label="Address" value={address.value} error={address.error} helperText={address.helperText} onChange={ (event) => {
+                        setAddress({ ...address, value: event.target.value });
                     }} />
                     <Button disabled={loading} variant="contained" onClick={onSaveProfile}>Save Profile</Button>
                 </div>
                 <div className={styles['password-form-container']}>
                     <h4>Change Password</h4>
-                    <TextField disabled={loading} label="New Password" value={password} onChange={ (event) => {
-                        setPassword(event.target.value);
+                    <TextField disabled={loading} label="New Password" value={password.value} error={password.error} helperText={password.helperText} onChange={ (event) => {
+                        setPassword({ ...password, value: event.target.value });
                     }} type="password" />
                     <Button disabled={loading} variant="contained" onClick={onSavePassword}>Change Password</Button>
                 </div>
