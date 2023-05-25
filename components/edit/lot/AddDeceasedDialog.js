@@ -54,16 +54,40 @@ BootstrapDialogTitle.propTypes = {
 };
 
 export default function AddDeceasedDialog({ id, open, handleClose, handleSave, setErrorDialog, setShowError }) {
-    const [firstName, setFirstName] = React.useState('');
-    const [middleName, setMiddleName] = React.useState('');
-    const [lastName, setLastName] = React.useState('');
+    const [firstName, setFirstName] = React.useState({ value: '', error: false, helperText: '' });
+    const [middleName, setMiddleName] = React.useState({ value: '', error: false, helperText: '' });
+    const [lastName, setLastName] = React.useState({ value: '', error: false, helperText: '' });
     const [birthDate, setBirthDate] = React.useState('');
     const [deathDate, setDeathDate] = React.useState('');
 
     const [loading, setLoading] = React.useState(false);
     const [error, setError] = React.useState('');
 
+    const validateForm = () => {
+      let hasError = false;
+      if (!firstName.value) {
+        hasError = true;
+        setFirstName({ ...firstName, error: true, helperText: 'Cannot be empty.' });
+      }
+
+      if (!middleName.value) {
+        hasError = true;
+        setMiddleName({ ...middleName, error: true, helperText: 'Cannot be empty.' });
+      }
+
+      if (!lastName.value) {
+        hasError = true;
+        setLastName({ ...lastName, error: true, helperText: 'Cannot be empty.' });
+      }
+
+      return hasError;
+    };
+
     const saveDeceased = () => {
+        setFirstName({ ...firstName, error: false, helperText: '' });
+        setMiddleName({ ...middleName, error: false, helperText: '' });
+        setLastName({ ...lastName, error: false, helperText: '' });
+
         const makePostRequest = async () => {
           try {
             setError('');
@@ -74,11 +98,11 @@ export default function AddDeceasedDialog({ id, open, handleClose, handleSave, s
                 'Content-Type': 'application/json',
               },
               body: JSON.stringify({
-                first_name: firstName,
-                middle_name: middleName,
-                last_name: lastName,
-                born_date: birthDate,
-                death_date: deathDate
+                first_name: firstName.value,
+                middle_name: middleName.value,
+                last_name: lastName.value,
+                born_date: birthDate.value,
+                death_date: deathDate.value
               })
             });
 
@@ -88,16 +112,17 @@ export default function AddDeceasedDialog({ id, open, handleClose, handleSave, s
           } catch(error) {
             setError(error.message);
           } finally {
-            setFirstName('');
-            setMiddleName('');
-            setLastName('');
-            setBirthDate('');
-            setDeathDate('');
+            setFirstName({ value: '', error: false, helperText: '' });
+            setMiddleName({ value: '', error: false, helperText: '' });
+            setLastName({ value: '', error: false, helperText: '' });
+            setBirthDate({ value: '', error: false, helperText: '' });
+            setDeathDate({ value: '', error: false, helperText: '' });
             setLoading(false);
           }
         };
 
-        makePostRequest();
+        if (validateForm()) return;
+        else makePostRequest();
     };
 
     return (
@@ -118,14 +143,14 @@ export default function AddDeceasedDialog({ id, open, handleClose, handleSave, s
             </BootstrapDialogTitle>
             <DialogContent dividers sx={{ display: 'flex', flexDirection: 'column', gap: 1.5, minWidth: 600 }}>
                 {error && <ErrorText>{error}</ErrorText>}
-                <TextField disabled={loading} label="First Name" value={firstName} onChange={ (event) => {
-                    setFirstName(event.target.value);
+                <TextField disabled={loading} label="First Name" value={firstName.value} error={firstName.error} helperText={firstName.helperText} onChange={ (event) => {
+                    setFirstName({ ...firstName, value: event.target.value });
                 }} />
-                <TextField disabled={loading} label="Middle Name" value={middleName} onChange={ (event) => {
-                    setMiddleName(event.target.value);
+                <TextField disabled={loading} label="Middle Name" value={middleName.value} error={middleName.error} helperText={middleName.helperText} onChange={ (event) => {
+                    setMiddleName({ ...middleName, value: event.target.value });
                 }} />
-                <TextField disabled={loading} label="Last Name" value={lastName} onChange={ (event) => {
-                    setLastName(event.target.value);
+                <TextField disabled={loading} label="Last Name" value={lastName.value} error={lastName.error} helperText={lastName.helperText} onChange={ (event) => {
+                    setLastName({ ...lastName, value: event.target.value });
                 }} />
                 <DatePicker disabled={loading} label="Birth Date" value={birthDate} type="date" onChange={ (value) => {
                     setBirthDate(value);

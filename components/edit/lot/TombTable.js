@@ -1,7 +1,4 @@
 import * as React from 'react';
-import PropTypes from 'prop-types';
-import Button from '@mui/material/Button';
-import AddIcon from '@mui/icons-material/Add';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import SaveIcon from '@mui/icons-material/Save';
@@ -97,9 +94,15 @@ const TombTable = ({ rows, setRows, rowModesModel, setRowModesModel, slots, slot
 
     const columns = [
         { field: 'id', headerName: 'ID', type: 'number', flex: 1, editable: false },
-        { field: 'first_name', headerName: 'First Name', flex: 1, editable: true },
-        { field: 'middle_name', headerName: 'Middle Name', flex: 1, editable: true },
-        { field: 'last_name', headerName: 'Last Name', flex: 1, editable: true },
+        { field: 'first_name', headerName: 'First Name', flex: 1, editable: true, preProcessEditCellProps: params => {
+            return { ...params.props, error: !params.props.value }
+        }},
+        { field: 'middle_name', headerName: 'Middle Name', flex: 1, editable: true, preProcessEditCellProps: params => {
+            return { ...params.props, error: !params.props.value }
+        }},
+        { field: 'last_name', headerName: 'Last Name', flex: 1, editable: true, preProcessEditCellProps: params => {
+            return { ...params.props, error: !params.props.value }
+        }},
         { 
             field: 'born_date', 
             headerName: 'Birth Date', 
