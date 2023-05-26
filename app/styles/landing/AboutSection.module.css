@@ -6,7 +6,7 @@
     padding: 5rem;
 }
 
-.about-section h1 {
+.about-section h1, .about-section h2 {
     color: white;
     font-weight: bold;
     margin: 1.5rem;
@@ -14,4 +14,9 @@
 
 .about-section p {
     color: white;
+}
+
+.icons-container {
+    display: flex;
+    margin-bottom: 1rem;
 }
