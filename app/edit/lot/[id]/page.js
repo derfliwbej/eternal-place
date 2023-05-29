@@ -58,6 +58,11 @@ const ViewLotPage = ({ params }) => {
     const handleDeleteTomb = (id) => {
         const newTombs = tombs.filter( (tomb) => tomb.id !== id);
         setTombs(newTombs);
+
+        if (newTombs.length === 0) {
+            const updatedLot = {...lot, has_light: false };
+            setLot(updatedLot);
+        }
     };
 
     const handleFileUpload = (event) => {
@@ -157,7 +162,7 @@ const ViewLotPage = ({ params }) => {
                                     )}
                                 </div>
                                 <div>
-                                    <FormControlLabel control={<Switch disabled={updatingLight} checked={lot.has_light} onChange={handleSwitchChange} />} label="Has Light" />
+                                    <FormControlLabel control={<Switch disabled={updatingLight || tombs.length === 0} checked={lot.has_light} onChange={handleSwitchChange} />} label="Has Light" />
                                 </div>
                             </div>
                             
@@ -176,13 +181,13 @@ const ViewLotPage = ({ params }) => {
 
                             <Divider sx={{ marginTop: 2, marginBottom: 2 }}/>
 
-                            <LotOwners lotID={id} owners={owners} />
+                            <LotOwners lotID={id} owners={owners} tombs={tombs} setOwners={setOwners} />
 
                             <Divider sx={{ marginTop: 2, marginBottom: 2 }}/>
 
                             <div style={{ display: 'flex '}}>
                                 <h2>Lot Tombs</h2>
-                                <Button disabled={addingTomb} sx={{ marginLeft: 3 }} variant="contained" startIcon={<AddIcon />} onClick={handleAddTomb}>
+                                <Button disabled={addingTomb || owners.length === 0} sx={{ marginLeft: 3 }} variant="contained" startIcon={<AddIcon />} onClick={handleAddTomb}>
                                     Create New Tomb
                                 </Button>
                             </div>

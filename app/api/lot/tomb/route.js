@@ -42,5 +42,20 @@ export async function DELETE(request) {
 
     if (error) return new Response("Internal Server Error", { status: 500 });
 
+    const { data: tombs, error2 } = await supabase
+        .from('tombs')
+        .select('lot_id')
+        .eq('lot_id', id);
+
+    if (error2) return new Response("Internal Server Error", { status: 500 });
+
+    if(tombs.length === 0) {
+        const { error3 } = await supabase
+            .from('lots')
+            .update({ has_light: false });
+
+        if (error3) return new Response("Internal Server Error", { status: 500 });
+    }
+
     return new Response("Successfully deleted", { status: 200 });
 }

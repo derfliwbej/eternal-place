@@ -9,7 +9,7 @@ import {
     GridActionsCellItem,
 } from '@mui/x-data-grid-pro';
 
-const LotOwnerTable = ({ rows, setRows, rowModesModel, setRowModesModel, slots, slotProps, lotID }) => {
+const LotOwnerTable = ({ rows, setRows, rowModesModel, setRowModesModel, slots, slotProps, lotID, tombs, setOwners }) => {
     const [loading, setLoading] = React.useState(false);
     const [errorDialog, setErrorDialog] = React.useState({ title: '', message: '' });
     const [open, setOpen] = React.useState(false);
@@ -23,18 +23,24 @@ const LotOwnerTable = ({ rows, setRows, rowModesModel, setRowModesModel, slots, 
     };
 
     const handleDeleteClick = (id) => async () => {
+        if(tombs.length >= 1) {
+            setErrorDialog({ title: 'Cannot Delete User', message: 'Cannot delete the only owner as there is still an existing tomb.'});
+            setOpen(true);
+            return;
+        }
+        
         try {
             setLoading(true);
             const res = await fetchUtil(`/lot/owner?userID=${id}&lotID=${lotID}`, { method: 'DELETE' });
             
             setRows(rows.filter((row) => row.id !== id));
+            setOwners((owners) => owners.filter((owner) => owner.id !== id));
         } catch(error) {
             setErrorDialog({ title: 'Error', message: error.message })
             setOpen(true);
         } finally {
             setLoading(false);
         }
-        
     };
 
     const processRowUpdate = (newRow) => {

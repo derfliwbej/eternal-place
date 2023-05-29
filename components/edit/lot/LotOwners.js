@@ -28,7 +28,7 @@ EditToolbar.propTypes = {
     setAddModalOpen: PropTypes.func.isRequired,
 };
 
-const LotOwners = ({ lotID, owners }) => {
+const LotOwners = ({ lotID, owners, tombs, setOwners }) => {
     const [rows, setRows] = React.useState(owners);
     const [rowModesModel, setRowModesModel] = React.useState({});
 
@@ -44,6 +44,7 @@ const LotOwners = ({ lotID, owners }) => {
     };
 
     const handleSave = (owner) => {
+        setOwners((oldRows) => [...oldRows, {...owner }]);
         setRows((oldRows) => [...oldRows, {...owner, isNew: true }]);
         setRowModesModel((oldModel) => ({
           ...oldModel,
@@ -66,6 +67,8 @@ const LotOwners = ({ lotID, owners }) => {
                                 toolbar: { setAddModalOpen }
                             }}
                             lotID={lotID}
+                            tombs={tombs}
+                            setOwners={setOwners}
             />
             <AddOwnerDialog lotID={lotID} open={addModalOpen} handleClose={handleAddModalClose} handleSave={handleSave} />
         </div>
