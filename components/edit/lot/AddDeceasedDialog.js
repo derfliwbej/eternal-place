@@ -101,8 +101,8 @@ export default function AddDeceasedDialog({ id, open, handleClose, handleSave, s
                 first_name: firstName.value,
                 middle_name: middleName.value,
                 last_name: lastName.value,
-                born_date: birthDate.value,
-                death_date: deathDate.value
+                born_date: birthDate,
+                death_date: deathDate
               })
             });
 
