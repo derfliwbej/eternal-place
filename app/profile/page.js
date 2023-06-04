@@ -54,6 +54,9 @@ const EditProfilePage = () => {
         if (!password.value) {
             setPassword({ ...password, error: true, helperText: 'Cannot be empty.' });
             return true;
+        } else if (password.value.length <= 6) {
+            setPassword({ ...password, error: true, helperText: 'Password should at least be 6 characters.'});
+            return true;
         }
         return false;
     };

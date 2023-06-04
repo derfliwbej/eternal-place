@@ -94,6 +94,11 @@ export default function AddUserDialog({ open, handleClose, handleSave }) {
         setEmail({ ...email, error: true, helperText: 'Invalid email.' });
       }
 
+      if (password.value.length <= 6) {
+        hasError = true;
+        setPassword({ ...password, error: true, helperText: 'Password should at least be 6 characters.'});
+      }
+
       if (!password.value) {
         hasError = true;
         setPassword({ ...password, error: true, helperText: 'Cannot be empty.' });
