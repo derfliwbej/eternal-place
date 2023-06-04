@@ -21,7 +21,7 @@ const ViewLotPage = ({ params }) => {
     const { id } = params;
 
     const [lot, setLot] = useState({ id: null, block: null, section: null, lot_num: null, has_light: null, deceased_list: [] });
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [errorDialog, setErrorDialog] = useState({ title: '', message: '' });
     const [showError, setShowError] = useState(false);
     const [hasError, setHasError] = useState(false);

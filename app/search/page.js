@@ -8,7 +8,7 @@ import { CircularProgress } from '@mui/material';
 import ErrorDialog from '@/components/prompt/ErrorDialog';
 
 const LotSearchPage = () => {
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [rows, setRows] = useState([]);
     const [errorDialog, setErrorDialog] = useState({});
     const [showError, setShowError] = useState(false);

@@ -19,7 +19,7 @@ const LoadingPage = () => {
 const TransactionHistoryPage = () => {
 
     const [rows, setRows] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [errorDialog, setErrorDialog] = useState({ title: '', message: '' });
     const [showError, setShowError] = useState(false);
 

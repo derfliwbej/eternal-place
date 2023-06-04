@@ -63,7 +63,7 @@ const ManageUsersPage = () => {
     const [rowModesModel, setRowModesModel] = React.useState({});
 
     const [open, setOpen] = React.useState(false);
-    const [loading, setLoading] = React.useState(false);
+    const [loading, setLoading] = React.useState(true);
 
     const handleModalClose = () => {
       setOpen(false);

@@ -16,7 +16,7 @@ const EditProfilePage = () => {
     const [contactNumber, setContactNumber] = useState({ value: '', error: false, helperText: '' });
     const [address, setAddress] = useState({ value: '', error: false, helperText: '' });
     const [password, setPassword] = useState({ value: '', error: false, helperText: '' });
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [success, setSuccess] = useState('');
     const [error, setError] = useState('');
 

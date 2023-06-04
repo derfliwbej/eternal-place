@@ -11,7 +11,7 @@ import styles from '@/app/styles/dashboard/user/UserDashboard.module.css';
 
 const UserDashboard = () => {
     const [lots, setLots] = useState([]);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [errorDialog, setErrorDialog] = useState({ title: '', message: '' });
     const [showError, setShowError] = useState(false);
 

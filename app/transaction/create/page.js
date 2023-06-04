@@ -29,7 +29,7 @@ const MakeTransactionPage = () => {
     const [rows, setRows] = useState([]);
     const [selectedRowID, setSelectedRowID] = useState(0);
     const [amount, setAmount] = useState(0);
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
     const [errorDialog, setErrorDialog] = useState({ title: '', message: '' });
     const [showError, setShowError] = useState(false);
     const [selectionModel, setSelectionModel] = useState([]);

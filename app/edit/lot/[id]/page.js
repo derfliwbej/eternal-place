@@ -21,7 +21,7 @@ const ViewLotPage = ({ params }) => {
     const [lot, setLot] = useState({});
     const [owners, setOwners] = useState([]);
     const [tombs, setTombs] = useState([]);
-    const [initialLoad, setInitialLoad] = useState(false);
+    const [initialLoad, setInitialLoad] = useState(true);
     const [addingTomb, setAddingTomb] = useState(false);
     const [uploading, setUploading] = useState(false);
     const [updatingLight, setUpdatingLight] = useState(false);
