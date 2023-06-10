@@ -39,7 +39,7 @@ EditToolbar.propTypes = {
     setAddModalOpen: PropTypes.func.isRequired,
 };
 
-const LotTomb = ({ id, deceasedList, deleteTomb }) => {
+const LotTomb = ({ id, deceasedList, deleteTomb, setDeceasedList }) => {
     const [rows, setRows] = React.useState(deceasedList);
     const [rowModesModel, setRowModesModel] = React.useState({});
 
@@ -104,7 +104,7 @@ const LotTomb = ({ id, deceasedList, deleteTomb }) => {
                        setErrorDialog={setErrorDialog}
                        setShowError={setShowError}
             />
-            <AddDeceasedDialog id={id} open={addModalOpen} handleClose={handleAddModalClose} handleSave={handleSave} setErrorDialog={setErrorDialog} setShowError={setShowError} />
+            <AddDeceasedDialog id={id} open={addModalOpen} handleClose={handleAddModalClose} handleSave={handleSave} setErrorDialog={setErrorDialog} setShowError={setShowError} deceasedList={rows} />
             <ConfirmTombDeleteDialog id={id} loading={loading} open={deleteModalOpen} handleClose={handleDeleteModalClose} handleTombDelete={handleTombDelete} />
             <ErrorDialog title={errorDialog && errorDialog.title} message={errorDialog && errorDialog.message} open={showError} setOpen={setShowError} /> 
         </div>

@@ -173,6 +173,15 @@ const UserTable = ({ rows, setRows, rowModesModel, setRowModesModel, slots, slot
             slots={slots}
             slotProps={slotProps}
             loading={loading}
+            pagination={true}
+            initialState={{
+                pagination: {
+                    paginationModel: {
+                        pageSize: 5,
+                    },
+                },
+            }}
+            pageSizeOptions={[5, 10, 15, 20, 25]}
             />
             <ErrorDialog title={errorDialog.title} message={errorDialog.message} open={open} setOpen={setOpen} />
         </>

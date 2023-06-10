@@ -53,12 +53,50 @@ BootstrapDialogTitle.propTypes = {
   onClose: PropTypes.func.isRequired,
 };
 
-export default function AddDeceasedDialog({ id, open, handleClose, handleSave, setErrorDialog, setShowError }) {
+const IgnoreDateDifferenceDialog = ({ open, setShowIgnoreDialog, saveDeceased }) => {
+  const [loading, setLoading] = React.useState(false);
+
+  const handleClose = () => {
+    setShowIgnoreDialog(false);
+  };
+
+  const onSaveDeceased = async () => {
+    setLoading(true);
+    await saveDeceased();
+    setLoading(false);
+    setShowIgnoreDialog(false);
+  };
+
+  return (
+    <BootstrapDialog open={open} onClose={handleClose}>
+      <BootstrapDialogTitle id="customized-dialog-title" onClose={() => {
+        handleClose();
+      }}>
+        <Typography variant="h6" component="span">
+            Confirm Adding Deceased
+        </Typography>
+        {loading && <CircularProgress size="1rem" sx={{ marginLeft: 3 }}/>}
+      </BootstrapDialogTitle>
+
+      <DialogContent>
+        This tomb contains a deceased person that has died in the last 8 years. Are you sure you still want to add this newly deceased person?
+      </DialogContent>
+
+      <DialogActions>
+        <Button variant="contained" color="warning" onClick={handleClose} disabled={loading}>Cancel</Button>
+        <Button variant="contained" onClick={onSaveDeceased} disabled={loading}>Confirm</Button>
+      </DialogActions>
+    </BootstrapDialog>
+  );
+};
+
+export default function AddDeceasedDialog({ id, open, handleClose, handleSave, setErrorDialog, setShowError, deceasedList }) {
     const [firstName, setFirstName] = React.useState({ value: '', error: false, helperText: '' });
     const [middleName, setMiddleName] = React.useState({ value: '', error: false, helperText: '' });
     const [lastName, setLastName] = React.useState({ value: '', error: false, helperText: '' });
-    const [birthDate, setBirthDate] = React.useState('');
-    const [deathDate, setDeathDate] = React.useState('');
+    const [birthDate, setBirthDate] = React.useState({ value: '', helperText: '' });
+    const [deathDate, setDeathDate] = React.useState({ value: '', helperText: '' });
+    const [showIgnoreDialog, setShowIgnoreDialog] = React.useState(false);
 
     const [loading, setLoading] = React.useState(false);
     const [error, setError] = React.useState('');
@@ -80,10 +118,23 @@ export default function AddDeceasedDialog({ id, open, handleClose, handleSave, s
         setLastName({ ...lastName, error: true, helperText: 'Cannot be empty.' });
       }
 
+      if(!birthDate.value || !deathDate.value) {
+        hasError = true;
+        setError('Dates cannot be empty.');
+      }
+
+      const currBirthDate = new Date(birthDate.value);
+      const currDeathDate = new Date(deathDate.value);
+
+      if(Date.parse(currBirthDate) > Date.parse(currDeathDate)) {
+        hasError = true;
+        setError('Birth date cannot be later than death date.');
+      }
+
       return hasError;
     };
 
-    const saveDeceased = () => {
+    const saveDeceased = async () => {
         setFirstName({ ...firstName, error: false, helperText: '' });
         setMiddleName({ ...middleName, error: false, helperText: '' });
         setLastName({ ...lastName, error: false, helperText: '' });
@@ -101,8 +152,8 @@ export default function AddDeceasedDialog({ id, open, handleClose, handleSave, s
                 first_name: firstName.value,
                 middle_name: middleName.value,
                 last_name: lastName.value,
-                born_date: birthDate,
-                death_date: deathDate
+                born_date: birthDate.value,
+                death_date: deathDate.value
               })
             });
 
@@ -121,8 +172,22 @@ export default function AddDeceasedDialog({ id, open, handleClose, handleSave, s
           }
         };
 
-        if (validateForm()) return;
-        else makePostRequest();
+        await makePostRequest();
+    };
+
+    const onDeceasedSave = () => {
+      setError(''); 
+      if(!validateForm()) {
+        const currentDate = new Date();
+        const mostRecentDeath = new Date(Math.max(...deceasedList.map( deceased => new Date(deceased.death_date))));
+
+        console.log(mostRecent)
+        if (currentDate.getFullYear() - mostRecentDeath.getFullYear() <= 8) {
+          setShowIgnoreDialog(true);
+        } else saveDeceased();
+      }
+
+      return;
     };
 
     return (
@@ -152,20 +217,20 @@ export default function AddDeceasedDialog({ id, open, handleClose, handleSave, s
                 <TextField disabled={loading} label="Last Name" value={lastName.value} error={lastName.error} helperText={lastName.helperText} onChange={ (event) => {
                     setLastName({ ...lastName, value: event.target.value });
                 }} />
-                <DatePicker disabled={loading} label="Birth Date" value={birthDate} type="date" onChange={ (value) => {
-                    setBirthDate(value);
-                }} />
-                <DatePicker disabled={loading} label="Death Date" value={deathDate} type="date" onChange={ (value) => {
-                    setDeathDate(value);
-                }} />
-                
+                <DatePicker disabled={loading} label="Birth Date" value={birthDate.value} type="date" onChange={ (value) => {
+                    setBirthDate({ ...birthDate, value });
+                }}/>
+                <DatePicker disabled={loading} label="Death Date" value={deathDate.value} type="date" onChange={ (value) => {
+                    setDeathDate({ ...deathDate, value });
+                }}/>
             </DialogContent>
             <DialogActions>
-                <Button disabled={loading} autoFocus onClick={saveDeceased}>
+                <Button disabled={loading} autoFocus onClick={onDeceasedSave}>
                     Save
                 </Button>
             </DialogActions>
         </BootstrapDialog>
+        <IgnoreDateDifferenceDialog open={showIgnoreDialog} setShowIgnoreDialog={setShowIgnoreDialog} saveDeceased={saveDeceased} />
         </LocalizationProvider>
     );
 }

@@ -109,16 +109,18 @@ const TombTable = ({ rows, setRows, rowModesModel, setRowModesModel, slots, slot
             flex: 1, 
             type: 'date', 
             editable: true,
-            valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY')
-        },
+            valueFormatter: (params) => dayjs(params.value).format('MM/DD/YYYY'), preProcessEditCellProps: params => {
+                return { ...params.props, error: !params.props.value }
+        }},
         { 
             field: 'death_date', 
             headerName: 'Death Date', 
             flex: 1, 
             type: 'date', 
             editable: true,
-            valueFormatter: (params) => dayjs(params.value).format('DD/MM/YYYY')
-        },
+            valueFormatter: (params) => dayjs(params.value).format('MM/DD/YYYY'), preProcessEditCellProps: params => {
+                return { ...params.props, error: !params.props.value }
+        }},
         {
             field: 'actions',
             type: 'actions',

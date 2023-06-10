@@ -1,6 +1,7 @@
 'use client';
 import DashboardLayout from '@/components/layouts/DashboardLayout';
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import fetchUtil from '@/utils/fetchUtil';
 import ErrorDialog from '@/components/prompt/ErrorDialog';
 
@@ -11,12 +12,14 @@ import LotImage from '@/components/LotImage';
 import { Divider, Button, CircularProgress, Switch, FormControlLabel } from '@mui/material';
 import AddIcon from '@mui/icons-material/Add';
 import CameraAltIcon from '@mui/icons-material/CameraAlt';
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft';
 
 import { createClient } from '@/utils/supabase-browser';
 import { v4 as uuidv4 } from 'uuid';
 
 const ViewLotPage = ({ params }) => {
     const { id } = params;
+    const router = useRouter();
 
     const [lot, setLot] = useState({});
     const [owners, setOwners] = useState([]);
@@ -130,6 +133,10 @@ const ViewLotPage = ({ params }) => {
         makeRequest();
     };
 
+    const handleBackButtonClick = () => {
+        router.back();
+    };
+
     useEffect( () => {
         const fetchLot = async () => {
             setInitialLoad(true);
@@ -153,7 +160,10 @@ const ViewLotPage = ({ params }) => {
                 {
                     !initialLoad ? (
                         <>
-                            <div style={{ display: 'flex', justifyContent: 'space-between' }}>
+                            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                                <div>
+                                    <Button variant="contained" onClick={handleBackButtonClick}><ChevronLeftIcon /></Button>
+                                </div>
                                 <div>
                                     {lot.is_mausoleum ? (
                                         <h2>Mausoleum {lot.lot_num}</h2>
