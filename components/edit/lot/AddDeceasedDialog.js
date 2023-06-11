@@ -181,7 +181,6 @@ export default function AddDeceasedDialog({ id, open, handleClose, handleSave, s
         const currentDate = new Date();
         const mostRecentDeath = new Date(Math.max(...deceasedList.map( deceased => new Date(deceased.death_date))));
 
-        console.log(mostRecent)
         if (currentDate.getFullYear() - mostRecentDeath.getFullYear() <= 8) {
           setShowIgnoreDialog(true);
         } else saveDeceased();
