@@ -40,7 +40,7 @@ const ErrorPage = ({ body }) => {
 const SuccessfulPaymentPage = ({ transaction }) => {
     const router = useRouter();
 
-    const [loading, setLoading] = useState(true);
+    const [loading, setLoading] = useState(false);
 
     const onButtonClick = () => {
         setLoading(true);
