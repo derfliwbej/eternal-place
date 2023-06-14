@@ -9,18 +9,18 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@/components/providers/supabase-auth-provider';
 
-const LoginButton = ({ disabled, onClick }) => {
+const LoginButton = ({ disabled, onClick, type }) => {
 
     if (disabled) {
         return (
-            <div className={styles['login-button--disabled']} onClick={() => {}}>
+            <button type={type} className={styles['login-button--disabled']} onClick={() => {}}>
                 <span>Login</span>
-            </div>
+            </button>
     )} else {
         return (
-            <div className={styles['login-button']} onClick={onClick}>
+            <button type={type} className={styles['login-button']} onClick={onClick}>
                 <span>Login</span>
-            </div>
+            </button>
     )};
 };
 
@@ -34,6 +34,7 @@ const LoginForm = () => {
     const { signInWithEmail, user } = useAuth();
 
     const handleSubmit = async (e) => {
+        e.preventDefault();
         setError('');
         setIsLoading(true);
         try {
@@ -59,7 +60,7 @@ const LoginForm = () => {
     }, [user])
 
     return (
-        <div className={styles['form-container']}>
+        <form className={styles['form-container']} onSubmit={handleSubmit}>
             <Paper elevation={1} sx={{ padding: 2, minWidth: 400, display: 'flex', alignItems: 'center', justifyContent: 'center', flexDirection: 'column', gap: 2.5 }}>
                 <Image src='/eternal-logo.png' width={75} height={75} />
                 {isLoading ? <CircularProgress /> : ''}
@@ -67,9 +68,9 @@ const LoginForm = () => {
                 <ErrorText>{error}</ErrorText>
                 <TextField value={email} label="Email" onChange={(event) => setEmail(event.target.value)} fullWidth />
                 <TextField value={password} label="Password" onChange={(event) => setPassword(event.target.value)} fullWidth type="password" />
-                <LoginButton disabled={isLoading} onClick={handleSubmit}/>
+                <LoginButton type="submit" disabled={isLoading} onClick={handleSubmit}/>
             </Paper>
-        </div>
+        </form>
     );
 };
 

@@ -99,7 +99,7 @@ const AdminDashboard = () => {
                         <div>
                             <h2>Legend</h2>
                             <Legend color="gray" text="Unowned lot" />
-                            <Legend color="red" text="Owned lot" />
+                            <Legend color="#32CD32" text="Owned lot" />
                             <Legend color="yellow" text="Lot with lighting" />
                         </div>
                         <div>

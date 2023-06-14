@@ -19,6 +19,16 @@ const Button = ({ type, disabled, onClick, children }) => {
     )
 };
 
+const ImageIcon = ({ path, alt, size }) => {
+    const [ratio, setRatio] = useState(16 / 9);
+
+    return (
+        <Image src={path} alt={alt} width={size} height={size / ratio} fixed="true" onLoadingComplete={({ naturalWidth, naturalHeight }) => {
+            setRatio(naturalWidth / naturalHeight);
+        }} />
+    );
+};
+
 const LoadingPage = () => {
     return (
         <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100%' }}>
@@ -50,11 +60,9 @@ const SuccessfulPaymentPage = ({ transaction }) => {
     return (
         <div className={styles['wrapper']}>
             <div className={styles['main-container']}>
-                <h1 className={styles['header']}>Payment Successful</h1>
-                <ul style={{ listStyleType: 'none' }}>
-                    <li>User ID: {transaction.user_id}</li>
-                    <li>Lot ID: {transaction.lot_id}</li>
-                    <li>Date Created: {transaction.date_created}</li>
+                <ImageIcon size={75} alt="Success" path="/success.svg" />
+                <h1 className={styles['header']}>Payment Successful!</h1>
+                <ul style={{ listStyleType: 'none', display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
                     <li>Amount: PHP{transaction.amount}.00</li>
                     <li>Reference Number: {transaction.reference_num}</li>
                 </ul>
