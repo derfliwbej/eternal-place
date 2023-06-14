@@ -46,14 +46,14 @@ a:hover {
   height: 20px;
 }
 
-.tomb-marker {
+.tomb-marker-2 {
   height: 20px;
   width: 10px;
   background-color: #32CD32;
   border: 1px solid black;
 }
 
-.tomb-marker--hasLight {
+.tomb-marker--hasLight-2 {
   height: 20px;
   width: 10px;
   background-color: yellow;
@@ -65,30 +65,72 @@ a:hover {
   height: 35px;
 }
 
-.mausoleum-marker {
+.mausoleum-marker-2 {
   height: 35px;
   width: 35px;
   background-color: #32CD32;
   border: 1px solid black;
 }
 
-.mausoleum-marker--hasLight {
+.mausoleum-marker--hasLight-2 {
   height: 35px;
   width: 35px;
   background-color: yellow;
   border: 1px solid black;
 }
 
-.tomb-marker--vacant {
+.tomb-marker--vacant-2 {
   height: 20px;
   width: 10px;
   background-color: gray;
   border: 1px solid black;
 }
 
-.mausoleum-marker--vacant {
+.mausoleum-marker--vacant-2 {
   height: 35px;
   width: 35px;
+  background-color: gray;
+  border: 1px solid black;
+}
+
+.tomb-marker-3 {
+  height: 40px;
+  width: 20px;
+  background-color: #32CD32;
+  border: 1px solid black;
+}
+
+.tomb-marker--hasLight-3 {
+  height: 40px;
+  width: 20px;
+  background-color: yellow;
+  border: 1px solid black;
+}
+
+.mausoleum-marker-3 {
+  height: 60px;
+  width: 60px;
+  background-color: #32CD32;
+  border: 1px solid black;
+}
+
+.mausoleum-marker--hasLight-3 {
+  height: 60px;
+  width: 60px;
+  background-color: yellow;
+  border: 1px solid black;
+}
+
+.tomb-marker--vacant-3 {
+  height: 40px;
+  width: 20px;
+  background-color: gray;
+  border: 1px solid black;
+}
+
+.mausoleum-marker--vacant-3 {
+  height: 60px;
+  width: 60px;
   background-color: gray;
   border: 1px solid black;
 }

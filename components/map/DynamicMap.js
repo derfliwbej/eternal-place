@@ -3,10 +3,24 @@ import Leaflet from 'leaflet';
 import * as ReactLeaflet from 'react-leaflet';
 import LotMarker from './LotMarker';
 import 'leaflet/dist/leaflet.css';
+import { useMapEvents } from 'react-leaflet';
 
 import styles from '@/app/styles/Map.module.css';
 
 const { MapContainer } = ReactLeaflet;
+
+const ZoomListener = (props) => {
+  const zoomLevel = props.zoomLevel;
+  const setZoomLevel = props.setZoomLevel;
+
+  const mapEvents = useMapEvents({
+      zoomend: () => {
+          setZoomLevel(mapEvents.getZoom());
+      }
+  });
+
+  return null;
+};
 
 const Map = ({ children, className, width, height, ...rest }) => {
   let mapClassName = styles.map;
@@ -28,7 +42,7 @@ const Map = ({ children, className, width, height, ...rest }) => {
 
   return (
     <MapContainer className={mapClassName} {...rest}>
-      {children(ReactLeaflet, LotMarker)}
+      {children(ReactLeaflet, LotMarker, ZoomListener)}
     </MapContainer>
   )
 }

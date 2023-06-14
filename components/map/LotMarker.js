@@ -8,23 +8,23 @@ const getClassName = (type) => {
     else return 'tomb-marker-container';
 };
 
-const getHTML = (type, hasLight, ownerCount) => {
-    if(!ownerCount && type !== 'mausoleum') return '<div class="tomb-marker--vacant"></div>';
-    else if(!ownerCount && type === 'mausoleum') return '<div class="mausoleum-marker--vacant"></div>';
-    else if (type !== 'mausoleum' && hasLight) return '<div class="tomb-marker--hasLight"></div>';
-    else if (type === 'mausoleum' && hasLight) return '<div class="mausoleum-marker--hasLight"></div>';
-    else if (type !== 'mausoleum' && !hasLight) return '<div class="tomb-marker"></div>';
-    else if (type === 'mausoleum' && !hasLight) return '<div class="mausoleum-marker"></div>';
+const getHTML = (type, hasLight, ownerCount, zoom) => {
+    if(!ownerCount && type !== 'mausoleum') return `<div class="tomb-marker--vacant-${zoom}"></div>`;
+    else if(!ownerCount && type === 'mausoleum') return `<div class="mausoleum-marker--vacant-${zoom}"></div>`;
+    else if (type !== 'mausoleum' && hasLight) return `<div class="tomb-marker--hasLight-${zoom}"></div>`;
+    else if (type === 'mausoleum' && hasLight) return `<div class="mausoleum-marker--hasLight-${zoom}"></div>`;
+    else if (type !== 'mausoleum' && !hasLight) return `<div class="tomb-marker-${zoom}"></div>`;
+    else if (type === 'mausoleum' && !hasLight) return `<div class="mausoleum-marker-${zoom}"></div>`;
 };
 
-const LotMarker = ({ lotID, position, type, block, section, lot_num, hasLight, ownerCount, children }) => {
+const LotMarker = ({ lotID, position, type, block, section, lot_num, hasLight, ownerCount, zoom, children }) => {
     const router = useRouter();
 
     return (
         <Marker position={position}
                 icon={Leaflet.divIcon({ 
                     className: getClassName(type),
-                    html: getHTML(type, hasLight, ownerCount)
+                    html: getHTML(type, hasLight, ownerCount, zoom)
                 })}
                 eventHandlers={{
                     click: (e) => {

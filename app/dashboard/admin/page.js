@@ -8,16 +8,6 @@ import { CircularProgress, Button } from '@mui/material';
 import ErrorDialog from '@/components/prompt/ErrorDialog';
 import ConfirmRequestDialog from '@/components/prompt/ConfirmRequestDialog';
 
-const zoomOptions = {
-    doubleClickZoom: false,
-    zoomSnap: false,
-    zoomDelta: false,
-    trackResize: false,
-    touchZoom: false,
-    scrollWheelZoom: false,
-    zoomControl: false
-};
-
 const Circle = ({ color }) => {
     const style = {
         height: '15px',
@@ -44,6 +34,7 @@ const Legend = ({ color, text }) => {
 const AdminDashboard = () => {
     let lotID = 1;
     const [lots, setLots] = useState([]);
+    const [zoomLevel, setZoomLevel] = useState(2);
     const [loading, setLoading] = useState(true);
     const [errorDialog, setErrorDialog] = useState({ title: '', message: '' });
     const [showError, setShowError] = useState(false);
@@ -106,8 +97,8 @@ const AdminDashboard = () => {
                             <Button onClick={() => setConfirmOpen(true)} variant="contained">Reset All Lot's Lighting</Button>
                         </div>
                     </div>
-                    <Map center={[0, 0]} zoom={2} {...zoomOptions}>
-                        {({ TileLayer }, LotMarker) => (
+                    <Map center={[0, 0]} zoom={2} maxZoom={3} minZoom={2}>
+                        {({ TileLayer }, LotMarker, ZoomListener) => (
                             <>
                                 <TileLayer
                                 noWrap
@@ -115,6 +106,7 @@ const AdminDashboard = () => {
                                 minZoom={2}
                                 url="../../../MapTiles/{z}/{x}/{y}.png"
                                 />
+                                <ZoomListener zoomLevel={zoomLevel} setZoomLevel={setZoomLevel} />
 
                                 {/* Block 1 - Section A */}
                                 {
@@ -125,7 +117,8 @@ const AdminDashboard = () => {
                                                    lot_num={lots[lotID - 1]?.lot_num}
                                                    hasLight={lots[lotID - 1]?.has_light}
                                                    ownerCount={lots[lotID - 1]?.num_owners}
-                                                   lotID={lotID++}>
+                                                   lotID={lotID++}
+                                                   zoom={zoomLevel}>
                                         </LotMarker>
                                     ))
                                 }
@@ -139,7 +132,8 @@ const AdminDashboard = () => {
                                                    lot_num={lots[lotID - 1]?.lot_num}
                                                 hasLight={lots[lotID - 1]?.has_light}
                                                 ownerCount={lots[lotID - 1]?.num_owners}
-                                                lotID={lotID++}>
+                                                lotID={lotID++}
+                                                zoom={zoomLevel}>
                                         </LotMarker>
                                     ))
                                 }
@@ -153,7 +147,8 @@ const AdminDashboard = () => {
                                                    lot_num={lots[lotID - 1]?.lot_num}
                                                 hasLight={lots[lotID - 1]?.has_light}
                                                 ownerCount={lots[lotID - 1]?.num_owners}
-                                                lotID={lotID++}>
+                                                lotID={lotID++}
+                                                zoom={zoomLevel}>
                                         </LotMarker>
                                     ))
                                 }
@@ -167,7 +162,8 @@ const AdminDashboard = () => {
                                                    lot_num={lots[lotID - 1]?.lot_num}
                                                 hasLight={lots[lotID - 1]?.has_light}
                                                 ownerCount={lots[lotID - 1]?.num_owners}
-                                                lotID={lotID++}>
+                                                lotID={lotID++}
+                                                zoom={zoomLevel}>
                                         </LotMarker>
                                     ))
                                 }
@@ -181,7 +177,8 @@ const AdminDashboard = () => {
                                                    lot_num={lots[lotID - 1]?.lot_num}
                                                 hasLight={lots[lotID - 1]?.has_light}
                                                 ownerCount={lots[lotID - 1]?.num_owners}
-                                                lotID={lotID++}>
+                                                lotID={lotID++}
+                                                zoom={zoomLevel}>
                                         </LotMarker>
                                     ))
                                 }
@@ -195,7 +192,8 @@ const AdminDashboard = () => {
                                                    lot_num={lots[lotID - 1]?.lot_num}
                                                 hasLight={lots[lotID - 1]?.has_light}
                                                 ownerCount={lots[lotID - 1]?.num_owners}
-                                                lotID={lotID++}>
+                                                lotID={lotID++}
+                                                zoom={zoomLevel}>
                                         </LotMarker>
                                     ))
                                 }
@@ -209,7 +207,8 @@ const AdminDashboard = () => {
                                                    lot_num={lots[lotID - 1]?.lot_num}
                                                 hasLight={lots[lotID - 1]?.has_light}
                                                 ownerCount={lots[lotID - 1]?.num_owners}
-                                                lotID={lotID++}>
+                                                lotID={lotID++}
+                                                zoom={zoomLevel}>
                                         </LotMarker>
                                     ))
                                 }
@@ -223,7 +222,8 @@ const AdminDashboard = () => {
                                                    lot_num={lots[lotID - 1]?.lot_num}
                                                 hasLight={lots[lotID - 1]?.has_light}
                                                 ownerCount={lots[lotID - 1]?.num_owners}
-                                                lotID={lotID++}>
+                                                lotID={lotID++}
+                                                zoom={zoomLevel}>
                                         </LotMarker>
                                     ))
                                 }
@@ -237,7 +237,8 @@ const AdminDashboard = () => {
                                                    lot_num={lots[lotID - 1]?.lot_num}
                                                 hasLight={lots[lotID - 1]?.has_light}
                                                 ownerCount={lots[lotID - 1]?.num_owners}
-                                                lotID={lotID++}>
+                                                lotID={lotID++}
+                                                zoom={zoomLevel}>
                                         </LotMarker>
                                     ))
                                 }
@@ -251,7 +252,8 @@ const AdminDashboard = () => {
                                                    lot_num={lots[lotID - 1]?.lot_num}
                                                 hasLight={lots[lotID - 1]?.has_light}
                                                 ownerCount={lots[lotID - 1]?.num_owners}
-                                                lotID={lotID++}>
+                                                lotID={lotID++}
+                                                zoom={zoomLevel}>
                                         </LotMarker>
                                     ))
                                 }
@@ -265,7 +267,8 @@ const AdminDashboard = () => {
                                                    lot_num={lots[lotID - 1]?.lot_num}
                                                 hasLight={lots[lotID - 1]?.has_light}
                                                 ownerCount={lots[lotID - 1]?.num_owners}
-                                                lotID={lotID++}>
+                                                lotID={lotID++}
+                                                zoom={zoomLevel}>
                                         </LotMarker>
                                     ))
                                 }
@@ -279,7 +282,8 @@ const AdminDashboard = () => {
                                                    lot_num={lots[lotID - 1]?.lot_num}
                                                 hasLight={lots[lotID - 1]?.has_light}
                                                 ownerCount={lots[lotID - 1]?.num_owners}
-                                                lotID={lotID++}>
+                                                lotID={lotID++}
+                                                zoom={zoomLevel}>
                                         </LotMarker>
                                     ))
                                 }
@@ -293,7 +297,8 @@ const AdminDashboard = () => {
                                                    lot_num={lots[lotID - 1]?.lot_num}
                                                 hasLight={lots[lotID - 1]?.has_light}
                                                 ownerCount={lots[lotID - 1]?.num_owners}
-                                                lotID={lotID++}>
+                                                lotID={lotID++}
+                                                zoom={zoomLevel}>
                                         </LotMarker>
                                     ))
                                 }
@@ -307,7 +312,8 @@ const AdminDashboard = () => {
                                                    lot_num={lots[lotID - 1]?.lot_num}
                                                 hasLight={lots[lotID - 1]?.has_light}
                                                 ownerCount={lots[lotID - 1]?.num_owners}
-                                                lotID={lotID++}>
+                                                lotID={lotID++}
+                                                zoom={zoomLevel}>
                                         </LotMarker>
                                     ))
                                 }
@@ -321,7 +327,8 @@ const AdminDashboard = () => {
                                                    lot_num={lots[lotID - 1]?.lot_num}
                                                 hasLight={lots[lotID - 1]?.has_light}
                                                 ownerCount={lots[lotID - 1]?.num_owners}
-                                                lotID={lotID++}>
+                                                lotID={lotID++}
+                                                zoom={zoomLevel}>
                                         </LotMarker>
                                     ))
                                 }
@@ -335,7 +342,8 @@ const AdminDashboard = () => {
                                                    lot_num={lots[lotID - 1]?.lot_num}
                                                 hasLight={lots[lotID - 1]?.has_light}
                                                 ownerCount={lots[lotID - 1]?.num_owners}
-                                                lotID={lotID++}>
+                                                lotID={lotID++}
+                                                zoom={zoomLevel}>
                                         </LotMarker>
                                     ))
                                 }
@@ -349,7 +357,8 @@ const AdminDashboard = () => {
                                                    lot_num={lots[lotID - 1]?.lot_num}
                                                 hasLight={lots[lotID - 1]?.has_light}
                                                 ownerCount={lots[lotID - 1]?.num_owners}
-                                                lotID={lotID++}>
+                                                lotID={lotID++}
+                                                zoom={zoomLevel}>
                                         </LotMarker>
                                     ))
                                 }
@@ -363,7 +372,8 @@ const AdminDashboard = () => {
                                                    lot_num={lots[lotID - 1]?.lot_num}
                                                 hasLight={lots[lotID - 1]?.has_light}
                                                 ownerCount={lots[lotID - 1]?.num_owners}
-                                                lotID={lotID++}>
+                                                lotID={lotID++}
+                                                zoom={zoomLevel}>
                                         </LotMarker>
                                     ))
                                 }
@@ -377,7 +387,8 @@ const AdminDashboard = () => {
                                                    lot_num={lots[lotID - 1]?.lot_num}
                                                 hasLight={lots[lotID - 1]?.has_light}
                                                 ownerCount={lots[lotID - 1]?.num_owners}
-                                                lotID={lotID++}>
+                                                lotID={lotID++}
+                                                zoom={zoomLevel}>
                                         </LotMarker>
                                     ))
                                 }
@@ -391,7 +402,8 @@ const AdminDashboard = () => {
                                                    lot_num={lots[lotID - 1]?.lot_num}
                                                 hasLight={lots[lotID - 1]?.has_light}
                                                 ownerCount={lots[lotID - 1]?.num_owners}
-                                                lotID={lotID++}>
+                                                lotID={lotID++}
+                                                zoom={zoomLevel}>
                                         </LotMarker>
                                     ))
                                 }
@@ -405,7 +417,8 @@ const AdminDashboard = () => {
                                                    lot_num={lots[lotID - 1]?.lot_num}
                                                 hasLight={lots[lotID - 1]?.has_light}
                                                 ownerCount={lots[lotID - 1]?.num_owners}
-                                                lotID={lotID++}>
+                                                lotID={lotID++}
+                                                zoom={zoomLevel}>
                                         </LotMarker>
                                     ))
                                 }
@@ -419,7 +432,8 @@ const AdminDashboard = () => {
                                                    lot_num={lots[lotID - 1]?.lot_num}
                                                 hasLight={lots[lotID - 1]?.has_light}
                                                 ownerCount={lots[lotID - 1]?.num_owners}
-                                                lotID={lotID++}>
+                                                lotID={lotID++}
+                                                zoom={zoomLevel}>
                                         </LotMarker>
                                     ))
                                 }
@@ -432,7 +446,8 @@ const AdminDashboard = () => {
                                         type="mausoleum"
                                         hasLight={lots[lotID - 1]?.has_light}
                                         ownerCount={lots[lotID - 1]?.num_owners}
-                                        lotID={lotID++}>
+                                        lotID={lotID++}
+                                        zoom={zoomLevel}>
                                 </LotMarker>
 
                                 <LotMarker position={[62, -83]} 
@@ -442,7 +457,8 @@ const AdminDashboard = () => {
                                         type="mausoleum"
                                         hasLight={lots[lotID - 1]?.has_light}
                                         ownerCount={lots[lotID - 1]?.num_owners}
-                                        lotID={lotID++}>
+                                        lotID={lotID++}
+                                        zoom={zoomLevel}>
                                 </LotMarker>
 
                                 <LotMarker position={[55, -83]} 
@@ -452,7 +468,8 @@ const AdminDashboard = () => {
                                         type="mausoleum"
                                         hasLight={lots[lotID - 1]?.has_light}
                                         ownerCount={lots[lotID - 1]?.num_owners}
-                                        lotID={lotID++}>
+                                        lotID={lotID++}
+                                        zoom={zoomLevel}>
                                 </LotMarker>
 
                                 <LotMarker position={[47, -83]} 
@@ -462,7 +479,8 @@ const AdminDashboard = () => {
                                         type="mausoleum"
                                         hasLight={lots[lotID - 1]?.has_light}
                                         ownerCount={lots[lotID - 1]?.num_owners}
-                                        lotID={lotID++}>
+                                        lotID={lotID++}
+                                        zoom={zoomLevel}>
                                 </LotMarker>
 
                                 <LotMarker position={[37, -83]} 
@@ -472,7 +490,8 @@ const AdminDashboard = () => {
                                         type="mausoleum"
                                         hasLight={lots[lotID - 1]?.has_light}
                                         ownerCount={lots[lotID - 1]?.num_owners}
-                                        lotID={lotID++}>
+                                        lotID={lotID++}
+                                        zoom={zoomLevel}>
                                 </LotMarker>
 
                                 <LotMarker position={[26, -83]} 
@@ -482,7 +501,8 @@ const AdminDashboard = () => {
                                         type="mausoleum"
                                         hasLight={lots[lotID - 1]?.has_light}
                                         ownerCount={lots[lotID - 1]?.num_owners}
-                                        lotID={lotID++}>
+                                        lotID={lotID++}
+                                        zoom={zoomLevel}>
                                 </LotMarker>
 
                                 <LotMarker position={[14, -83]} 
@@ -492,7 +512,8 @@ const AdminDashboard = () => {
                                         type="mausoleum"
                                         hasLight={lots[lotID - 1]?.has_light}
                                         ownerCount={lots[lotID - 1]?.num_owners}
-                                        lotID={lotID++}>
+                                        lotID={lotID++}
+                                        zoom={zoomLevel}>
                                 </LotMarker>
 
                                 <LotMarker position={[1, -83]} 
@@ -502,7 +523,8 @@ const AdminDashboard = () => {
                                         type="mausoleum"
                                         hasLight={lots[lotID - 1]?.has_light}
                                         ownerCount={lots[lotID - 1]?.num_owners}
-                                        lotID={lotID++}>
+                                        lotID={lotID++}
+                                        zoom={zoomLevel}>
                                 </LotMarker>
 
                                 <LotMarker position={[-12, -83]} 
@@ -512,7 +534,8 @@ const AdminDashboard = () => {
                                         type="mausoleum"
                                         hasLight={lots[lotID - 1]?.has_light}
                                         ownerCount={lots[lotID - 1]?.num_owners}
-                                        lotID={lotID++}>
+                                        lotID={lotID++}
+                                        zoom={zoomLevel}>
                                 </LotMarker>
 
                                 <LotMarker position={[-24, -83]} 
@@ -522,7 +545,8 @@ const AdminDashboard = () => {
                                         type="mausoleum"
                                         hasLight={lots[lotID - 1]?.has_light}
                                         ownerCount={lots[lotID - 1]?.num_owners}
-                                        lotID={lotID++}>
+                                        lotID={lotID++}
+                                        zoom={zoomLevel}>
                                 </LotMarker>
 
                                 <LotMarker position={[-35, -83]} 
@@ -532,7 +556,8 @@ const AdminDashboard = () => {
                                         type="mausoleum"
                                         hasLight={lots[lotID - 1]?.has_light}
                                         ownerCount={lots[lotID - 1]?.num_owners}
-                                        lotID={lotID++}>
+                                        lotID={lotID++}
+                                        zoom={zoomLevel}>
                                 </LotMarker>
 
                                 <LotMarker position={[-45, -83]} 
@@ -542,7 +567,8 @@ const AdminDashboard = () => {
                                         type="mausoleum"
                                         hasLight={lots[lotID - 1]?.has_light}
                                         ownerCount={lots[lotID - 1]?.num_owners}
-                                        lotID={lotID++}>
+                                        lotID={lotID++}
+                                        zoom={zoomLevel}>
                                 </LotMarker>
                                 
                                 <LotMarker position={[-54, -83]} 
@@ -552,7 +578,8 @@ const AdminDashboard = () => {
                                         type="mausoleum"
                                         hasLight={lots[lotID - 1]?.has_light}
                                         ownerCount={lots[lotID - 1]?.num_owners}
-                                        lotID={lotID++}>
+                                        lotID={lotID++}
+                                        zoom={zoomLevel}>
                                 </LotMarker>
 
                                 <LotMarker position={[-61, -83]} 
@@ -562,7 +589,8 @@ const AdminDashboard = () => {
                                         type="mausoleum"
                                         hasLight={lots[lotID - 1]?.has_light}
                                         ownerCount={lots[lotID - 1]?.num_owners}
-                                        lotID={lotID++}>
+                                        lotID={lotID++}
+                                        zoom={zoomLevel}>
                                 </LotMarker>
 
                                 {/* Mausoleums - Right Wing */}
@@ -573,7 +601,8 @@ const AdminDashboard = () => {
                                         type="mausoleum"
                                         hasLight={lots[lotID - 1]?.has_light}
                                         ownerCount={lots[lotID - 1]?.num_owners}
-                                        lotID={lotID++}>
+                                        lotID={lotID++}
+                                        zoom={zoomLevel}>
                                 </LotMarker>
 
                                 <LotMarker position={[62, 31]} 
@@ -583,7 +612,8 @@ const AdminDashboard = () => {
                                         type="mausoleum"
                                         hasLight={lots[lotID - 1]?.has_light}
                                         ownerCount={lots[lotID - 1]?.num_owners}
-                                        lotID={lotID++}>
+                                        lotID={lotID++}
+                                        zoom={zoomLevel}>
                                 </LotMarker>
 
                                 <LotMarker position={[55, 34]} 
@@ -593,7 +623,8 @@ const AdminDashboard = () => {
                                         type="mausoleum"
                                         hasLight={lots[lotID - 1]?.has_light}
                                         ownerCount={lots[lotID - 1]?.num_owners}
-                                        lotID={lotID++}>
+                                        lotID={lotID++}
+                                        zoom={zoomLevel}>
                                 </LotMarker>
 
                                 <LotMarker position={[46, 39]} 
@@ -603,7 +634,8 @@ const AdminDashboard = () => {
                                         type="mausoleum"
                                         hasLight={lots[lotID - 1]?.has_light}
                                         ownerCount={lots[lotID - 1]?.num_owners}
-                                        lotID={lotID++}>
+                                        lotID={lotID++}
+                                        zoom={zoomLevel}>
                                 </LotMarker>
 
                                 <LotMarker position={[36, 43]} 
@@ -613,7 +645,8 @@ const AdminDashboard = () => {
                                         type="mausoleum"
                                         hasLight={lots[lotID - 1]?.has_light}
                                         ownerCount={lots[lotID - 1]?.num_owners}
-                                        lotID={lotID++}>
+                                        lotID={lotID++}
+                                        zoom={zoomLevel}>
                                 </LotMarker>
 
                                 <LotMarker position={[24, 46]} 
@@ -623,7 +656,8 @@ const AdminDashboard = () => {
                                         type="mausoleum"
                                         hasLight={lots[lotID - 1]?.has_light}
                                         ownerCount={lots[lotID - 1]?.num_owners}
-                                        lotID={lotID++}>
+                                        lotID={lotID++}
+                                        zoom={zoomLevel}>
                                 </LotMarker>
 
                                 <LotMarker position={[11, 50]} 
@@ -633,7 +667,8 @@ const AdminDashboard = () => {
                                         type="mausoleum"
                                         hasLight={lots[lotID - 1]?.has_light}
                                         ownerCount={lots[lotID - 1]?.num_owners}
-                                        lotID={lotID++}>
+                                        lotID={lotID++}
+                                        zoom={zoomLevel}>
                                 </LotMarker>
 
                                 <LotMarker position={[-2, 50]} 
@@ -643,7 +678,8 @@ const AdminDashboard = () => {
                                         type="mausoleum"
                                         hasLight={lots[lotID - 1]?.has_light}
                                         ownerCount={lots[lotID - 1]?.num_owners}
-                                        lotID={lotID++}>
+                                        lotID={lotID++}
+                                        zoom={zoomLevel}>
                                 </LotMarker>
 
                                 <LotMarker position={[-15, 50]} 
@@ -653,7 +689,8 @@ const AdminDashboard = () => {
                                         type="mausoleum"
                                         hasLight={lots[lotID - 1]?.has_light}
                                         ownerCount={lots[lotID - 1]?.num_owners}
-                                        lotID={lotID++}>
+                                        lotID={lotID++}
+                                        zoom={zoomLevel}>
                                 </LotMarker>
 
                                 <LotMarker position={[-27, 50]} 
@@ -663,7 +700,8 @@ const AdminDashboard = () => {
                                         type="mausoleum"
                                         hasLight={lots[lotID - 1]?.has_light}
                                         ownerCount={lots[lotID - 1]?.num_owners}
-                                        lotID={lotID++}>
+                                        lotID={lotID++}
+                                        zoom={zoomLevel}>
                                 </LotMarker>
 
                                 <LotMarker position={[-38, 50]} 
@@ -673,7 +711,8 @@ const AdminDashboard = () => {
                                         type="mausoleum"
                                         hasLight={lots[lotID - 1]?.has_light}
                                         ownerCount={lots[lotID - 1]?.num_owners}
-                                        lotID={lotID++}>
+                                        lotID={lotID++}
+                                        zoom={zoomLevel}>
                                 </LotMarker>
 
                                 <LotMarker position={[-48, 50]} 
@@ -683,7 +722,8 @@ const AdminDashboard = () => {
                                         type="mausoleum"
                                         hasLight={lots[lotID - 1]?.has_light}
                                         ownerCount={lots[lotID - 1]?.num_owners}
-                                        lotID={lotID++}>
+                                        lotID={lotID++}
+                                        zoom={zoomLevel}>
                                 </LotMarker>
                             </>
                         )}
