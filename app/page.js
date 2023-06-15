@@ -1,5 +1,3 @@
-import 'bootstrap/dist/css/bootstrap.min.css';
-
 import Header from "../components/landing/Header";
 import HeroSection from "../components/landing/HeroSection";
 import OfferSection from "../components/landing/OfferSection";

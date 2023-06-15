@@ -1,4 +1,5 @@
 import "server-only";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import './globals.css'
 
 import ThemeWrapper from '../components/ThemeWrapper';
