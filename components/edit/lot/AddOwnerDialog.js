@@ -9,7 +9,7 @@ import IconButton from '@mui/material/IconButton';
 import CloseIcon from '@mui/icons-material/Close';
 
 import { Dialog, DialogTitle, DialogContent, DialogActions } from '@mui/material';
-import { TextField, Typography, CircularProgress } from '@mui/material';
+import { TextField, Typography, CircularProgress, Autocomplete } from '@mui/material';
 import ErrorText from '@/components/prompt/ErrorText';
 
 const BootstrapDialog = styled(Dialog)(({ theme }) => ({
@@ -52,6 +52,8 @@ BootstrapDialogTitle.propTypes = {
 
 export default function AddOwnerDialog({ lotID, open, handleClose, handleSave }) {
     const [email, setEmail] = React.useState('');
+    const [users, setUsers] = React.useState([]);
+    const [timer, setTimer] = React.useState(null);
     const [error, setError] = React.useState('');
     const [loading, setLoading] = React.useState(false);
 
@@ -79,6 +81,34 @@ export default function AddOwnerDialog({ lotID, open, handleClose, handleSave })
         }
     };
 
+    const getUsers = async (searchTerm) => {
+      try {
+        const res = await fetchUtil(`/user/search?string=${searchTerm}`);
+        const data = await res.json();
+
+        const suggestedUsers = data.map( user => user.email );
+        
+        setUsers(suggestedUsers);
+      } catch (error) {
+        setError(error.message);
+      }
+    };
+
+    const onInputChange = (event, value, reason) => {
+      setEmail(value);
+
+      if (value) {
+        clearTimeout(timer);
+
+        const newTimer = setTimeout(() => {
+          getUsers(value);
+        }, 500);
+
+        setTimer(newTimer);
+      }
+      else setUsers([]);
+    };
+
     return (
         <BootstrapDialog
             onClose={handleClose}
@@ -93,7 +123,18 @@ export default function AddOwnerDialog({ lotID, open, handleClose, handleSave })
             </BootstrapDialogTitle>
             <DialogContent dividers sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 1.5, minWidth: 300 }}>
                 <ErrorText>{error}</ErrorText>
-                <TextField sx={{ width: '100%' }}disabled={loading} label="Enter owner's email" value={email} onChange={ event => setEmail(event.target.value) }/>
+                <Autocomplete id="user-search-box"
+                              options={users}
+                              inputValue={email}
+                              onInputChange={onInputChange}
+                              renderInput={ params => (
+                                <TextField {...params} sx={{ width: '100%' }} disabled={loading} label="Enter owner's email" />
+                              )}
+                              sx={{ width: '100%' }}
+                              freeSolo
+                              disableClearable={loading}
+                  />
+                {/* <TextField sx={{ width: '100%' }} disabled={loading} label="Enter owner's email" value={email} onChange={ event => setEmail(event.target.value) }/> */}
             </DialogContent>
             <DialogActions>
                 <Button disabled={loading} autoFocus onClick={saveOwner}>
