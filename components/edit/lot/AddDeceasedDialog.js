@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { styled } from '@mui/material/styles';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs';
+import dayjs from "dayjs";
 import fetchUtil from '@/utils/fetchUtil';
 
 import Button from '@mui/material/Button';
@@ -152,8 +153,8 @@ export default function AddDeceasedDialog({ id, open, handleClose, handleSave, s
                 first_name: firstName.value,
                 middle_name: middleName.value,
                 last_name: lastName.value,
-                born_date: birthDate.value,
-                death_date: deathDate.value
+                born_date: dayjs(birthDate.value).format('YYYY-MM-DD'),
+                death_date: dayjs(deathDate.value).format('YYYY-MM-DD')
               })
             });
 
