@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { styled } from '@mui/material/styles';
+import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import SaveIcon from '@mui/icons-material/Save';
@@ -11,7 +13,31 @@ import {
     GridRowModes,
     DataGridPro,
     GridActionsCellItem,
+    GridEditInputCell,
 } from '@mui/x-data-grid-pro';
+
+const StyledTooltip = styled(({ className, ...props }) => (
+    <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+    [`& .${tooltipClasses.tooltip}`]: {
+        backgroundColor: theme.palette.error.main,
+        color: theme.palette.error.contrastText,
+    },
+}));
+
+const EditInputField = props => {
+const { error } = props;
+
+return (
+    <StyledTooltip open={!!error} title={error}>
+        <GridEditInputCell {...props} />
+    </StyledTooltip>
+);
+};
+
+const renderEditInputField = params => {
+return <EditInputField {...params} />
+};
 
 const UserTable = ({ rows, setRows, rowModesModel, setRowModesModel, slots, slotProps, setLoading, loading }) => {
     const [errorDialog, setErrorDialog] = React.useState({ title: '', message: '' });
@@ -94,23 +120,23 @@ const UserTable = ({ rows, setRows, rowModesModel, setRowModesModel, slots, slot
 
     const columns = [
         { field: 'email', headerName: 'Email', flex: 1, editable: false },
-        { field: 'first_name', headerName: 'First Name', flex: 1, editable: true, preProcessEditCellProps: params => {
-            return { ...params.props, error: !params.props.value }
+        { field: 'first_name', headerName: 'First Name', flex: 1, editable: true, renderEditCell: renderEditInputField, preProcessEditCellProps: params => {
+            return { ...params.props, error: !params.props.value && 'First name cannot be empty'}
         }},
-        { field: 'middle_name', headerName: 'Middle Name', flex: 1, editable: true, preProcessEditCellProps: params => {
-            return { ...params.props, error: !params.props.value }
+        { field: 'middle_name', headerName: 'Middle Name', flex: 1, editable: true, renderEditCell: renderEditInputField, preProcessEditCellProps: params => {
+            return { ...params.props, error: !params.props.value && 'Middle name cannot be empty'}
         }},
-        { field: 'last_name', headerName: 'Last Name', flex: 1, editable: true, preProcessEditCellProps: params => {
-            return { ...params.props, error: !params.props.value }
+        { field: 'last_name', headerName: 'Last Name', flex: 1, editable: true, renderEditCell: renderEditInputField, preProcessEditCellProps: params => {
+            return { ...params.props, error: !params.props.value && 'Last name cannot be empty'}
         }},
-        { field: 'contact_num', headerName: 'Contact Number', flex: 1, editable: true, preProcessEditCellProps: params => {
+        { field: 'contact_num', headerName: 'Contact Number', flex: 1, editable: true, renderEditCell: renderEditInputField, preProcessEditCellProps: params => {
             const contactNumber = params.props.value;
-            const hasError = !/[0-9]+/.test(contactNumber) || !contactNumber;
+            const error = !/^([0-9]+)$/.test(contactNumber)
 
-            return { ...params.props, error: hasError }
+            return { ...params.props, error: error && 'Invalid contact number' }
         }},
-        { field: 'address', headerName: 'Address', flex: 1, editable: true, preProcessEditCellProps: params => {
-            return { ...params.props, error: !params.props.value }
+        { field: 'address', headerName: 'Address', flex: 1, editable: true, renderEditCell: renderEditInputField, preProcessEditCellProps: params => {
+            return { ...params.props, error: !params.props.value && 'Address cannot be empty' }
         }},
         { field: 'admin_role', headerName: 'Is Admin', type: 'boolean', flex: 1, editable: true },
         {

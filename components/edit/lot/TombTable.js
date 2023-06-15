@@ -1,4 +1,6 @@
 import * as React from 'react';
+import { styled } from '@mui/material/styles';
+import Tooltip, { tooltipClasses } from '@mui/material/Tooltip';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/DeleteOutlined';
 import SaveIcon from '@mui/icons-material/Save';
@@ -11,7 +13,46 @@ import {
     GridRowModes,
     DataGridPro,
     GridActionsCellItem,
+    GridEditInputCell,
+    GridEditDateCell
 } from '@mui/x-data-grid-pro';
+
+const StyledTooltip = styled(({ className, ...props }) => (
+        <Tooltip {...props} classes={{ popper: className }} />
+    ))(({ theme }) => ({
+        [`& .${tooltipClasses.tooltip}`]: {
+            backgroundColor: theme.palette.error.main,
+            color: theme.palette.error.contrastText,
+        },
+}));
+
+const EditInputField = props => {
+    const { error } = props;
+
+    return (
+        <StyledTooltip open={!!error} title={error}>
+            <GridEditInputCell {...props} />
+        </StyledTooltip>
+    );
+};
+
+const renderEditInputField = params => {
+    return <EditInputField {...params} />
+};
+
+const EditDateField = props => {
+    const { error } = props;
+
+    return (
+        <StyledTooltip open={!!error} title={error}>
+            <GridEditDateCell {...props} />
+        </StyledTooltip>
+    );
+};
+
+const renderEditDateField = params => {
+    return <EditDateField {...params} />
+}
 
 const TombTable = ({ rows, setRows, rowModesModel, setRowModesModel, slots, slotProps, loading, setLoading, setErrorDialog, setShowError }) => {
 
@@ -94,14 +135,14 @@ const TombTable = ({ rows, setRows, rowModesModel, setRowModesModel, slots, slot
 
     const columns = [
         { field: 'id', headerName: 'ID', type: 'number', flex: 1, editable: false },
-        { field: 'first_name', headerName: 'First Name', flex: 1, editable: true, preProcessEditCellProps: params => {
-            return { ...params.props, error: !params.props.value }
+        { field: 'first_name', headerName: 'First Name', flex: 1, editable: true, renderEditCell: renderEditInputField, preProcessEditCellProps: params => {
+            return { ...params.props, error: !params.props.value && 'First name cannot be empty'}
         }},
-        { field: 'middle_name', headerName: 'Middle Name', flex: 1, editable: true, preProcessEditCellProps: params => {
-            return { ...params.props, error: !params.props.value }
+        { field: 'middle_name', headerName: 'Middle Name', flex: 1, editable: true, renderEditCell: renderEditInputField, preProcessEditCellProps: params => {
+            return { ...params.props, error: !params.props.value && 'Middle name cannot be empty' }
         }},
-        { field: 'last_name', headerName: 'Last Name', flex: 1, editable: true, preProcessEditCellProps: params => {
-            return { ...params.props, error: !params.props.value }
+        { field: 'last_name', headerName: 'Last Name', flex: 1, editable: true, renderEditCell: renderEditInputField, preProcessEditCellProps: params => {
+            return { ...params.props, error: !params.props.value && 'Last name cannot be empty' }
         }},
         { 
             field: 'born_date', 
@@ -109,8 +150,15 @@ const TombTable = ({ rows, setRows, rowModesModel, setRowModesModel, slots, slot
             flex: 1, 
             type: 'date', 
             editable: true,
-            valueFormatter: (params) => dayjs(params.value).format('MM/DD/YYYY'), preProcessEditCellProps: params => {
-                return { ...params.props, error: !params.props.value }
+            valueFormatter: (params) => dayjs(params.value).format('MM/DD/YYYY'), renderEditCell: renderEditDateField, preProcessEditCellProps: params => {
+                const born_date = params.props.value;
+                const { death_date } = params.row;
+                const birthDate = new Date(born_date);
+                const deathDate = new Date(death_date);
+
+                if(Date.parse(birthDate) > Date.parse(deathDate)) {
+                    return { ...params.props, error: 'Birth date cannot be later than death date' }
+                } else return { ...params.props, error: !params.props.value && 'Invalid date' }
         }},
         { 
             field: 'death_date', 
@@ -118,8 +166,15 @@ const TombTable = ({ rows, setRows, rowModesModel, setRowModesModel, slots, slot
             flex: 1, 
             type: 'date', 
             editable: true,
-            valueFormatter: (params) => dayjs(params.value).format('MM/DD/YYYY'), preProcessEditCellProps: params => {
-                return { ...params.props, error: !params.props.value }
+            valueFormatter: (params) => dayjs(params.value).format('MM/DD/YYYY'), renderEditCell: renderEditDateField, preProcessEditCellProps: params => {
+                const death_date = params.props.value;
+                const { born_date } = params.row;
+                const birthDate = new Date(born_date);
+                const deathDate = new Date(death_date);
+
+                if(Date.parse(birthDate) > Date.parse(deathDate)) {
+                    return { ...params.props, error: 'Death date cannot be earlier than birth date' }
+                } else return { ...params.props, error: !params.props.value && 'Invalid date' }
         }},
         {
             field: 'actions',
