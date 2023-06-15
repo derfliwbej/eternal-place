@@ -23,7 +23,7 @@ const LotOwnerTable = ({ rows, setRows, rowModesModel, setRowModesModel, slots, 
     };
 
     const handleDeleteClick = (id) => async () => {
-        if(tombs.length >= 1) {
+        if(tombs.length >= 1 && rows.length === 1) {
             setErrorDialog({ title: 'Cannot Delete User', message: 'Cannot delete the only owner as there is still an existing tomb.'});
             setOpen(true);
             return;
