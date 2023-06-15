@@ -69,6 +69,8 @@ const ViewLotPage = ({ params }) => {
     };
 
     const handleFileUpload = (event) => {
+        if (!event.target.files[0]) return;
+        
         const uploadFile = async () => {
             try {
                 setUploading(true);
